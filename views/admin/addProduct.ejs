@@ -1,0 +1,212 @@
+<%- include('header') %>
+<section class="content-main">
+    <form action="/api/admin/createProduct" method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">
+        <!-- Add your form action and method attributes above -->
+        <div class="row">
+            <div class="col-6">
+                <div class="content-header">
+                    <h2 class="content-title">Add New Product</h2>
+                    <div>
+                        <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                        <button type="submit" class="btn btn-md rounded font-sm hover-up">Publish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>1. General info</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="form-label">Product title</label>
+                                    <input type="text" name="title" placeholder="Type here" class="form-control">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea placeholder="Type here" name="discription" class="form-control" rows="4"></textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Brand name</label>
+                                    <input type="text" name="brand" placeholder="Addidas" class="form-control">
+                                </div>
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                        <hr class="mb-4 mt-0">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>2. Pricing</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="form-label">Cost in USD</label>
+                                    <input type="text" name="price" placeholder="$00.0" class="form-control">
+                                </div>
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>3. Color</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="form-label">Color</label>
+                                    <input type="text" name="color" placeholder="Black" class="form-control">
+                                </div>
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                        <hr class="mb-4 mt-0">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>4. Category</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" checked="" value="Clothes" name="catogary" type="radio">
+                                        <span class="form-check-label"> Clothes </span>
+                                    </label>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" value="Electronics" name="catogary" type="radio">
+                                        <span class="form-check-label"> Electronics </span>
+                                    </label>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" value="Sports" name="catogary" type="radio">
+                                        <span class="form-check-label"> Sports </span>
+                                    </label>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" value="Automobiles" name="catogary" type="radio">
+                                        <span class="form-check-label"> Automobiles </span>
+                                    </label>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" value="Home interior" name="mycategory" type="radio">
+                                        <span class="form-check-label"> Home interior </span>
+                                    </label>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" value="Smartphones" name="catogary" type="radio">
+                                        <span class="form-check-label"> Smartphones </span>
+                                    </label>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" value="Books " name="catogary" type="radio">
+                                        <span class="form-check-label"> Books </span>
+                                    </label>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" value=" Kids item " name="catogary" type="radio">
+                                        <span class="form-check-label"> Kids item </span>
+                                    </label>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" value="Others" name="catogary" type="radio">
+                                        <span class="form-check-label"> Others </span>
+                                    </label>
+                                
+                                </div>
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                        <hr class="mb-4 mt-0">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>5. Media</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="form-label">Images</label>
+                                   
+                                    <input class="form-control" type="file" accept="image/*" name="images" multiple>
+                                </div>
+                            </div> <!-- col.// -->
+                        </div> <!-- .row end// -->
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </form>
+</section> <!-- content-main end// -->
+
+<script>
+   function validateForm() {
+    // Reset any existing error messages
+    clearErrorMessages();
+
+    const title = document.getElementsByName('title')[0].value;
+    const description = document.getElementsByName('discription')[0].value;
+    const brand = document.getElementsByName('brand')[0].value;
+    const price = document.getElementsByName('price')[0].value;
+    const color = document.getElementsByName('color')[0].value;
+    const categoryInputs = document.getElementsByName('catogary');
+    const images = document.getElementsByName('images')[0].files;
+
+    let isValid = true; // Assume the form is valid by default
+
+    // Check if title is empty
+    if (title.trim() === '') {
+        displayErrorMessage('title', 'Please enter a product title.');
+        isValid = false;
+    }
+
+    // Check if description is empty
+    if (description.trim() === '') {
+        displayErrorMessage('discription', 'Please enter a product description.');
+        isValid = false;
+    }
+
+    // Check if brand is empty
+    if (brand.trim() === '') {
+        displayErrorMessage('brand', 'Please enter a brand name.');
+        isValid = false;
+    }
+
+    // Check if price is a valid number
+    if (isNaN(parseFloat(price)) || !isFinite(price)) {
+        displayErrorMessage('price', 'Please enter a valid cost in USD.');
+        isValid = false;
+    }
+
+    // Check if color is empty
+    if (color.trim() === '') {
+        displayErrorMessage('color', 'Please enter a product color.');
+        isValid = false;
+    }
+
+    // Check if a category is selected
+    let categorySelected = false;
+    for (const categoryInput of categoryInputs) {
+        if (categoryInput.checked) {
+            categorySelected = true;
+            break;
+        }
+    }
+    if (!categorySelected) {
+        displayErrorMessage('catogary', 'Please select a category.');
+        isValid = false;
+    }
+
+    // Check if at least one image is selected
+    if (images.length === 0) {
+        displayErrorMessage('images', 'Please select at least one image.');
+        isValid = false;
+    }
+
+    return isValid; // Form is valid
+}
+
+function displayErrorMessage(fieldName, message) {
+    const field = document.getElementsByName(fieldName)[0];
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.innerText = message;
+    field.parentNode.appendChild(errorDiv);
+}
+
+function clearErrorMessages() {
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach((errorMessage) => {
+        errorMessage.parentNode.removeChild(errorMessage);
+    });
+}
+    </script>
+        <%- include('footer') %>

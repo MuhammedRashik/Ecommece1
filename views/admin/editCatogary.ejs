@@ -1,0 +1,40 @@
+<%- include('header') %>
+
+<div class="container">
+    <div class="row justify-content-center center-content">
+        <div class="col-lg-4">
+            <form action="/api/admin/updateCatogary" method="post" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label for="product_name"  class="form-label">Name</label>
+                    <input type="text" name="name" placeholder="Type here" value="<%= user.name %>" class="form-control" id="product_name" />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Image</label>
+                    <input type="file" name="image" class="form-control" id="image" value="<%= user.image %>" accept="image/*" />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Discription</label>
+                    <textarea name="discription" placeholder="Type here"  class="form-control"></textarea>
+                </div>
+                <input type="hidden" name="id" value="<%=user._id %>">
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Edit category</button>
+                </div>
+            </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        </div>
+        
+
+    </div>
+</div>
+<%- include('footer') %>
