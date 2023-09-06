@@ -3,19 +3,63 @@ const Product = require('../models/productModel');
 const slugify = require('slugify');
 const nodemon = require('nodemon');
 
-//-----displat all proct and rendering the products------------------
+
+
+
+
+
+
+
+
+
+
 
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
-        const allProducts = await Product.find();
+        const page = parseInt(req.query.page) || 1; // Get the current page from the query parameters (default to page 1 if not specified)
+        const limit = parseInt(req.query.limit) || 10; // Number of products per page (default to 10 if not specified)
+
+        // Calculate the skip value to determine which products to skip based on the current page and limit
+        const skip = (page - 1) * limit;
+
+        // Query the database to get a subset of products for the current page
+        const allProducts = await Product.find()
+            .skip(skip)
+            .limit(limit);
+
+        // Get the total number of products in the database
+        const totalProductsCount = await Product.countDocuments();
+
+        // Calculate the total number of pages based on the total products and limit
+        const totalPages = Math.ceil(totalProductsCount / limit);
+
         req.session.Products = allProducts;
-        res.render('product', { product: req.session.Products })
+        
+        res.render('product', { 
+            product: req.session.Products,
+            totalPages,
+            currentPage: page,
+            limit
+        });
 
     } catch (error) {
-        console.log('Error happence in product controller getAllProducts function', error);
-
+        console.log('Error occurred in product controller getAllProducts function', error);
     }
-})
+});
+
+//--------------------------------------------------------------
+//-----displat all proct and rendering the products------------------
+// const getAllProducts = asyncHandler(async (req, res) => {
+//     try {
+//         const allProducts = await Product.find();
+//         req.session.Products = allProducts;
+//         res.render('product', { product: req.session.Products })
+
+//     } catch (error) {
+//         console.log('Error happence in product controller getAllProducts function', error);
+
+//     }
+// })
 //--------------------------------------------------------------------------------
 
 
@@ -168,19 +212,45 @@ const aProductPage = asyncHandler(async (req, res) => {
 
 //=----------------render the shop page through index ------------------------
 
-const shop=asyncHandler(async(req,res)=>{
-    try {
-        const product = await Product.find();
+// const shop=asyncHandler(async(req,res)=>{
+//     try {
+//         const product = await Product.find();
       
-            res.render('shop',{product})
+//             res.render('shop',{product})
       
         
+//     } catch (error) {
+//         console.log('Error happence in product controller shop function', error);
+//     }
+// })
+
+//testing oagination--------------------------
+const shop = asyncHandler(async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 2; 
+
+        // Calculate the skip value to determine 
+        const skip = (page - 1) * limit;
+
+        const product = await Product.find()
+            .skip(skip)
+            .limit(limit);
+
+        // Get the total number of products in the database
+        const totalProductsCount = await Product.countDocuments();
+
+        // Calculate the total number of pages based on the total products and limit
+        const totalPages = Math.ceil(totalProductsCount / limit);
+
+     
+
+        res.render('shop', { product, page, totalPages ,limit });
     } catch (error) {
-        console.log('Error happence in product controller shop function', error);
+        console.log('Error happened in product controller shop function', error);
     }
-})
-
-
+});
+//---------------------------------------------------------------------
 
 
 

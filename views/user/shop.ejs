@@ -127,12 +127,28 @@
                         <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-start">
-                                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                                    <li class="page-item"><a class="page-link" href="#"><i class="fi-rs-angle-double-small-right"></i></a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/api/user/shop?page=<%= page - 1 %>&limit=<%= limit %>">Previous</a>
+                                    </li>
+                                    <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
+                                        <span>&nbsp;</span> <!-- Add a space character for the gap -->
+                                    </li>
+                                    <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
+                                        <span>&nbsp;</span> <!-- Add a space character for the gap -->
+                                    </li>
+                                    <% for (let i = Math.max(1, page - 2); i <= Math.min(totalPages, page + 2); i++) { %>
+                                        <li class="page-item <%= i === page ? 'active' : '' %>">
+                                            <a class="page-link" href="/api/user/shop?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
+                                        </li>
+                                        <% if (i < Math.min(totalPages, page + 2)) { %>
+                                            <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
+                                                <span>&nbsp;</span> <!-- Add a space character for the gap -->
+                                            </li>
+                                        <% } %>
+                                    <% } %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/api/user/shop?page=<%= page + 1 %>&limit=<%= limit %>">Next</a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -141,33 +157,9 @@
             </div>
         </section>
     </main>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Your JavaScript code here
+    
 
-            // Calculate the total number of pages
-            const totalPages = Math.ceil(totalProducts / limit);
 
-            // Generate pagination links
-            const paginationContainer = document.getElementById('pagination');
-            paginationContainer.innerHTML = '';
 
-            for (let i = 1; i <= totalPages; i++) {
-                const li = document.createElement('li');
-                li.classList.add('page-item');
 
-                if (i === page) {
-                    li.classList.add('active');
-                }
-
-                const a = document.createElement('a');
-                a.classList.add('page-link');
-                a.href = `/api/products?page=${i}&limit=${limit}`;
-                a.textContent = i;
-
-                li.appendChild(a);
-                paginationContainer.appendChild(li);
-            }
-        });
-    </script>
     <%- include('footer') %>
