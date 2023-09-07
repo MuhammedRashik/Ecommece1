@@ -5,12 +5,15 @@ const nodemailer=require("nodemailer");
 const bcrypt=require('bcrypt')
 const mongoosePaginate = require('mongoose-paginate-v2');
 const { use } = require('passport');
+const userModel = require('../models/userModel');
 
 //load the index page ----------------------------
 const loadIndex = asyncHandler(async (req, res) => {
     try {
         const user = req.session.user;
        const product=await Product.find()
+       const pr=product.status==true;
+       console.log(pr);
       req.session.Product=product
    
 
@@ -138,7 +141,7 @@ const userLogin= asyncHandler(async(req,res)=>{
 const userLogout = async (req, res) => {
     try {
         req.session.user = null
-        req.session.isBlocked = false; // Clear the blocked message
+        
         req.session.blockedMessage = "You are logged out."; // Set a message for logout
         res.redirect('/api/user')
 
@@ -323,6 +326,107 @@ const updatePassword=asyncHandler(async(req,res)=>{
     }
 })
 
+//-------------user prfile rendering----------------------
+const userProfile=asyncHandler(async(req,res)=>{
+ try {
+ const id=req.session.user;
+ const user=await User.findById(id)
 
 
-module.exports = { loadIndex, loadSignIn, loadSignUp, registerUser , userLogin , userLogout  ,mobileOTP ,emailVerified ,forgotPsdPage,forgotEmailValid,forgotPsdOTP,updatePassword}
+    res.render('userProfile',{user})
+
+
+
+ } catch (error) {
+    console.log('Error hapents in userControler userProfile  function :', error);
+    
+ }
+})
+
+
+//------------------------------------------------------------
+
+
+//ading a new adress to the user-----------------------------------
+const addAddress = asyncHandler(async (req, res) => {
+    try {
+        const add = req.body; // Corrected variable name to 'add'
+        const id = req.session.user;
+        const user=await User.findById(id)
+
+        if(user){
+            if(!user.address){
+                const updatedUser = await user.updateOne({
+            
+                    'address.fullName': add.fullName, 
+                    'address.mobile': add.mobile,
+                    'address.region': add.region,
+                    'address.pinCode': add.pinCode,
+                    'address.addressLine': add.addressLine,
+                    'address.areaStreet': add.areaStreet,
+                    'address.landmark': add.landmark,
+                    'address.townCity': add.townCity,
+                    'address.state': add.state,
+                    'address.addressType': add.addressType,
+                 },{ new: true });
+
+
+            }else{
+                const newAddres= new User({
+                    
+                    'address.fullName': add.fullName, 
+                    'address.mobile': add.mobile,
+                    'address.region': add.region,
+                    'address.pinCode': add.pinCode,
+                    'address.addressLine': add.addressLine,
+                    'address.areaStreet': add.areaStreet,
+                    'address.landmark': add.landmark,
+                    'address.townCity': add.townCity,
+                    'address.state': add.state,
+                    'address.addressType': add.addressType,
+
+                })
+
+                user.address.push(newAddres).save()
+            }
+        }
+
+       console.log(newAddres);
+       
+        res.redirect('/api/user/profile')
+       
+    } catch (error) {
+        console.log('Error hapents in userControler addAddress function:', error);
+       
+    }
+});
+
+//-------------------------------------------------------------------
+
+//---------------editing the curent adress--------------------------------
+ const loadEditAddress=asyncHandler(async(req,res)=>{
+    try {
+        
+        const id = req.session.user;
+        const user=await User.findById(id)
+
+        res.render('editAddress',{user})
+
+    } catch (error) {
+        console.log('Error hapents in userControler loadEditAdress function:', error);
+        
+    }
+ })
+
+ //----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+module.exports = { loadIndex, loadSignIn, loadSignUp, registerUser , userLogin , userLogout  ,mobileOTP ,emailVerified ,forgotPsdPage,forgotEmailValid,forgotPsdOTP,updatePassword,userProfile,addAddress,loadEditAddress}

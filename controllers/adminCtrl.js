@@ -106,8 +106,8 @@ const blokeUser = asyncHandler(async (req, res) => {
         }, { new: true });
 
         if (blokedUser) {
-            req.session.userBloked = true;
-            req.session.isBlocked = true;
+            // req.session.userBloked = true;
+            // req.session.isBlocked = true;
             console.log('User is blocked by admin', blokedUser);
             res.redirect('/api/admin/users');
         }

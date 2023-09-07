@@ -16,8 +16,8 @@ const nodemon = require('nodemon');
 
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1; // Get the current page from the query parameters (default to page 1 if not specified)
-        const limit = parseInt(req.query.limit) || 10; // Number of products per page (default to 10 if not specified)
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10; 
 
         // Calculate the skip value to determine which products to skip based on the current page and limit
         const skip = (page - 1) * limit;
@@ -33,12 +33,10 @@ const getAllProducts = asyncHandler(async (req, res) => {
         // Calculate the total number of pages based on the total products and limit
         const totalPages = Math.ceil(totalProductsCount / limit);
 
-        req.session.Products = allProducts;
-        
         res.render('product', { 
-            product: req.session.Products,
+            product: allProducts,
             totalPages,
-            currentPage: page,
+            page,
             limit
         });
 
@@ -253,8 +251,39 @@ const shop = asyncHandler(async (req, res) => {
 //---------------------------------------------------------------------
 
 
+//  list and unlist the product ----------------------
+
+const unlistProduct=asyncHandler(async (req, res) => {
+    try {
+        const id = req.query.id;
+        const unlistedProduct = await Product.findByIdAndUpdate(id,{
+            status:false
+        },{new:true});
+
+       
+        res.redirect('/api/admin/product')
+    } catch (error) {
+        console.log('error happence in catogaryController unlistProduct function', error);
+    }
+})
+
+//-------------------list a catogary-----------------------
+const listProduct = asyncHandler(async (req, res) => {
+    try {
+        const id = req.query.id;
+        const unlistedProduct = await Product.findByIdAndUpdate(id,{
+            status:true
+        },{new:true});
+
+       
+        res.redirect('/api/admin/product')
+
+    } catch (error) {
+        console.log('error happence in catogaryController listProduct function', error);
+    }
+})
 
 
 
 
-module.exports = { getAllProducts, addProduct, createProduct, editProduct, productEdited, aProductPage ,shop}
+module.exports = { getAllProducts, addProduct, createProduct, editProduct, productEdited, aProductPage ,shop,listProduct,unlistProduct}

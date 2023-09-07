@@ -51,6 +51,19 @@
                                         <a href="#" class="btn btn-sm font-sm btn-light rounded">
                                             <i class="material-icons md-delete_forever"></i> Delete
                                         </a>
+                                        <% if (product[i].status==true) { %>
+                                           
+                                            <td><span><a class="badge rounded-pill alert-success" href="/api/admin/unlistProduct?id=<%= product[i]._id %>">Unlist</a></span> </td>
+                                            
+                                            <% } else { %>
+                                                <a class="badge rounded-pill alert-success" href="/api/admin/listProduct?id=<%= product[i]._id %>">list</a></td>
+                                                <% } %>
+
+
+                                                
+
+
+
                                     </div>
                                 </div> <!-- card-product  end// -->
                             </div> <!-- col.// -->
@@ -70,18 +83,73 @@
                     </div> <!-- row.// -->
                 </div> <!-- card-body end// -->
             </div> <!-- card end// -->
-            <div class="pagination-area mt-30 mb-50">
+            <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-start">
-                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                        <li class="page-item"><a class="page-link" href="#">02</a></li>
-                        <li class="page-item"><a class="page-link" href="#">03</a></li>
-                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">16</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item ">
+                            <a class="page-link" href="/api/admin/product?page=<%= page - 1 %>&limit=<%= limit %>">Previous</a>
+                        </li>
+                        <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
+                            <span>&nbsp;</span> <!-- Add a space character for the gap -->
+                        </li>
+                        <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
+                            <span>&nbsp;</span> <!-- Add a space character for the gap -->
+                        </li>
+                        <% for (let i = Math.max(1, page - 2); i <= Math.min(totalPages, page + 2); i++) { %>
+                            <li class="page-item <%= i === page ? 'active' : '' %>">
+                                <a class="page-link" href="/api/admin/product?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
+                            </li>
+                            <% if (i < Math.min(totalPages, page + 2)) { %>
+                                <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
+                                    <span>&nbsp;</span> <!-- Add a space character for the gap -->
+                                </li>
+                            <% } %>
+                        <% } %>
+                        <li class="page-item">
+                            <a class="page-link" href="/api/admin/product?page=<%= page + 1 %>&limit=<%= limit %>">Next</a>
+                        </li
                     </ul>
                 </nav>
             </div>
+           
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            
+            
         </section> <!-- content-main end// -->
         
         <%- include('footer') %>

@@ -4,7 +4,7 @@ const router=express();
 const {isAdminAuth}=require('../middleware/adminAuth')
 const {loadLogin,adminVerifyLogin,logout,adminDashbordPage,users,blokeUser,unBlokeUser}=require('../controllers/adminCtrl')
 const {loadCatogary ,getAllCatogary ,addCatogary,deleteCatogary,listCatogary,unlistCatogary,editCatogary,updateCatogary}=require('../controllers/catogaryCtrl')
-const {getAllProducts ,addProduct ,createProduct,editProduct,productEdited ,aProductPage}=require('../controllers/productCtrl')
+const {getAllProducts ,addProduct ,createProduct,editProduct,productEdited ,aProductPage,listProduct,unlistProduct }=require('../controllers/productCtrl')
 
 
 //------engine set up------------
@@ -29,10 +29,13 @@ router.get('/unblock',unBlokeUser)//admin unbloking a user
 
 //------------------product-------------------------------
 router.get('/product',getAllProducts)//load all data and rendering the product page
+router.get('/product/:page', getAllProducts);
 router.get('/addProduct',addProduct)//rendering the addproduct page
 router.post('/createProduct',upload.array('images', 12),createProduct)//creating a new product 
 router.get('/editProduct',editProduct)//rendering a spesific proct edit page
 router.post('/productEdited',upload.array('images', 12),productEdited)//after editing update thta data to db
+router.get('/unlistProduct',unlistProduct)// unlisting tht prduct
+router.get('/listProduct',listProduct)// listing tht product
 
 //--------------------------------------------------------
 

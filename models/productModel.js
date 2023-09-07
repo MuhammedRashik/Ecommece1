@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'); 
+const { bool } = require('sharp');
 
 const productSchema = new mongoose.Schema({
     title:{
@@ -55,6 +56,11 @@ const productSchema = new mongoose.Schema({
         star:Number,
         postedby:{type:mongoose.Schema.Types.ObjectId,ref:"User"},
     }],
+    status:{
+        type:Boolean,
+        default:true
+    },
+   
     
 },{timestamps:true});
 

@@ -1,0 +1,254 @@
+<%- include('header') %>
+
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html" rel="nofollow">Home</a>
+                    <span></span> Pages
+                    <span></span> Account
+                </div>
+            </div>
+        </div>
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="dashboard-menu">
+                                    <ul class="nav flex-column" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                                        </li>
+                                      
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                        </li>
+                                       
+                                        <% if (!user.address) { %>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Add Address</a>
+                                        </li>
+                                        <% } %>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="page-login-register.html"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="tab-content dashboard-content">
+                                    <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                                       
+
+                                        <!-- card for the dash bord user simple details -->
+                                            <div class="card mb-4">
+                                                <div class="card-header bg-primary" style="height:150px">
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-xl col-lg flex-grow-0" style="flex-basis:230px">
+                                                            <div class="img-thumbnail shadow w-100 bg-white position-relative text-center" style="height:190px; width:200px; margin-top:-120px">
+                                                                <img src="/admin/assets/imgs/brands/brand-3.jpg" class="center-xy img-fluid" alt="Logo Brand">
+                                                            </div>
+                                                        </div> <!--  col.// -->
+                                                        <div class="col-xl col-lg">
+                                                            <h3><%= user.username %></h3>
+                                                            <p>3891 Ranchview Dr. Richardson, California 62639</p>
+                                                        </div> <!--  col.// -->
+                                                        
+                                                    </div> <!-- card-body.// -->
+                                                    <hr class="my-4">
+                                                    <div class="row g-4">
+                                                        
+                                                        <div class="col-sm-6 col-lg-4 col-xl-3">
+                                                            <h6>Contacts</h6>
+                                                         
+                                                                <p> <%= user.mobile %></p>
+                                                                
+                                                        </div> <!--  col.// -->
+                                                        <div class="col-sm-6 col-lg-4 col-xl-3">
+                                                            <h6>Address</h6>
+                                                            
+                                                                <% if (user.address) { %>
+                                                                    <p> <%= user.address %></p>
+                                                                    <% } else { %>
+                                                                        <p>Add Your Address</p>
+                                                                        <% } %>
+                                                            
+                                                        </div> <!--  col.// -->
+                                                      
+                                                    </div> <!--  row.// -->
+                                                </div> <!--  card-body.// -->
+                                            </div> <!--  card.// -->
+                                       <!-- ----------------------------------------------------------------------- -->
+                                    </div>
+                                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Your Orders</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Order</th>
+                                                                <th>Date</th>
+                                                                <th>Status</th>
+                                                                <th>Total</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>#1357</td>
+                                                                <td>March 45, 2020</td>
+                                                                <td>Processing</td>
+                                                                <td>$125.00 for 2 item</td>
+                                                                <td><a href="#" class="btn-small d-block">View</a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>#2468</td>
+                                                                <td>June 29, 2020</td>
+                                                                <td>Completed</td>
+                                                                <td>$364.00 for 5 item</td>
+                                                                <td><a href="#" class="btn-small d-block">View</a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>#2366</td>
+                                                                <td>August 02, 2020</td>
+                                                                <td>Completed</td>
+                                                                <td>$280.00 for 3 item</td>
+                                                                <td><a href="#" class="btn-small d-block">View</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Orders tracking</h5>
+                                            </div>
+                                            <div class="card-body contact-from-area">
+                                                <p>To track your order please enter your OrderID in the box below and press "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</p>
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <form class="contact-form-style mt-30 mb-50" action="#" method="post">
+                                                            <div class="input-style mb-20">
+                                                                <label>Order ID</label>
+                                                                <input name="order-id" placeholder="Found in your order confirmation email" type="text" class="square">
+                                                            </div>
+                                                            <div class="input-style mb-20">
+                                                                <label>Billing email</label>
+                                                                <input name="billing-email" placeholder="Email you used during checkout" type="email" class="square">
+                                                            </div>
+                                                            <button class="submit submit-auto-width" type="submit">Track</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                                        <div class="row">
+                                           
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5 class="mb-0">Shipping Address</h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <address>
+                                                             Name:   <span class="page-item gap">&nbsp;</span>  <%= user.address.fullName %><br>
+                                                             pin:   <span class="page-item gap">&nbsp;</span>   <%= user.address.pinCode %> <%= user.address.townCity %> <br> 
+                                                             Landmark: <span class="page-item gap">&nbsp;</span> <%= user.address.landmark %> <br>
+                                                             House:  <span class="page-item gap">&nbsp;</span>  <%= user.address.addressLine %><br>
+                                                             Street: <span class="page-item gap">&nbsp;</span>  <%= user.address. areaStreet %><br>
+                                                             Phone:  <span class="page-item gap">&nbsp;</span>  <%= user.address.mobile %></address>
+                                                        <p><%= user.address.region %></p>
+                                                        <a href="/api/user/editAddress" class="btn-small">Edit</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Add New Address</h5>
+                                            </div>
+                                            <div class="card-body">
+                                               
+                                                <form method="post" action="/api/user/addAddress" >
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Full Name</h5></label>
+                                                            <input required="" class="form-control square" name="fullName" type="text">
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Mobile number</h5></label>
+                                                            <input required="" class="form-control square" name="mobile" type="text">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Region</h5></label>
+                                                            <input required="" class="form-control square" name="region" type="text">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Pincode</h5></label>
+                                                            <input required="" class="form-control square" name="pinCode" type="text">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Flat, House no., Building, Company, Apartment</h5></label>
+                                                            <input required="" class="form-control square" name="addressLine" type="text">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label> <h5>Area, Street, Sector, Village</h5></label>
+                                                            <input required="" class="form-control square" name="areaStreet" type="text">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Landmark</h5> </label>
+                                                            <input required="" class="form-control square" name="landmark" type="text">
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label><h5>Town/City</h5> </label>
+                                                            <input required="" class="form-control square" name="townCity" type="text">
+                                                        </div> <div class="form-group col-md-6">
+                                                            <label><h5>State</h5> </label>
+                                                            <input required="" class="form-control square" name="state" type="text">
+                                                        </div>
+                                                       
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Adress Type</h5> </label>
+                                                            <input required="" class="form-control square" name="adressType" type="text">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-fill-out submit" name="submit" value="Submit">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include('footer') %>
+   

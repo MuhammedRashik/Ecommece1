@@ -35,7 +35,53 @@ const userSchema = new mongoose.Schema({
     isActive:{
         type:Boolean,
         default:true
+    },
+    address:{
+        type:Object,
+        fullName:{
+            type:String,
+            required:true,
+        },
+        mobile:{
+            type:Number,
+            required:true,
+        },
+        region:{
+            type:String,
+            required:true
+        },
+        pinCode:{
+            type:Number,
+            required:true
+        },
+        addressLine:{
+            type:String,
+            required:true
+        },
+        areaStreet:{
+            type:String,
+            required:true
+        },
+        ladmark:{
+            type:String,
+            required:true,
+        },
+        townCity:{
+            type:String,
+            reuired:true
+        },
+        state:{
+            type:String,
+            required:true
+
+        },
+        adressType:{
+            type:String,
+            
+        },
+        default:"No Address" 
     }
+
 });
 
 userSchema.pre('save',async function(next){
