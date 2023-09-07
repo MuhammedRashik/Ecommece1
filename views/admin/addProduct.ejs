@@ -66,41 +66,25 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="mb-4">
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" checked="" value="Clothes" name="catogary" type="radio">
-                                        <span class="form-check-label"> Clothes </span>
+                                   <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" checked="" value="Men's Clothing" name="catogary" type="radio">
+                                        <span class="form-check-label"> Men's Clothing </span>
                                     </label>
                                     <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Electronics" name="catogary" type="radio">
-                                        <span class="form-check-label"> Electronics </span>
+                                        <input class="form-check-input" value=" Women's Clothing" name="catogary" type="radio">
+                                        <span class="form-check-label"> Women's Clothing </span>
                                     </label>
                                     <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Sports" name="catogary" type="radio">
-                                        <span class="form-check-label"> Sports </span>
+                                        <input class="form-check-input" value=" Children's Clothing" name="catogary" type="radio">
+                                        <span class="form-check-label"> Children's Clothing </span>
                                     </label>
                                     <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Automobiles" name="catogary" type="radio">
-                                        <span class="form-check-label"> Automobiles </span>
+                                        <input class="form-check-input" value="Athletic and Sportswear" name="catogary" type="radio">
+                                        <span class="form-check-label"> Athletic and Sportswear </span>
                                     </label>
                                     <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Home interior" name="mycategory" type="radio">
-                                        <span class="form-check-label"> Home interior </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Smartphones" name="catogary" type="radio">
-                                        <span class="form-check-label"> Smartphones </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Books " name="catogary" type="radio">
-                                        <span class="form-check-label"> Books </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value=" Kids item " name="catogary" type="radio">
-                                        <span class="form-check-label"> Kids item </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Others" name="catogary" type="radio">
-                                        <span class="form-check-label"> Others </span>
+                                        <input class="form-check-input" value="Accessories" name="catogary" type="radio">
+                                        <span class="form-check-label"> Accessories </span>
                                     </label>
                                 
                                 </div>
@@ -160,11 +144,7 @@
         isValid = false;
     }
 
-    // Check if price is a valid number
-    if (isNaN(parseFloat(price)) || !isFinite(price)) {
-        displayErrorMessage('price', 'Please enter a valid cost in USD.');
-        isValid = false;
-    }
+    
 
     // Check if color is empty
     if (color.trim() === '') {

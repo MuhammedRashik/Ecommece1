@@ -98,12 +98,12 @@ const createProduct = asyncHandler(async (req, res) => {
 
             const newProduct = new Product({
                 title: products.title,
-                description: products.description,
+                discription: products.discription,
                 brand: products.brand,
                 slug: products.title,
                 price: products.price,
                 color: products.color,
-                category: products.category,
+                catogary: products. catogary,
                 images: images,
             });
 
@@ -228,7 +228,7 @@ const aProductPage = asyncHandler(async (req, res) => {
 const shop = asyncHandler(async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 2; 
+        const limit = parseInt(req.query.limit) || 4; 
 
         // Calculate the skip value to determine 
         const skip = (page - 1) * limit;
