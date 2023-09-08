@@ -84,6 +84,9 @@ const userSchema = new mongoose.Schema({
         default: true,
     },
     address: [addressSchema],
+    image:{
+        type:String
+    }
 });
 
 userSchema.pre('save', async function (next) {

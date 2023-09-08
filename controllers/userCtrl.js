@@ -201,7 +201,7 @@ const emailVerified = async (req, res) => {
             res.redirect('/api/user')
         } else {
             console.log('error in otp ');
-            req.flash('error', 'No Match OTP');        
+            req.flash('error', 'No Match OTP');
         }
     } catch (error) {
         console.log('Error hapents in userControler emaiVerified  function :', error);
@@ -435,7 +435,7 @@ const updateEditedAddress = asyncHandler(async (req, res) => {
                 updatedAddress.state = state;
                 updatedAddress.adressType = adressType;
                 await user.save();
-                console.log('adress is saved and updated ');
+
                 res.redirect('/api/user/profile');
             } else {
                 console.log('adress not found ');
@@ -456,23 +456,123 @@ const updateEditedAddress = asyncHandler(async (req, res) => {
 
 //------------ddelete a spesific address=----------------------------------------
 
-const deleteAddress=asyncHandler(async(req,res)=>{
+const deleteAddress = asyncHandler(async (req, res) => {
     try {
         const id = req.query.id
         const userId = req.session.user;
-        
 
-        
+        const deleteAdd = await User.findOneAndUpdate({ _id: userId },
+            {
+                $pull: { address: { _id: id } }
+            }, { new: true })
+        console.log('this that deleted address', deleteAdd);
+        res.redirect('/api/user/profile');
+
     } catch (error) {
         console.log('Error hapents in userControler udeletedAddress function:', error);
-        
+
     }
 
 })
 
+//---------------------------------------------------------------------------------
 
 
 
 
+//----------------rendering-edit user profile------------------------------------
 
-module.exports = { loadIndex, loadSignIn, loadSignUp, registerUser, userLogin, userLogout, mobileOTP, emailVerified, forgotPsdPage, forgotEmailValid, forgotPsdOTP, updatePassword, userProfile, addAddress, loadEditAddress, updateEditedAddress }
+const editProfile = asyncHandler(async (req, res) => {
+    try {
+        const id = req.query.id
+        const user = await User.findById(id);
+        console.log('user is ', user);
+        res.render('editProfile',{user})
+
+    } catch (error) {
+        console.log('Error hapents in userControler editProfile function:', error);
+
+    }
+})
+//------------------------------------------------
+
+
+
+// -----------------------updating the user profile data -----------------------------
+
+const updateProfile=asyncHandler(async(req,res)=>{
+    try {
+        const {id,username,email,mobile}=req.body
+       
+        
+       const user=await User.findByIdAndUpdate(id);
+        //cheking that anything aleary exist--
+        const alreadyExist = await User.find({
+            $and: [
+              { _id: { $ne: user._id } }, // not equal to the current user
+              { $or: [{ username }, { email }] }, // Check for the same username or email
+            ],
+          });
+      
+          if(alreadyExist.length==0){
+            user.username=username
+            user.email=email
+            user.mobile=mobile
+            const updatedUser=await user.save()
+            console.log('this the updated user',updatedUser);
+            res.redirect('/api/user/profile');
+          }else{
+            console.log('user is alredy exist ');
+          }
+
+        
+    } catch (error) {
+        console.log('Error hapents in userControler updateProfile function:', error);
+        
+    }
+})
+
+//-------------------------------------------------------------------------------------------
+///--------------------add prfile pciture-------------------------
+const addProficPic=asyncHandler(async(req,res)=>{
+    try {
+        const{image,id}=req.body;
+        const user=await User.findByIdAndUpdate(id,{
+            image:image
+        },{new:true})
+        console.log(user);
+        res.redirect('/api/user/profile');
+    } catch (error) {
+        
+        console.log('Error hapents in userControler addProfilepic function:', error);
+        
+    }
+ })
+
+
+
+module.exports = {
+    loadIndex,
+    loadSignIn,
+    loadSignUp,
+    registerUser,
+    userLogin,
+    userLogout,
+    mobileOTP,
+    emailVerified,
+    forgotPsdPage,
+    forgotEmailValid,
+    forgotPsdOTP,
+    updatePassword,
+    userProfile,
+    addAddress,
+    loadEditAddress,
+    updateEditedAddress,
+    deleteAddress,
+    editProfile,
+    updateProfile,
+    addProficPic
+
+
+
+}
