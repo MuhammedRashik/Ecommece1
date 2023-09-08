@@ -27,18 +27,14 @@
                                         <li class="nav-item">
                                             <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
                                         </li>
-                                      
                                         <li class="nav-item">
                                             <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>My Address</a>
                                         </li>
-                                       
-                                        <% if (!user.address) { %>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Add Address</a>
+                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Add new Address</a>
                                         </li>
-                                        <% } %>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="page-login-register.html"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                            <a class="nav-link" href="/api/user/logout"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -61,7 +57,7 @@
                                                         </div> <!--  col.// -->
                                                         <div class="col-xl col-lg">
                                                             <h3><%= user.username %></h3>
-                                                            <p>3891 Ranchview Dr. Richardson, California 62639</p>
+                                                            <p><%= user.email %>, </p>
                                                         </div> <!--  col.// -->
                                                         
                                                     </div> <!-- card-body.// -->
@@ -74,14 +70,18 @@
                                                                 <p> <%= user.mobile %></p>
                                                                 
                                                         </div> <!--  col.// -->
-                                                        <div class="col-sm-6 col-lg-4 col-xl-3">
+                                                        <div class="col-sm-8 col-lg-6 col-xl-5">
                                                             <h6>Address</h6>
+                                                            <% if (user.address && user.address.length > 0) { %>
+                                                                <p><%= user.address[0].addressLine %></p>
+                                                            <% } else { %>
+                                                                <div class="col-sm-12">
+                                                                <!-- <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Add new Address</a> -->
+                                                           <p>  <i class="fi-rs-x-circle mr-10"></i>No Address Add Your address</p>
+                                                            </div>
+                                                                <% } %>
                                                             
-                                                                <% if (user.address) { %>
-                                                                    <p> <%= user.address %></p>
-                                                                    <% } else { %>
-                                                                        <p>Add Your Address</p>
-                                                                        <% } %>
+                                                               
                                                             
                                                         </div> <!--  col.// -->
                                                       
@@ -162,28 +162,106 @@
                                     </div>
                                     <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
                                         <div class="row">
-                                           
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="card">
+                                            
+                                            <% if (user.address.length > 0) { %>
+                                                <% for (let i = 0; i < user.address.length; i++) { %>
+
+                                                  <div class="col-lg-6">
+                                                  <div class="card">
                                                     <div class="card-header">
                                                         <h5 class="mb-0">Shipping Address</h5>
-                                                    </div>
+                                                        
+                                                        
+                                                     </div>
+                                                    
+                                                    
                                                     <div class="card-body">
-                                                        <address>
-                                                             Name:   <span class="page-item gap">&nbsp;</span>  <%= user.address.fullName %><br>
-                                                             pin:   <span class="page-item gap">&nbsp;</span>   <%= user.address.pinCode %> <%= user.address.townCity %> <br> 
-                                                             Landmark: <span class="page-item gap">&nbsp;</span> <%= user.address.landmark %> <br>
-                                                             House:  <span class="page-item gap">&nbsp;</span>  <%= user.address.addressLine %><br>
-                                                             Street: <span class="page-item gap">&nbsp;</span>  <%= user.address. areaStreet %><br>
-                                                             Phone:  <span class="page-item gap">&nbsp;</span>  <%= user.address.mobile %></address>
-                                                        <p><%= user.address.region %></p>
-                                                        <a href="/api/user/editAddress" class="btn-small">Edit</a>
+                                                       
+                                                          
+                                                                <address>
+                                                                    Name: <%= user.address[i].fullName %><br>
+                                                                    Pin: <%= user.address[i].pinCode %> <%= user.address[i].townCity %><br> 
+                                                                    Landmark: <%= user.address[i].ladmark %><br>
+                                                                    House: <%= user.address[i].addressLine %><br>
+                                                                    Street: <%= user.address[i].areaStreet %><br>
+                                                                    Phone: <%= user.address[i].mobile %>
+                                                                </address>
+                                                                <p><%= user.address[i].region %></p>
+                                                                <a href="/api/user/editAddress?id=<%=user.address[i]._id %>" class="btn-small">Edit</a>
+                                                                <a href="/api/user/deleteAddress?id=<%=user.address[i]._id %>" class="btn-small">Delete</a>
+                                                               
+                                                      
                                                     </div>
                                                 </div>
                                             </div>
+
+
+
+
+                                                    <% } %>
+
+                                                <% } else { %>
+
+
+
+
+
+                                                    <div class="col-lg-6">
+                                                        <div class="card">
+                                                          <div class="card-header">
+                                                              <h5 class="mb-0">Shipping Address</h5>
+                                                              
+                                                              
+                                                           </div>
+                                                          
+                                                          
+                                                          <div class="card-body">
+                                                              
+                                                                  <p>No address found. Please add an address.</p>
+                                                                  
+                                                             
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                    
+
+
+
+
+                                                    <% } %>
+
+
+
+
+
+
+                                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                           
+                                            </div>
+                                            
                                         </div> 
-                                    </div>
+                                    
                                     <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
                                         <div class="card">
                                             <div class="card-header">
@@ -220,7 +298,7 @@
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <label><h5>Landmark</h5> </label>
-                                                            <input required="" class="form-control square" name="landmark" type="text">
+                                                            <input required="" class="form-control square" name="ladmark" type="text">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label><h5>Town/City</h5> </label>
@@ -242,6 +320,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                
                                 </div>
                             </div>
                         </div>

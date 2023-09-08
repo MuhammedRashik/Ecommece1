@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { bool } = require('sharp');
 
 const productSchema = new mongoose.Schema({
+   
     title:{
         type:String,
         required:true,

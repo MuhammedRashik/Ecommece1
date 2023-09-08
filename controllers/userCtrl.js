@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel')
-const Product=require('../models/productModel')
-const nodemailer=require("nodemailer");
-const bcrypt=require('bcrypt')
+const Product = require('../models/productModel')
+const nodemailer = require("nodemailer");
+const bcrypt = require('bcrypt')
 const mongoosePaginate = require('mongoose-paginate-v2');
 const { use } = require('passport');
 const userModel = require('../models/userModel');
@@ -11,16 +11,11 @@ const userModel = require('../models/userModel');
 const loadIndex = asyncHandler(async (req, res) => {
     try {
         const user = req.session.user;
-       const product=await Product.find()
-       const pr=product.status==true;
-       console.log(pr);
-      req.session.Product=product
-   
-
-      
+        const product = await Product.find()
+        const pr = product.status == true;
+        console.log(pr);
+        req.session.Product = product
         res.render('index', { user, product });
-        
-       
     } catch (error) {
         console.log('Error happens in userController loadIndex function:', error);
     }
@@ -30,10 +25,10 @@ const loadIndex = asyncHandler(async (req, res) => {
 
 
 
+
 //---------load the sign in page --------------------------
 const loadSignIn = asyncHandler(async (req, res) => {
     try {
-      
         res.render('loginPage')
     } catch (error) {
         console.log('Error hapents in userControler loadSignIn function :', error);
@@ -43,10 +38,12 @@ const loadSignIn = asyncHandler(async (req, res) => {
 
 
 
+
+
 //--load the sign up page ---------
 const loadSignUp = asyncHandler(async (req, res) => {
     try {
-        res.render('signUpPage', { message: "", errMessage: ""})
+        res.render('signUpPage', { message: "", errMessage: "" })
     } catch (error) {
         console.log('Error hapents in userControler loadSignup function :', error);
     }
@@ -54,9 +51,11 @@ const loadSignUp = asyncHandler(async (req, res) => {
 //------------------------------------------
 
 
+
+
+
 //genarte a otp--------------------------------
 function generateotp() {
-
     var digits = '1234567890';
     var otp = ''
     for (i = 0; i < 6; i++) {
@@ -68,40 +67,43 @@ function generateotp() {
 
 
 
+
+
+
 //--save the user data throw post methord in signup -----
 const registerUser = asyncHandler(async (req, res) => {
     try {
-        const {email}=req.body;   
-        const findUser=await User.findOne({email})
-        if(findUser){
+        const { email } = req.body;
+        const findUser = await User.findOne({ email })
+        if (findUser) {
             //pass a error messAge
-        }else{
+        } else {
             const otp = generateotp();
             const transporter = nodemailer.createTransport({
-                service:"gmail",
-                port:587,
-                secure:false,
-                requireTLS:true,
-                    auth: {                     
-                        user:process.env.AUTH_EMAIL,
-                        pass:process.env.AUTH_PASS
-                    },
-                  });
-                  const info = await transporter.sendMail({
-                    from: process.env.AUTH_EMAIL, // sender address
-                    to: email, // list of receivers
-                    subject: "Verify Your Account  ✔", // Subject line
-                    text: `Your OTP is : ${otp}`, // plain text body
-                    html: `<b>  <h4 >Your OTP  ${otp}</h4>    <br>  <a href="/api/user/emailOTP/">Click here</a></b>`, // html body
-                  });
-                  if(info){
-                    req.session.userOTP=otp;
-                    req.session.userData=req.body
-                    res.render('emailOTP')
-                    console.log("Message sent: %s", info.messageId);        
-                  }else{
-                    res.json("email eroor")
-                  }
+                service: "gmail",
+                port: 587,
+                secure: false,
+                requireTLS: true,
+                auth: {
+                    user: process.env.AUTH_EMAIL,
+                    pass: process.env.AUTH_PASS
+                },
+            });
+            const info = await transporter.sendMail({
+                from: process.env.AUTH_EMAIL, // sender address
+                to: email, // list of receivers
+                subject: "Verify Your Account  ✔", // Subject line
+                text: `Your OTP is : ${otp}`, // plain text body
+                html: `<b>  <h4 >Your OTP  ${otp}</h4>    <br>  <a href="/api/user/emailOTP/">Click here</a></b>`, // html body
+            });
+            if (info) {
+                req.session.userOTP = otp;
+                req.session.userData = req.body
+                res.render('emailOTP')
+                console.log("Message sent: %s", info.messageId);
+            } else {
+                res.json("email eroor")
+            }
         }
     } catch (error) {
         console.log('Error hapents in userControler registeruser function :', error);
@@ -112,28 +114,31 @@ const registerUser = asyncHandler(async (req, res) => {
 
 
 
+
+
+
 //user login-------------------------------------------------- 
-const userLogin= asyncHandler(async(req,res)=>{
+const userLogin = asyncHandler(async (req, res) => {
     try {
-        const {email ,password}=req.body;
-        //find the perticular user is exist or not
-        const findUser=await User.findOne({email})
-        if(findUser && await findUser.isPasswordMatched(password)){
-            req.session.user=findUser._id
-            req.session.isAuth= findUser._id;
-            
+        const { email, password } = req.body;
+        const findUser = await User.findOne({ email })
+        if (findUser && await findUser.isPasswordMatched(password)) {
+            req.session.user = findUser._id
+            req.session.isAuth = findUser._id;
             res.redirect('/api/user')
-     
-        }else{
+        } else {
             req.flash('error', 'Invalid User')
             res.redirect('/api/user/login')
-        }     
+        }
     } catch (error) {
         console.log('Error hapents in userControler userLogin function :', error);
-        res.json({mes:"errorr in user loging cactch"})
+        res.json({ mes: "errorr in user loging cactch" })
     }
-})  
+})
 //-------------------------------------------
+
+
+
 
 
 
@@ -141,10 +146,8 @@ const userLogin= asyncHandler(async(req,res)=>{
 const userLogout = async (req, res) => {
     try {
         req.session.user = null
-        
         req.session.blockedMessage = "You are logged out."; // Set a message for logout
         res.redirect('/api/user')
-
     } catch (error) {
         console.log('Error happens in userControler userLogout function:', error);
         res.json({ mes: "error in user logout catch" });
@@ -156,82 +159,80 @@ const userLogout = async (req, res) => {
 
 
 
- const mobileOTP=asyncHandler (async(req,res)=>{
+
+
+
+
+
+//rendering th otp page ---------------------------------
+const mobileOTP = asyncHandler(async (req, res) => {
     try {
         res.render('mobileOTP')
-        
+
     } catch (error) {
         console.log('Error hapents in userControler otpVerify function :', error);
     }
- })
-
-
-
- // user otp enter cjeking if its true render home else error mesage
-
- const emailVerified=async(req,res)=>{
-    try {
-     
-
-        const { first,second,third,fourth,fifth,six }=req.body
-        const enteredOTP=first + second+ third+ fourth+ fifth+ six;
-
-      
-
-       
-       
-        
-
-        if (enteredOTP ===  req.session.userOTP) {
-            // OTPs match, user is valid
-           
-           
-            const user=req.session.userData;
-           const saveUserData= new User({
-            username:user.username,
-            email:user.email,
-            mobile:user.mobile,
-            password:user.password
-
-           }) 
-            await saveUserData.save();
-           console.log(saveUserData);
-
-           res.redirect('/api/user')
-
-        }else{
-            console.log('error in otp ');
-            req.flash('error', 'No Match OTP');
-            // load error page here
-        }
-        
-    } catch (error) {
-        console.log('Error hapents in userControler emaiVerified  function :', error);
-        
-    }
- }
+})
 //-----------------------------------------------------
 
 
 
+
+
+
+
+
+
+// user otp enter cjeking if its true render home else error mesage-------------
+const emailVerified = async (req, res) => {
+    try {
+        const { first, second, third, fourth, fifth, six } = req.body
+        const enteredOTP = first + second + third + fourth + fifth + six;
+        if (enteredOTP === req.session.userOTP) {
+            const user = req.session.userData;
+            const saveUserData = new User({
+                username: user.username,
+                email: user.email,
+                mobile: user.mobile,
+                password: user.password
+            })
+            await saveUserData.save();
+            console.log(saveUserData);
+            res.redirect('/api/user')
+        } else {
+            console.log('error in otp ');
+            req.flash('error', 'No Match OTP');        
+        }
+    } catch (error) {
+        console.log('Error hapents in userControler emaiVerified  function :', error);
+    }
+}
+//-----------------------------------------------------
+
+
+
+
+
+
+
+
 //------rendering the forgote assword page ------------------------
-
-
-const forgotPsdPage=asyncHandler(async(req,res)=>{
+const forgotPsdPage = asyncHandler(async (req, res) => {
     try {
         res.render('forgotPassword')
-        
     } catch (error) {
         console.log('Error hapents in userControler forgotPsdPage  function :', error);
-        
     }
 })
-
 //--------------------------------------------
 
 
-//---chech the email is valid and send an email to it ---------------
 
+
+
+
+
+//---chech the email is valid and send an email to it ---------------
 const forgotEmailValid = asyncHandler(async (req, res) => {
     try {
         const { email } = req.body;
@@ -264,169 +265,214 @@ const forgotEmailValid = asyncHandler(async (req, res) => {
                 res.json("email error");
             }
         } else {
-         
             req.flash('error', 'User not found');
-            res.redirect('/api/user/forgotPassword'); 
+            res.redirect('/api/user/forgotPassword');
         }
     } catch (error) {
         console.log('Error happens in userControler forgotEmailValid function:', error);
     }
 });
+//---------------------------------------------------------
+
+
+
+
+
+
 
 
 //------cheking the re entedred email is aledy exist if exist chek otp is valid
 
-const forgotPsdOTP=asyncHandler(async(req,res)=>{
+const forgotPsdOTP = asyncHandler(async (req, res) => {
     try {
-       
-        const { first,second,third,fourth,fifth,six }=req.body
-        const enteredOTP=first + second+ third+ fourth+ fifth+ six;
-
-        console.log('otp entered by user :',enteredOTP);
-
-       
-       
-        
-
-        if (enteredOTP ===  req.session.forgotOTP) {
-           
+        const { first, second, third, fourth, fifth, six } = req.body
+        const enteredOTP = first + second + third + fourth + fifth + six;
+        console.log('otp entered by user :', enteredOTP);
+        if (enteredOTP === req.session.forgotOTP) {
             res.render('resetPassword')
-        }else{
+        } else {
             console.log('error in otp ');
-            // load error page here
         }
-        
-        
     } catch (error) {
         console.log('Error hapents in userControler forgotPsdOTP  function :', error);
-        
     }
 })
+//---------------------------------------------------------------
 
 
-const updatePassword=asyncHandler(async(req,res)=>{
+
+
+
+
+
+//------------updating password -------------------------------
+const updatePassword = asyncHandler(async (req, res) => {
     try {
-        const email=req.session.forgotEmail
-        const user=await User.findOne({email})
-       
-
-        if(user){
-            const salt=await bcrypt.genSaltSync(10);
-            const pass=await bcrypt.hash(req.body.password,salt)
-            const updateUser=await User.findByIdAndUpdate(user._id,{
-                password:pass
-            },{new:true})
-            
-
+        const email = req.session.forgotEmail
+        const user = await User.findOne({ email })
+        if (user) {
+            const salt = await bcrypt.genSaltSync(10);
+            const pass = await bcrypt.hash(req.body.password, salt)
+            const updateUser = await User.findByIdAndUpdate(user._id, {
+                password: pass
+            }, { new: true })
             res.redirect('/api/user')
         }
     } catch (error) {
         console.log('Error hapents in userControler updatePassword  function :', error);
-        
     }
 })
+//------------------------------------------------------------
+
+
+
+
+
+
+
 
 //-------------user prfile rendering----------------------
-const userProfile=asyncHandler(async(req,res)=>{
- try {
- const id=req.session.user;
- const user=await User.findById(id)
-
-
-    res.render('userProfile',{user})
-
-
-
- } catch (error) {
-    console.log('Error hapents in userControler userProfile  function :', error);
-    
- }
+const userProfile = asyncHandler(async (req, res) => {
+    try {
+        const id = req.session.user;
+        const user = await User.findById(id)
+        res.render('userProfile', { user })
+    } catch (error) {
+        console.log('Error hapents in userControler userProfile  function :', error);
+    }
 })
-
-
 //------------------------------------------------------------
+
+
+
+
+
+
 
 
 //ading a new adress to the user-----------------------------------
 const addAddress = asyncHandler(async (req, res) => {
     try {
-        const add = req.body; // Corrected variable name to 'add'
+        const { fullName, mobile, region, pinCode, addressLine, areaStreet, ladmark, townCity, state, addressType } = req.body;
         const id = req.session.user;
-        const user=await User.findById(id)
-
-        if(user){
-            if(!user.address){
-                const updatedUser = await user.updateOne({
-            
-                    'address.fullName': add.fullName, 
-                    'address.mobile': add.mobile,
-                    'address.region': add.region,
-                    'address.pinCode': add.pinCode,
-                    'address.addressLine': add.addressLine,
-                    'address.areaStreet': add.areaStreet,
-                    'address.landmark': add.landmark,
-                    'address.townCity': add.townCity,
-                    'address.state': add.state,
-                    'address.addressType': add.addressType,
-                 },{ new: true });
-
-
-            }else{
-                const newAddres= new User({
-                    
-                    'address.fullName': add.fullName, 
-                    'address.mobile': add.mobile,
-                    'address.region': add.region,
-                    'address.pinCode': add.pinCode,
-                    'address.addressLine': add.addressLine,
-                    'address.areaStreet': add.areaStreet,
-                    'address.landmark': add.landmark,
-                    'address.townCity': add.townCity,
-                    'address.state': add.state,
-                    'address.addressType': add.addressType,
-
-                })
-
-                user.address.push(newAddres).save()
-            }
+        const user = await User.findById(id);
+        const newAddress = {
+            fullName,
+            mobile,
+            region,
+            pinCode,
+            addressLine,
+            areaStreet,
+            ladmark,
+            townCity,
+            state,
+            addressType,
+            main: false,
+        };
+        if (user.address.length === 0) {
+            newAddress.main = true;
         }
-
-       console.log(newAddres);
-       
-        res.redirect('/api/user/profile')
-       
+        user.address.push(newAddress);
+        await user.save();
+        console.log('Address added to user:', user);
+        res.redirect('/api/user/profile');
     } catch (error) {
-        console.log('Error hapents in userControler addAddress function:', error);
-       
+        console.log('Error happens in userControler addAddress function:', error);
     }
 });
 
 //-------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+
 //---------------editing the curent adress--------------------------------
- const loadEditAddress=asyncHandler(async(req,res)=>{
+const loadEditAddress = asyncHandler(async (req, res) => {
     try {
-        
-        const id = req.session.user;
-        const user=await User.findById(id)
-
-        res.render('editAddress',{user})
-
+        const id = req.query.id
+        const userId = req.session.user;
+        const user = await User.findById(userId)
+        const address = user.address.id(id);
+        res.render('editAddress', { user, address })
     } catch (error) {
         console.log('Error hapents in userControler loadEditAdress function:', error);
+    }
+})
+
+//----------------------------------------------------------
+
+
+
+
+
+
+
+
+// editing the corent adress -----------------------------------------------
+const updateEditedAddress = asyncHandler(async (req, res) => {
+    try {
+        const userId = req.session.user;
+        const { fullName, mobile, region, pinCode, addressLine, areaStreet, ladmark, townCity, state, adressType, id } = req.body;
+        const user = await User.findById(userId)
+        if (user) {
+            const updatedAddress = user.address.id(id)
+            console.log(updatedAddress);
+            if (updatedAddress) {
+                updatedAddress.fullName = fullName;
+                updatedAddress.mobile = mobile;
+                updatedAddress.region = region;
+                updatedAddress.pinCode = pinCode;
+                updatedAddress.addressLine = addressLine;
+                updatedAddress.areaStreet = areaStreet;
+                updatedAddress.ladmark = ladmark;
+                updatedAddress.townCity = townCity;
+                updatedAddress.state = state;
+                updatedAddress.adressType = adressType;
+                await user.save();
+                console.log('adress is saved and updated ');
+                res.redirect('/api/user/profile');
+            } else {
+                console.log('adress not found ');
+            }
+        }
+    } catch (error) {
+        console.log('Error hapents in userControler updateEditedAddress function:', error);
+    }
+})
+
+//------------------------------------------------------
+
+
+
+
+
+
+
+//------------ddelete a spesific address=----------------------------------------
+
+const deleteAddress=asyncHandler(async(req,res)=>{
+    try {
+        const id = req.query.id
+        const userId = req.session.user;
+        
+
+        
+    } catch (error) {
+        console.log('Error hapents in userControler udeletedAddress function:', error);
         
     }
- })
 
- //----------------------------------------------------------
-
+})
 
 
 
 
 
 
-
-
-
-module.exports = { loadIndex, loadSignIn, loadSignUp, registerUser , userLogin , userLogout  ,mobileOTP ,emailVerified ,forgotPsdPage,forgotEmailValid,forgotPsdOTP,updatePassword,userProfile,addAddress,loadEditAddress}
+module.exports = { loadIndex, loadSignIn, loadSignUp, registerUser, userLogin, userLogout, mobileOTP, emailVerified, forgotPsdPage, forgotEmailValid, forgotPsdOTP, updatePassword, userProfile, addAddress, loadEditAddress, updateEditedAddress }
