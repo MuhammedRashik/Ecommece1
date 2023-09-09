@@ -51,6 +51,8 @@ const addressSchema = new mongoose.Schema({
 });
 
 
+
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -86,7 +88,29 @@ const userSchema = new mongoose.Schema({
     address: [addressSchema],
     image:{
         type:String
+    },
+    cart:{
+      type:Array,
+        ProductId:{
+            type:mongoose.Schema.Types.ObjectId,
+            required:true,
+            ref:"Product"
+        },
+        quantity:{
+            type:Number,
+            required:true,
+        },
+        total:{
+            type:Number,
+            required:true
+        },
+        subTotal:{
+            type:Number,
+            required:true
+        }
     }
+        
+   
 });
 
 userSchema.pre('save', async function (next) {

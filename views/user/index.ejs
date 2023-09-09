@@ -189,10 +189,44 @@
                                                         <div class="product-price">
                                                             <span>$<%=product[i].price  %> </span>
                                                             <span class="old-price">$<%= Math.round(product[i].price+50) %></span>
+                                                            <a class="float-right" href="/api/user/addToCart?id=<%= product[i].id %>"><i class="fi-rs-shopping-bag-add "></i></a>
                                                         </div>
-                                                        <div class="product-action-1 show">
-                                                            <a aria-label="Add To Cart" class="action-btn hover-up" href="/api/user/addToCart?id=<%= product[i].id %>"><i class="fi-rs-shopping-bag-add"></i></a>
+                                                        <div class="">
+                                                            <!-- Use a common class "add-to-cart-btn" for all add to cart buttons -->
+                                                            <!-- <a href="/api/user/addToCart?id=<%= product[i].id %>""><i class="fi-rs-shopping-bag-add"></i></a> -->
+                                                               
+                                                            <!-- <a aria-label="Add To Cart" class="action-btn hover-up add-to-cart-btn" href="/api/user/addToCart?id=<%= product[i].id %>"> <i class="fi-rs-shopping-bag-add"></i> </a> -->
                                                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                     </div>
                                                 </div>
                                             </a>
@@ -2197,4 +2231,26 @@
             </div>
         </section>
     </main>
+    <script>
+        // Use event delegation to handle clicks on "Add To Cart" buttons
+        document.querySelector('.product-grid-4').addEventListener('click', async (e) => {
+            if (e.target && e.target.classList.contains('add-to-cart-btn')) {
+                // Get the product ID from the clicked button's href
+                const href = e.target.getAttribute('href');
+                const productId = new URLSearchParams(href.split('?')[1]).get('id');
+    
+                // Use SweetAlert2 to show a success message for the clicked product
+                await Swal.fire({
+                    title: 'Add To Cart',
+                    text: `You added to the cart!`,
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false, // Hide the confirmation button
+                });
+    
+                // Allow the default link navigation
+                return true;
+            }
+        });
+    </script>
     <%- include('footer') %>

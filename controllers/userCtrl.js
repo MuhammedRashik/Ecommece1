@@ -536,7 +536,9 @@ const updateProfile=asyncHandler(async(req,res)=>{
 ///--------------------add prfile pciture-------------------------
 const addProficPic=asyncHandler(async(req,res)=>{
     try {
-        const{image,id}=req.body;
+        const{id}=req.body;
+        const  image= req.file.filename
+        console.log('this is mage ',image);
         const user=await User.findByIdAndUpdate(id,{
             image:image
         },{new:true})
@@ -549,7 +551,7 @@ const addProficPic=asyncHandler(async(req,res)=>{
     }
  })
 
-
+      
 
 module.exports = {
     loadIndex,
