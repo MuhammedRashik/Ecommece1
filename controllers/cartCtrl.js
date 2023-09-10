@@ -8,8 +8,8 @@ const Product = require('../models/productModel.js')
 //-------renderin the cart page --------------------
 const loadCart = asyncHandler(async (req, res) => {
     try {
-        const id=req.session.user
-        const user=await User.findById(id)
+        const id = req.session.user
+        const user = await User.findById(id)
         // console.log(user.cart.ProductId);
         // const product =await Product.find({_id:user.cart})
 
@@ -22,16 +22,16 @@ const loadCart = asyncHandler(async (req, res) => {
         const product = await Product.find({ _id: { $in: productIds } });
         // console.log('product is +>>>>>>>>>>>>>>>>>>>>>>>>>',product);
 
-    //    const cart=user.cart
-       let totalSubTotal = 0;
-       let quantity=0;
+        //    const cart=user.cart
+        let totalSubTotal = 0;
+        let quantity = 0;
         for (const item of user.cart) {
             totalSubTotal += item.subTotal;
-            quantity+=item.quantity
+            quantity += item.quantity
         }
-        console.log(totalSubTotal);
+        // console.log(totalSubTotal);
 
-        res.render('cart', { product, cart: user.cart, quantity,totalSubTotal });
+        res.render('cart', { product, cart: user.cart, quantity, totalSubTotal });
     } catch (error) {
         console.log('Error Happence in cart controller loadCart function ', error);
     }
@@ -59,7 +59,7 @@ const addToCart = asyncHandler(async (req, res) => {
 
             if (existingCartItem) {
                 // If the product is already in the cart, increment the quantity and update the subtotal using $inc
-               const updated= await User.updateOne(
+                const updated = await User.updateOne(
                     { _id: user, 'cart.ProductId': id },
                     {
                         $inc: {
@@ -79,7 +79,7 @@ const addToCart = asyncHandler(async (req, res) => {
                 });
 
                 await userData.save();
-            
+
             }
         }
 
@@ -91,16 +91,84 @@ const addToCart = asyncHandler(async (req, res) => {
     }
 });
 
+//---------------------------------------------------------
+
+
+//-------------cart product quantity up-----------------------
+
+
+
+const quantityUp = asyncHandler(async(req,res)=>{
+    try {
+        const qua = req.query.qua;
+        const user = req.session.user;
+        const product=req.query.product
+
+        console.log('quantity is up::', qua);
+        console.log('userId is up::', user);
+        console.log('produxt is up::', product);
+        
+        
+    } catch (error) {
+        console.log('Error occurred in cart controller QuantityUp function', error);
+        
+    }
+})
+
+
+
+//-----------------doun quantity------------------------
+const quantityDown = asyncHandler(async (req, res) => {
+    try {
+        const qua = req.query.qua;
+        const user = req.session.user;
+        const product=req.query.product
+
+        console.log('quantity is up::', qua);
+        console.log('userId is up::', user);
+        console.log('produxt is up::', product);
+        
 
 
 
 
-module.exports = { loadCart, addToCart }
+
+    } catch (error) {
+        console.log('Error occurred in cart controller quantityDown function', error);
+
+    }
+})
+
+//--------------------------------------------------
 
 
- // // If the product is already in the cart, update the existing entry
-                // existingCartItem.quantity=existingCartItem.quantity+1;
-                // existingCartItem.subTotal = existingCartItem.quantity * product.price;
+
+
+
+  
+
+  
+
+
+
+//===================================exports------------------------
+
+
+module.exports = {
+    loadCart,
+    addToCart,
+    quantityUp,
+    quantityDown
+
+
+
+
+}
+
+
+// // If the product is already in the cart, update the existing entry
+// existingCartItem.quantity=existingCartItem.quantity+1;
+// existingCartItem.subTotal = existingCartItem.quantity * product.price;
 
 
 

@@ -37,11 +37,23 @@ const { loadIndex,
 
 const { isAuth, isBloked } = require('../middleware/auth')
 const { aProductPage, shop } = require('../controllers/productCtrl')
-const { loadCart, addToCart } = require('../controllers/cartCtrl')
+
 const { upload } = require('../multer/multer')
 //----------------------------------------------------------
 
+//----------------cart------------------
+const { 
 
+    loadCart,
+    addToCart,
+   quantityUp,
+   quantityDown
+
+
+
+} = require('../controllers/cartCtrl')
+
+//----------------------
 
 
 //----engine-----------
@@ -65,8 +77,8 @@ router.post('/updatePassword', updatePassword)//if otp corect update the passwor
 router.get("/mobileOTP", mobileOTP) //mobile otp verification page do it later
 router.get('/profile', userProfile)//renderig profile
 router.get('/editProfile', editProfile)//rendering the user profile edit page
-router.post('/updateProfile',updateProfile)//updating the user profile--
-router.post('/addProficPic',upload.single('image'),addProficPic)
+router.post('/updateProfile', updateProfile)//updating the user profile--
+router.post('/addProficPic', upload.single('image'), addProficPic)
 //----------------------------------------------------------
 
 
@@ -94,6 +106,10 @@ router.get('/shop', shop)//rendering the shop page
 //--------cart---------------------
 router.get('/cart', loadCart)
 router.get('/addToCart', addToCart)
+router.get('/quantityUp',quantityUp)
+router.get('/quantityDown',quantityDown)
+
+
 //-------------------------------------
 
 

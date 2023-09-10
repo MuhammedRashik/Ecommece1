@@ -50,26 +50,57 @@
                     </p>
                   </td>
                   <td class="price" data-title="Price"><span>$ <%= product[i].price %> </span></td>
-                  <td class="text-center" data-title="Stock">
-                    <div class="detail-qty border radius m-auto">
-                      <a href="#" class="qty-down"
-                        ><i class="fi-rs-angle-small-down"></i
-                      ></a>
-                      <span class="qty-val"><%= quantity %></span>
-                      <a href="#" class="qty-up"
-                        ><i class="fi-rs-angle-small-up"></i
-                      ></a>
-                    </div>
-                  </td>
-                  <td class="text-right" data-title="Cart">
-                    <span>$<%= totalSubTotal %> </span>
-                  </td>
-                  <td class="action" data-title="Remove">
-                    <a href="#" class="text-muted"
-                      ><i class="fi-rs-trash"></i
-                    ></a>
-                  </td>
-                </tr>
+<!-- //------------------incriment dicrimet----------------------------------------- -->
+<!-- /api/user/cartQuantityDown?qua=<%= cart[i].quantity - 1 %> -->
+<!-- /api/user/cartQuantityUp?qua=<%= cart[i].quantity + 1 %> -->
+
+<!-- <td class="text-center" data-title="Stock">
+    <a href="/api/user/quantityUp?qua=<%= cart[i].quantity %>&product=<%= product[i] %>" class="qty-up btn btn-sm"><i class="fi-rs-angle-small-up"></i></a>
+    <div style="width: 55px;" class="detail-qty border rounded m-auto">
+        <span  class="qty-val"><%= cart[i].quantity %></span>
+    </div>
+    <a href="/api/user/quantityDown?qua=<%= cart[i].quantity %>&product=<%= product[i] %>" class="qty-down btn btn-sm"><i class="fi-rs-angle-small-down"></i> </a>
+</td> -->
+
+
+
+<!-- //-------------------------this is the original butten fo qauntity------------------------------ -->
+<!-- <td class="text-center" data-title="Stock">
+  <div class="detail-qty border radius m-auto">
+      <a href="#" class="qty-down" data-product="<%= product[i] %>" data-quantity="<%= cart[i].quantity %>"><i class="fi-rs-angle-small-down"></i></a>
+      <span class="qty-val"><%= cart[i].quantity %></span>
+      <a href="#" class="qty-up" data-product="<%= product[i] %>" data-quantity="<%= cart[i].quantity %>"><i class="fi-rs-angle-small-up"></i></a>
+  </div>
+</td> -->
+<!-- =------------------------------------------text-end---------------------- -->
+<div class="input-group mb-3" style="width: 170px;">
+  <button class="btn btn-white border border-secondary px-3"
+      type="button" id="decrementButton" data-mdb-ripple-color="dark"
+      onclick="changeQuantity('<%=cart[i]?._id%>' , '<%=cart[i]?.proId%>' ,-1,' <%=cart[i]?.ProductDetails[0]?.quantity%>')">
+      -
+  </button>
+  <input name="quantity" type="text"id="<%=cart[i]?.ProductDetails[0]?._id%>"class="form-control text-center border border-secondary item-quantity"value="<%=cart[i]?.quantity%>"
+      aria-label="Example text with button addon"
+      aria-describedby="decrementButton" readonly />
+  {/* <!-- Add readonly attribute here --> */}
+  <button class="btn btn-white border border-secondary px-3"
+      type="button" id="incrementButton" data-mdb-ripple-color="dark"
+      onclick="changeQuantity('<%=cart[i]?._id%>' , '<%=cart[i]?.proId%>' ,1,' <%=cart[i]?.ProductDetails[0]?.quantity%>')">
+      +
+  </button>
+</div>
+
+
+
+
+
+  <td class="text-right" data-title="Cart">
+    <span id="upBtn_<%= i %>">$<%= product[i].price * cart[i].quantity %></span>
+  </td>
+  <td class="action" data-title="Remove">
+    <a href="#" class="text-muted"><i class="fi-rs-trash"></i></a>
+  </td>
+  
                 <!-- -----------------------cart item text-end---------------------- -->
 
                 <% } %> 
@@ -471,4 +502,52 @@
     </div>
   </section>
 </main>
+
+
+<script>
+    var qtyDownButtons = document.querySelectorAll('.qty-down');
+    var qtyUpButtons = document.querySelectorAll('.qty-up');
+
+    qtyDownButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            updateQuantity(-1, button.getAttribute('data-product'), button.getAttribute('data-quantity'));
+        });
+    });
+
+    qtyUpButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            updateQuantity(1, button.getAttribute('data-product'), button.getAttribute('data-quantity'));
+        });
+    });
+
+    function updateQuantity(change, product, currentQuantity) {
+        // Calculate the new quantity
+        var newQuantity = parseInt(currentQuantity) + change;
+
+        // Make sure the quantity is at least 1
+        if (newQuantity < 1) {
+            newQuantity = 1;
+        }
+
+        // Update the query parameters in the href attribute
+        var quantityDownLink = `/api/user/quantityDown?qua=${newQuantity}&product=${product}`;
+        var quantityUpLink = `/api/user/quantityUp?qua=${newQuantity}&product=${product}`;
+
+        // Perform any further actions you need with the updated links
+        console.log(quantityDownLink);
+        console.log(quantityUpLink);
+
+        // Update the displayed quantity
+        document.querySelector('.qty-val').textContent = newQuantity;
+    }
+</script>
+
+
+
+<!-- Your JavaScript code -->
+
+  
+
 <%- include('footer') %>

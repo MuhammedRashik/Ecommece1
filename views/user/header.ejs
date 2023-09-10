@@ -53,6 +53,28 @@
     opacity: 0;
     transition: all 0.3s ease-in-out;
 }
+/* Custom button styles */
+.custom-btn {
+  background-color: transparent;
+  border: 1px;
+  padding: 0;
+  cursor: pointer; /* Add pointer cursor on hover for better user feedback */
+  outline: none; /* Remove the default button outline on focus */
+}
+
+/* Style the icons */
+.custom-btn i {
+  font-size: 16px; /* Adjust the font size as needed */
+  vertical-align: middle; /* Center the icon vertically */
+}
+
+/* Style the number and <i> tag as black */
+.custom-btn i,
+.custom-btn .qty-val {
+  color: black;
+}
+
+
 
 .zoom-container:hover .zoom-image {
     transform: scale(1.1); /* Adjust the scale factor as needed for your desired zoom level */
