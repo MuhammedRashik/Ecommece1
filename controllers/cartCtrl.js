@@ -11,7 +11,7 @@ const loadCart = asyncHandler(async (req, res) => {
         const id = req.session.user
         const user = await User.findById(id)
         // console.log(user.cart.ProductId);
-        // const product =await Product.find({_id:user.cart})
+        // const products =await Product.find({_id:user.cart})
 
 
 
@@ -98,46 +98,77 @@ const addToCart = asyncHandler(async (req, res) => {
 
 
 
-const quantityUp = asyncHandler(async(req,res)=>{
+
+
+
+  // ...
+
+   const incrementQuantity=asyncHandler(async(req, res)=>{
     try {
-        const qua = req.query.qua;
-        const user = req.session.user;
-        const product=req.query.product
+        const productId = req.body.productId; // Product ID to increment quantity for
+        const userId = req.user._id; // User ID from authentication
+  
+        // Find the user by their ID
+        const userData = await User.findById(userId);
+  
+        if (userData) {
+          // Find the cart item corresponding to the product ID
+          const cartItem = userData.cart.find((item) => item.ProductId.toString() === productId);
+          console.log('cart item is ======',cartItem);
+          if (cartItem) {
+            // Increment the quantity for the found cart item
+            cartItem.quantity += 1;
+            cartItem.subTotal = cartItem.quantity * cartItem.total; // Update the subtotal
+  
+            await userData.save(); // Save the updated user data
+          }
+        }
+  
+        // Send a JSON response with the updated user's cart data
+        res.json({ cart: userData.cart });
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    })
 
-        console.log('quantity is up::', qua);
-        console.log('userId is up::', user);
-        console.log('produxt is up::', product);
-        
-        
-    } catch (error) {
-        console.log('Error occurred in cart controller QuantityUp function', error);
-        
-    }
-})
+    
+   
+
+ 
+   
+
+    const decrementQuantity=asyncHandler(async(req,res)=>{
+        try {
+            const productId = req.body.productId; // Product ID to decrement quantity for
+            const userId = req.user._id; // User ID from authentication
+      
+            // Find the user by their ID
+            const userData = await User.findById(userId);
+      
+            if (userData) {
+              // Find the cart item corresponding to the product ID
+              const cartItem = userData.cart.find((item) => item.ProductId.toString() === productId);
+      
+              if (cartItem && cartItem.quantity > 1) {
+                // Decrement the quantity for the found cart item if it's greater than 1
+                cartItem.quantity -= 1;
+                cartItem.subTotal = cartItem.quantity * cartItem.total; // Update the subtotal
+      
+                await userData.save(); // Save the updated user data
+              }
+            }
+      
+            // Send a JSON response with the updated user's cart data
+            res.json({ cart: userData.cart });
+          } catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Internal server error' });
+          }
+
+    })
 
 
-
-//-----------------doun quantity------------------------
-const quantityDown = asyncHandler(async (req, res) => {
-    try {
-        const qua = req.query.qua;
-        const user = req.session.user;
-        const product=req.query.product
-
-        console.log('quantity is up::', qua);
-        console.log('userId is up::', user);
-        console.log('produxt is up::', product);
-        
-
-
-
-
-
-    } catch (error) {
-        console.log('Error occurred in cart controller quantityDown function', error);
-
-    }
-})
 
 //--------------------------------------------------
 
@@ -157,8 +188,8 @@ const quantityDown = asyncHandler(async (req, res) => {
 module.exports = {
     loadCart,
     addToCart,
-    quantityUp,
-    quantityDown
+    incrementQuantity,
+    decrementQuantity
 
 
 

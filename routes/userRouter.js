@@ -46,9 +46,8 @@ const {
 
     loadCart,
     addToCart,
-   quantityUp,
-   quantityDown
-
+  decrementQuantity,
+  incrementQuantity
 
 
 } = require('../controllers/cartCtrl')
@@ -98,17 +97,14 @@ router.get('/deleteAddress', deleteAddress)//deleting a specific address
 router.get('/aProduct', upload.single('images'), aProductPage)//rendering a single product page
 router.get('/shop', shop)//rendering the shop page
 
-//------------------------------------
-
-
+//------------------------ ---------                       
 
 
 //--------cart---------------------
 router.get('/cart', loadCart)
 router.get('/addToCart', addToCart)
-router.get('/quantityUp',quantityUp)
-router.get('/quantityDown',quantityDown)
-
+router.post('/increment-quantity', incrementQuantity);
+router.post('/decrement-quantity', decrementQuantity);
 
 //-------------------------------------
 

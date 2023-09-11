@@ -50,46 +50,20 @@
                     </p>
                   </td>
                   <td class="price" data-title="Price"><span>$ <%= product[i].price %> </span></td>
-<!-- //------------------incriment dicrimet----------------------------------------- -->
-<!-- /api/user/cartQuantityDown?qua=<%= cart[i].quantity - 1 %> -->
-<!-- /api/user/cartQuantityUp?qua=<%= cart[i].quantity + 1 %> -->
-
-<!-- <td class="text-center" data-title="Stock">
-    <a href="/api/user/quantityUp?qua=<%= cart[i].quantity %>&product=<%= product[i] %>" class="qty-up btn btn-sm"><i class="fi-rs-angle-small-up"></i></a>
-    <div style="width: 55px;" class="detail-qty border rounded m-auto">
-        <span  class="qty-val"><%= cart[i].quantity %></span>
-    </div>
-    <a href="/api/user/quantityDown?qua=<%= cart[i].quantity %>&product=<%= product[i] %>" class="qty-down btn btn-sm"><i class="fi-rs-angle-small-down"></i> </a>
-</td> -->
 
 
 
-<!-- //-------------------------this is the original butten fo qauntity------------------------------ -->
-<!-- <td class="text-center" data-title="Stock">
-  <div class="detail-qty border radius m-auto">
-      <a href="#" class="qty-down" data-product="<%= product[i] %>" data-quantity="<%= cart[i].quantity %>"><i class="fi-rs-angle-small-down"></i></a>
-      <span class="qty-val"><%= cart[i].quantity %></span>
-      <a href="#" class="qty-up" data-product="<%= product[i] %>" data-quantity="<%= cart[i].quantity %>"><i class="fi-rs-angle-small-up"></i></a>
-  </div>
-</td> -->
-<!-- =------------------------------------------text-end---------------------- -->
-<div class="input-group mb-3" style="width: 170px;">
-  <button class="btn btn-white border border-secondary px-3"
-      type="button" id="decrementButton" data-mdb-ripple-color="dark"
-      onclick="changeQuantity('<%=cart[i]?._id%>' , '<%=cart[i]?.proId%>' ,-1,' <%=cart[i]?.ProductDetails[0]?.quantity%>')">
-      -
-  </button>
-  <input name="quantity" type="text"id="<%=cart[i]?.ProductDetails[0]?._id%>"class="form-control text-center border border-secondary item-quantity"value="<%=cart[i]?.quantity%>"
-      aria-label="Example text with button addon"
-      aria-describedby="decrementButton" readonly />
-  {/* <!-- Add readonly attribute here --> */}
-  <button class="btn btn-white border border-secondary px-3"
-      type="button" id="incrementButton" data-mdb-ripple-color="dark"
-      onclick="changeQuantity('<%=cart[i]?._id%>' , '<%=cart[i]?.proId%>' ,1,' <%=cart[i]?.ProductDetails[0]?.quantity%>')">
-      +
-  </button>
-</div>
 
+
+                  <td class="text-center" data-title="Stock">
+                    <div class="detail-qty border radius m-auto">
+                      <div class="quantity-control">
+                        <button class="btn btn-sm" onclick="test('<%= cart[i].quantity %>','1','<%=product[i].price%>')">+</button>
+                        <input type="text" class="quantity-input " style="width: 45px;" readonly value="<%= cart[i].quantity %>">
+                        <button class="btn btn-sm">-</button>
+                      </div>
+                    </div>
+                  </td>
 
 
 
@@ -503,46 +477,98 @@
   </section>
 </main>
 
-
 <script>
-    var qtyDownButtons = document.querySelectorAll('.qty-down');
-    var qtyUpButtons = document.querySelectorAll('.qty-up');
 
-    qtyDownButtons.forEach(function (button) {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            updateQuantity(-1, button.getAttribute('data-product'), button.getAttribute('data-quantity'));
-        });
+  function test(qty,count,price){
+    Swal.fire({
+         title: Number(price)*(Number(qty)+Number(count)),
+             text: Number(qty)+Number(count) ,
+            
+                icon: 'error',
+              timer: 2000
+                        })
+  }
+  $(document).ready(function () {
+    // Attach click event listener to the "+" button
+    $('.qty-up').on('click', function (e) {
+      e.preventDefault();
+      const product = $(this).data('product'); // Get product ID
+      const currentQuantity = $(this).data('quantity'); // Get current quantity
+      incrementQuantity(product, currentQuantity);
     });
 
-    qtyUpButtons.forEach(function (button) {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            updateQuantity(1, button.getAttribute('data-product'), button.getAttribute('data-quantity'));
-        });
+    // Attach click event listener to the "-" button
+    $('.qty-down').on('click', function (e) {
+      e.preventDefault();
+      const product = $(this).data('product'); // Get product ID
+      const currentQuantity = $(this).data('quantity'); // Get current quantity
+      decrementQuantity(product, currentQuantity);
     });
+  });
 
-    function updateQuantity(change, product, currentQuantity) {
-        // Calculate the new quantity
-        var newQuantity = parseInt(currentQuantity) + change;
+  // AJAX Functions
+  function incrementQuantity(product, currentQuantity) {
+    $.ajax({
+      url: '/increment-quantity', // Replace with your server endpoint
+      method: 'POST',
+      data: {
+        productId: product, // Pass the product ID to the server
+      },
+      success: function (response) {
+  console.log('Increment successful:', response);
+  $(`a[data-product="${product}"]`).data('quantity', currentQuantity + 1);
+  $(`span[data-product="${product}"]`).text(currentQuantity + 1);
 
-        // Make sure the quantity is at least 1
-        if (newQuantity < 1) {
-            newQuantity = 1;
-        }
+  // Call the updateTotalPrice function with the updated quantity
+  updateTotalPrice(product, currentQuantity + 1);
+},
+      error: function (error) {
+        console.error('Error:', error);       
+        // Handle errors if necessary
+      }
+    });
+    
+  }
 
-        // Update the query parameters in the href attribute
-        var quantityDownLink = `/api/user/quantityDown?qua=${newQuantity}&product=${product}`;
-        var quantityUpLink = `/api/user/quantityUp?qua=${newQuantity}&product=${product}`;
+  function decrementQuantity(product, currentQuantity) {
+    $.ajax({
+      url: '/decrement-quantity', // Replace with your server endpoint
+      method: 'POST',
+      data: {
+        productId: product, // Pass the product ID to the server
+      },
+      success: function (response) {
+  console.log('Decrement successful:', response);
+  if (currentQuantity > 1) {
+    $(`a[data-product="${product}"]`).data('quantity', currentQuantity - 1);
+    $(`span[data-product="${product}"]`).text(currentQuantity - 1);
 
-        // Perform any further actions you need with the updated links
-        console.log(quantityDownLink);
-        console.log(quantityUpLink);
+    // Call the updateTotalPrice function with the updated quantity
+    updateTotalPrice(product, currentQuantity - 1);
+  }
+},
+      error: function (error) {
+        console.error('Error:', error);
+        // Handle errors if necessary
+      }
+    });
+  }
 
-        // Update the displayed quantity
-        document.querySelector('.qty-val').textContent = newQuantity;
-    }
+  function updateTotalPrice(product, newQuantity) {
+  // Find the HTML element that displays the total price for the product
+  const totalElement = $(`#upBtn_${product}`);
+
+  // Get the price of the product (you may need to extract it from the HTML)
+  const productPrice = parseFloat(totalElement.text().replace('$', ''));
+
+  // Calculate the new total price by multiplying the price with the new quantity
+  const newTotalPrice = productPrice * newQuantity;
+
+  // Update the HTML display with the new total price
+  totalElement.text(`$${newTotalPrice.toFixed(2)}`);
+}
 </script>
+
 
 
 
