@@ -31,7 +31,7 @@ const loadCart = asyncHandler(async (req, res) => {
         }
         // console.log(totalSubTotal);
 
-        res.render('cart', { product, cart: user.cart, quantity, totalSubTotal });
+        res.render('cart', { product, cart: user.cart, quantity, totalSubTotal,user });
     } catch (error) {
         console.log('Error Happence in cart controller loadCart function ', error);
     }
