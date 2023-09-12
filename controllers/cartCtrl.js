@@ -95,14 +95,7 @@ const addToCart = asyncHandler(async (req, res) => {
 //---------------------------------------------------------
 
 
-//-------------cart product quantity up-----------------------
 
-
-
-
-
-
-  // ...
 
 
    
@@ -112,11 +105,6 @@ const addToCart = asyncHandler(async (req, res) => {
 
 
 
-//--------------------------------------------------
-
-//------------------------------------
-
-  
 
 
 
@@ -124,47 +112,8 @@ const addToCart = asyncHandler(async (req, res) => {
 
   
 
-//===============================================================
 
-async function changeQty(userId, productId, change, index) {
-    try {
-        console.log('hai');
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.json({ status: false, msg: "User not found" });
-        }
 
-        const product = await Product.findById(productId);
-        if (!product) {
-            return res.json({ status: false, msg: "Product not found" });
-        }
-
-        const cartItem = user.cart.find(item => item.ProductId.toString() === productId);
-        if (!cartItem) {
-            return res.json({ status: false, msg: "Cart item not found" });
-        }
-
-        const newQuantity = cartItem.quantity + change;
-
-        if (newQuantity < 1) {
-            return res.json({ status: false, msg: "Quantity cannot be less than 1" });
-        }
-
-        if (newQuantity > product.stock) {
-            return res.json({ status: false, msg: "Quantity exceeds available stock" });
-        }
-
-        cartItem.quantity = newQuantity;
-        cartItem.subTotal = product.price * newQuantity;
-
-        await user.save();
-
-        res.json({ status: true, newQuantity, newSubTotal: cartItem.subTotal });
-    } catch (error) {
-        console.error("Error changing quantity:", error);
-        res.status(500).json({ status: false, msg: "Unable to update quantity" });
-    }
-}
 //----------------------------------------------------------------
 async function removeCartItem(userId, productId) {
     try {
@@ -194,6 +143,87 @@ async function removeCartItem(userId, productId) {
 
 
 
+//-------------cart product quantity down-----------------------
+
+const testdic=asyncHandler(async(req,res)=>{
+    console.log('iam here ajazx ------------------');
+    try {
+        const id = req.body.productId;
+        const userId = req.session.user;
+
+        // Find the user by their ID
+        const user = await User.findById(userId);
+        const product = await Product.findById(id);
+
+if(user){
+    const existingCartItem = user.cart.find(item => item.ProductId === id);
+    console.log('existing cart item ',existingCartItem);
+    if(existingCartItem){
+        const updated = await User.updateOne(
+            { _id: userId, 'cart.ProductId': id },
+            {
+                $inc: {
+                    'cart.$.quantity': -1, // Decrement the quantity by 1
+                },
+                $set: {
+                    'cart.$.subTotal': (product.price * (existingCartItem.quantity - 1)), // Update the subtotal after decrement
+                },
+            }
+        );
+        const updatedUser=  await user.save();
+        console.log('this is update user form the dcreiment side ',updatedUser);
+        res.json({ status: true ,quantityInput:existingCartItem.quantity-1});
+    }
+
+}
+      
+
+
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: false, error: "Server error" });
+    }
+
+})
+
+
+
+const deleteItemeCart=asyncHandler(async(req,res)=>{
+    try {
+      
+        const id = req.body.productId;
+        const userId = req.session.user;
+        
+        const product = await Product.findById(id);
+
+        // Find the user by their ID
+        const userData = await User.findById(userId);
+
+if(userData){
+    const existingCartItem = userData.cart.find(item => item.ProductId === id);
+   
+    if(existingCartItem){
+        userData.cart.splice(existingCartItem, 1);
+        await userData.save();
+    }else{
+        //no existing cart item
+    }
+}else{
+    //no user data found
+}
+
+       
+
+
+
+
+        res.json({status:true})
+        
+    } catch (error) {
+       console.log('errro happemce in cart ctrl in function deleteItemeCart'); 
+    }
+})
 
 
 
@@ -203,22 +233,17 @@ async function removeCartItem(userId, productId) {
 
 
 
-
-
-
-
-//=====================ajax try-------------------
+//=====================ajax ++++++-------------------
 
 const testAjax = asyncHandler(async (req, res) => {
     
     try {
 
-        console.log('iam here in he ajax ++++');
+        
     console.log(req.body);
         const id = req.body.productId;
         const user = req.session.user;
-console.log('this is product id',id);
-console.log('this is user ',user);
+//
 
         // Find the product by its ID
         const product = await Product.findById(id);
@@ -229,7 +254,7 @@ console.log('this is user ',user);
         if (userData) {
             // Check if the product is already in the cart
             const existingCartItem = userData.cart.find(item => item.ProductId === id);
-            console.log('iam existing prduct ',existingCartItem);
+     
 
             if (existingCartItem) {
                 // If the product is already in the cart, increment the quantity and update the subtotal using $inc
@@ -245,19 +270,10 @@ console.log('this is user ',user);
                     }
                 );
                 const updatedUser=  await userData.save();
-          console.log('this is updtaed userr',updatedUser);
-          return res.json({ status: true ,quantityInput:existingCartItem.quantity+1});
-            }
           
+           res.json({ status: true ,quantityInput:existingCartItem.quantity+1});
+            }       
             }
-           
-
-
-
-//         console.log('this is product id',product);
-// console.log('this is user ',userData);
-
-
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: false, error: "Server error" });
@@ -275,8 +291,8 @@ module.exports = {
     loadCart,
     addToCart,
     testAjax,
-    changeQty,
-
+    testdic,
+    deleteItemeCart
    
 
 

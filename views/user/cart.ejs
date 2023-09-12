@@ -48,20 +48,23 @@
                   <td class="text-center" data-title="Stock">
                       <div class="detail-qty border radius m-auto">
                           <div class="quantity-control">
-                              <button class="btn btn-sm increment-button" onclick="test('<%= product[i]._id %>','<%= cart[i].quantity %>',1,'<%= product[i].price %>')">+</button>
+                              <!-- <button class="btn btn-sm increment-button" onclick="test('<%= product[i]._id %>','<%= cart[i].quantity %>',1,'<%= product[i].price %>')">+</button> -->
+                              <button class="btn btn-sm increment-button" onclick="test('<%= product[i]._id %>','<%= cart[i].quantity %>',1,'<%= product[i].price %>', '<%= i %>','<%= product[i].quantity %>')">+</button>
+
 
                               <!-- <button class="btn btn-sm increment-button" onclick="changeQty('<%= user._id %>', '<%= product[i]._id %>', 1, '<%= i %>')">+</button> -->
-                              <input class="quantity-input" id="cartProductqty" style="width: 45px;" type="text" readonly value="<%= cart[i].quantity %>" data-product-index="<%= i %>">
-                              <button class="btn btn-sm decrement-button" onclick="changeQty('<%= user._id %>', '<%= product[i]._id %>', -1, '<%= i %>')">-</button>
+                              <input class="quantity-input<%= i %>" id="cartProductqty<%= i %>" style="width: 45px;" type="text" readonly value="<%= cart[i].quantity %>" data-product-index="<%= i %>">
+                              <button class="btn btn-sm decrement-button" onclick="testDic('<%= product[i]._id %>','<%= cart[i].quantity %>',-1,'<%= product[i].price %>', '<%= i %>')">-</button>
                           </div>
                       </div>
                   </td>
                   <!-- Span with a unique ID -->
                   <td class="text-right" data-title="Cart">
-                      <span id="subtotal">$<%= product[i].price * cart[i].quantity %></span>
-                  </td>
+                    <span id="subtotal<%= i %>">$<%= (product[i].price * cart[i].quantity).toFixed(2) %></span>
+                </td>
                   <td class="action" data-title="Remove">
-                      <a href="#" class="text-muted" onclick="removeCartItem('<%= product[i]._id %>')"><i class="fi-rs-trash"></i></a>
+                      <!-- <a href="#" class="text-muted" onclick="removeCartItem('<%= product[i]._id %>')"><i class="fi-rs-trash"></i></a> -->
+                      <button class="btn btn-sm" onclick="itemDelete('<%= product[i]._id %>')"><i class="fi-rs-trash"></i></button>
                   </td>
                   
                 <!-- -----------------------cart item text-end---------------------- -->
@@ -220,7 +223,7 @@
 </main>
 
 <script>
-function test(productId, cartQty, count, prPrice) {
+function test(productId, cartQty, count, prPrice, i,pqty) {
     $.ajax({
         url: '/api/user/test',
         method: 'POST',
@@ -230,12 +233,19 @@ function test(productId, cartQty, count, prPrice) {
             count: count
         },
         success: function (response) {
-            console.log(response, "response is this");
+// alert(pqty)
+           
             if (response.status) {
-                // alert("iam here with success");
+              if(response.quantityInput >pqty ){
+                Swal.fire({
+    title: 'STOCK!',
+    text: 'Product is out of stock.',
+    icon: 'error',
+    timer: 5000
+  })
 
-                // Update the cart quantity input field
-                const cartProductQtyElement = document.querySelector(`input[data-product-index="${i}"]`)
+              }else{
+                const cartProductQtyElement = document.querySelector(`#cartProductqty${i}`);
                 cartProductQtyElement.value = response.quantityInput;
 
                 // Calculate and update the subtotal based on the new quantity and price
@@ -243,125 +253,78 @@ function test(productId, cartQty, count, prPrice) {
                 const subtotal = newQuantity * prPrice;
                 const subtotalElement = document.querySelector(`#subtotal${i}`);
                 subtotalElement.innerHTML = `$${subtotal.toFixed(2)}`;
+                
+              }
+               
+
+            
             }
         },
         error: function (error) {
-            alert("iam here with error");
+            alert("I am here with an error");
         }
     });
 }
 
 
+function testDic(productId, cartQty, count, prPrice, i){
+   $.ajax({
+    url:'/api/user/testdic',
+    method:'POST',
+    data:{
+      productId: productId,
+      cartQty: cartQty,
+      count: count
 
-    function changeQty(userId, productId, change, index) {
-        const quantityInput = document.getElementById(`quantity-input-${index}`);
-        console.log('hello');
-        const currentQuantity = parseInt(quantityInput.value);
-        const newQuantity = currentQuantity + change;
+    },
+    success:function(response){
+      // alert('iam out  the sucess')
+      if(response.status){
+        if(response.quantityInput < 1 ){
+          Swal.fire({
+    title: 'STOCK!',
+    text: 'Product is out of stock.',
+    icon: 'error',
+    timer: 5000
+  })
+}else{
+  const cartProductQtyElement = document.querySelector(`#cartProductqty${i}`);
+                cartProductQtyElement.value = response.quantityInput;
 
-        if (newQuantity < 1) {
-            return; // Ensure quantity doesn't go below 1.
-        }
+                // Calculate and update the subtotal based on the new quantity and price
+                const newQuantity = response.quantityInput;
+                const subtotal = newQuantity * prPrice;
+                const subtotalElement = document.querySelector(`#subtotal${i}`);
+                subtotalElement.innerHTML = `$${subtotal.toFixed(2)}`;
 
-        $.ajax({
-            url: '/change-cart-item-quantity',
-            data: {
-                userId: userId,
-                productId: productId,
-                newQuantity: newQuantity
-            },
-            method: 'POST',
-            success: function(response) {
-                if (response.status) {
-                    // Update quantity input field
-                    quantityInput.value = newQuantity;
+}
+        // alert('iam in  the sucess')
+      
 
-                    // Update item subtotal
-                    const itemSubTotalId = `itemSubTotal${index}`;
-                    const itemPrice = product[i].price  ;
-                    $(`#${itemSubTotalId}`).text(`$${itemPrice * newQuantity}`);
-
-                    // You may need to update the cart total and other relevant elements here.
-                } else {
-                    alert("Unable to update quantity.");
-                }
-            },
-            error: function() {
-                alert("Unable to update quantity.");
-            }
-        });
+      }else{
+        alert('out odf stoke')
+      }
     }
+   })
+}
 
-    function removeCartItem(productId) {
-        // Handle cart item removal here using AJAX if needed.
+
+function itemDelete(prpductId){
+  $.ajax({
+    url:'/api/user/deleteItemeCart',
+    method:'POST',
+    data:{
+      productId:prpductId
+    },
+    success: function(response){
+      // alert('yes it out side the success')
+      if(response.status){
+        location.reload()
+      }
     }
+  })
 
-
-
-
-//========================================================================
-// function changeQuantity(userId, proId, count, unit) {
-
-// let quantity = document.getElementById(proId).value
-// quantity = parseInt(quantity)
-// if (unit < quantity + 1) {
-
-// let quantity = document.getElementById(proId).value;
-// quantity = parseInt(quantity)
-// unit = parseInt(unit)
-// if (quantity + 1 > unit) {
-//   Swal.fire({
-//     title: 'STOCK!',
-//     text: 'Product is out of stock.',
-//     icon: 'error',
-//     timer: 5000
-//   })
-
-// }
-
-// }
-// else {
-
-// let proTotal = document.getElementById(proId + 'pro-total').innerHTML;
-// let price = document.getElementById(proId + 'price').innerHTML;
-// proTotal = parseInt(proTotal);
-// price = parseInt(price);
-// if (count == 1) {
-//   document.getElementById(proId + 'pro-total').innerHTML = proTotal + price
-//   price = document.getElementById(proId + 'price').innerHTML;
-//   let GrandTotal = document.getElementById('grand-total').innerHTML
-//   document.getElementById('grand-total').innerHTML = parseInt(GrandTotal) + parseInt(price);
-// } else if (quantity > 1) {
-//   document.getElementById(proId + 'pro-total').innerHTML = proTotal - price
-//   price = document.getElementById(proId + 'price').innerHTML;
-//   let GrandTotal = document.getElementById('grand-total').innerHTML
-//   document.getElementById('grand-total').innerHTML = parseInt(GrandTotal) - parseInt(price);
-// }
-
-
-
-// $.ajax({
-//   url: "/change-quantity",
-//   method: 'post',
-//   data: {
-//     userId: userId,
-//     proId: proId,
-//     count: count,
-//     quantity: quantity,
-//   },
-//   success: (response) => {
-//     console.log(response.status)
-//     if (response.status == true) {
-//       location.reload();
-//     } else {
-//       let total = parseInt(quantity) + parseInt(count);
-//       document.getElementById(proId).value = total;
-
-//     }
-//   }
-// })
-// }
-// }
+}
 //=====================>>>>>>>>>>>>>>>>>>>>fech methord <<<<<<<<<<<<<<<<<<<<<<<<<<<<<===========
   // Get references to all increment and decrement buttons
 // const incrementButtons = document.querySelectorAll('.increment-button');

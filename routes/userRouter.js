@@ -46,8 +46,9 @@ const {
 
     loadCart,
     addToCart,
-    changeQty,
-    testAjax
+    testdic,
+    testAjax,
+    deleteItemeCart
   
 
 } = require('../controllers/cartCtrl')
@@ -100,12 +101,13 @@ router.get('/shop', shop)//rendering the shop page
 //------------------------ ---------                       
 
 
-//--------cart---------------------
-router.get('/cart', loadCart)
-router.get('/addToCart', addToCart)
-router.post('/test',testAjax)
+//--------cart----------------------------------
+router.get('/cart', loadCart)//renderin the cart 
+router.get('/addToCart', addToCart)// adt a product to the cart
+router.post('/test',testAjax)//using ajax incrimet the quntity
+router.post('/testdic',testdic)//using ajx dicriment the quantity
+router.post('/deleteItemeCart',deleteItemeCart)//delete a product in the cart
 
-// router.post('/decrement-quantity', decrementQuantity);
 
 //-------------------------------------
 
