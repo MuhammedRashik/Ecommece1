@@ -38,7 +38,7 @@ router.get('/unlistProduct',unlistProduct)// unlisting tht prduct
 router.get('/listProduct',listProduct)// listing tht product
 
 //--------------------------------------------------------
-
+ 
 
 //-------------catogary-----------------------------------
 router.get('/catogary',getAllCatogary)//rendering catogary page

@@ -46,9 +46,9 @@ const {
 
     loadCart,
     addToCart,
-  decrementQuantity,
-  incrementQuantity
-
+    changeQty,
+    testAjax
+  
 
 } = require('../controllers/cartCtrl')
 
@@ -103,11 +103,13 @@ router.get('/shop', shop)//rendering the shop page
 //--------cart---------------------
 router.get('/cart', loadCart)
 router.get('/addToCart', addToCart)
-router.post('/increment-quantity', incrementQuantity);
-router.post('/decrement-quantity', decrementQuantity);
+router.post('/test',testAjax)
+
+// router.post('/decrement-quantity', decrementQuantity);
 
 //-------------------------------------
 
 
 
 module.exports = router
+   
