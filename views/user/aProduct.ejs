@@ -141,13 +141,18 @@
                                                 <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                                             </div>
                                             <div class="product-extra-link2">
-                                                <button type="submit" class="button button-add-to-cart">Add to
-                                                    cart</button>
+                                                
+                                               
+                                                <div class="col-lg-3"><a href="/api/user/selectPaymentMethord"><button style="width: 100px; height: 40px;" type="submit" class="btn btn-sm button-add-to-cart">Buy Now</button></a></div>
+                                                <br>
                                                 <a aria-label="Add To Wishlist" class="action-btn hover-up"
                                                     href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                 <a aria-label="Compare" class="action-btn hover-up"
                                                     href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                             </div>
+                                            <br>
+                                            <br>
+                                             <div class=" ml-5"><a  href="/api/user/addToCart?id=<%= product.id %>" ><button type="submit"  class="button button-add-to-cart ">Add tocart</button></a></div>
                                         </div>
                                         <ul class="product-meta font-xs color-grey mt-50">
                                             <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>

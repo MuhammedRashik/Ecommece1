@@ -5,7 +5,19 @@ const router = express();
 
 
 
-//-----------------------required--------------------
+
+//-/////////////////////////////////////////-required-/////////////////////////////
+
+
+
+
+
+//---------multer----------
+const { upload } = require('../multer/multer')
+//-----------------------
+
+
+
 
 
 //----------user controller-----------
@@ -35,15 +47,35 @@ const { loadIndex,
 //-----------------------------------------------
 
 
-const { isAuth, isBloked } = require('../middleware/auth')
-const { aProductPage, shop } = require('../controllers/productCtrl')
 
-const { upload } = require('../multer/multer')
-//----------------------------------------------------------
+
+
+//------------auth Midleware-------------
+const { 
+    isAuth,
+    isBloked 
+
+} = require('../middleware/auth')
+//------------------------------------------
+
+
+
+
+
+//-----------------productCtrl------------------
+const { 
+    aProductPage,
+    shop 
+
+} = require('../controllers/productCtrl')
+//----------------------------------------------
+
+
+
+
 
 //----------------cart------------------
 const { 
-
     loadCart,
     addToCart,
     testdic,
@@ -52,14 +84,36 @@ const {
   
 
 } = require('../controllers/cartCtrl')
-
 //----------------------
+
+
+
+
+
+//----------derCtrl----------------
+const {
+    oderPage,
+    chekOut,
+    
+}=require('../controllers/oderCtrl')
+//------------------------------------
+
+
+
+
+
+///////////////////////////////////////////////////--require end--/////////////////////////////
+
+
+
 
 
 //----engine-----------
 router.set('view engine', 'ejs');
 router.set('views', './views/user');
 //-------------------------
+
+
 
 
 //----------------user-----------------------------------
@@ -84,21 +138,25 @@ router.post('/addProficPic', upload.single('image'), addProficPic)
 
 
 
+
 //-----adress-----------------------------------------------
 router.post('/addAddress', addAddress)//post the adress add adres 
 router.get('/editAddress', loadEditAddress)//rendering the editaddrress page
 router.post("/editAddress", updateEditedAddress)//update a spesific address
 router.get('/deleteAddress', deleteAddress)//deleting a specific address
-
 //---------------------------------------------
+
+
 
 
 
 //-------------products--------------------------------------
 router.get('/aProduct', upload.single('images'), aProductPage)//rendering a single product page
 router.get('/shop', shop)//rendering the shop page
-
 //------------------------ ---------                       
+
+
+
 
 
 //--------cart----------------------------------
@@ -107,10 +165,16 @@ router.get('/addToCart', addToCart)// adt a product to the cart
 router.post('/test',testAjax)//using ajax incrimet the quntity
 router.post('/testdic',testdic)//using ajx dicriment the quantity
 router.post('/deleteItemeCart',deleteItemeCart)//delete a product in the cart
-
-
 //-------------------------------------
 
+
+
+
+
+//-------oder--------------------
+router.get('/selectPaymentMethord',chekOut)
+router.get('/oderPage',oderPage)
+//----------------------------------
 
 
 module.exports = router

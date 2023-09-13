@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { use } = require("passport");
-const userModel = require("../models/userModel");
+
 
 //load the index page ----------------------------
 const loadIndex = asyncHandler(async (req, res) => {
