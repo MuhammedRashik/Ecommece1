@@ -39,6 +39,10 @@ var oderSchema = new mongoose.Schema({
     status:{
         required:true,
         type:String
+    },
+    address:{
+        type:Array,
+        required:true
     }
     
 });

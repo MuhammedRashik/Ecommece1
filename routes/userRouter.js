@@ -90,10 +90,11 @@ const {
 
 
 
-//----------derCtrl----------------
+//----------oderCtrl----------------
 const {
     oderPage,
     chekOut,
+    oderPlaced
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
@@ -174,8 +175,17 @@ router.post('/deleteItemeCart',deleteItemeCart)//delete a product in the cart
 //-------oder--------------------
 router.get('/selectPaymentMethord',chekOut)
 router.get('/oderPage',oderPage)
+router.post('/oderPlaced',oderPlaced)
 //----------------------------------
 
+
+
+//-----for test-----
+router.get('/testEjs',(req,res)=>{
+    res.render('oderList')
+})
+
+//----------------
 
 module.exports = router
    

@@ -97,52 +97,6 @@ const addToCart = asyncHandler(async (req, res) => {
 
 
 
-
-   
-
- 
-  
-
-
-
-
-
-
-  
-
-  
-
-
-
-//----------------------------------------------------------------
-async function removeCartItem(userId, productId) {
-    try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.json({ status: false, msg: "User not found" });
-        }
-
-        const cartItemIndex = user.cart.findIndex(item => item.ProductId.toString() === productId);
-        if (cartItemIndex === -1) {
-            return res.json({ status: false, msg: "Cart item not found" });
-        }
-
-        user.cart.splice(cartItemIndex, 1);
-        await user.save();
-
-        res.json({ status: true });
-    } catch (error) {
-        console.error("Error removing cart item:", error);
-        res.status(500).json({ status: false, msg: "Unable to remove cart item" });
-    }
-}
-
-
-
-
-
-
-
 //-------------cart product quantity down-----------------------
 
 const testdic=asyncHandler(async(req,res)=>{
@@ -240,7 +194,7 @@ const testAjax = asyncHandler(async (req, res) => {
     try {
 
         
-    console.log(req.body);
+    // console.log(req.body);
         const id = req.body.productId;
         const user = req.session.user;
 //
