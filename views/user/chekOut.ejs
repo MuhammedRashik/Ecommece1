@@ -160,7 +160,7 @@
                             </div>
                         </div>
                         
-                        <button  id="submitButten" class="btn btn-fill-out btn-block mt-30" onclick="placeOrder('<%= sum %>','<%= user._id %>')" > Place Oder</button>
+                        <button id="submitButten" class="btn btn-fill-out btn-block mt-30" onclick="placeOrder('<%= sum %>','<%= user._id %>',)">Place Order</button>
                     </div></div>
                     <div class="col-md-6">
                         <% if (user.address.length > 0) { %>
@@ -228,7 +228,7 @@
         </section>
     </main>
     <script>
-        function placeOrder(totalAmount) {
+     async  function  placeOrder(totalAmount,userId) {
             // totalPrice
             // size
             // createdOn
@@ -255,11 +255,17 @@ const paymentOptionElements = document.getElementsByName("payment_option");
 
 //-=-==-==--=-=--==-=-=-=--===--=-=-=-=-=-=-=-=-=-=-=-=-=
 var address=$('.address:checked').val()
- 
+ if(!address){
+    Swal.fire({
+    title: ' NO ADDRESS FOUND!',
+    text: 'please select your adress.',
+    icon: 'error',
+    timer: 3000,
+  
 
-
-
-            $.ajax({
+  })
+ }else{
+    $.ajax({
                 url:'/api/user/oderPlaced',
                 method:'POST',
                 data:{
@@ -271,14 +277,31 @@ var address=$('.address:checked').val()
                   
                     
                 },
+                async:true,
                 success :function (response) {
                     if(response.status){
-                        alert('oderPlaced')
-                    }
+                        Swal.fire({
+    title: 'ODER PLACED ',
+    text: 'Oder placed successfull !!',
+    icon: 'success',
+    timer: 2000
+  })
                     
+                    }
+                    const id=response.oderId
+                    alert(id)
+                   
+
+                    window.location.href = '/api/user/deleteCart?id=' + id ;
 
                 }
             })
+    
+ }
+
+
+
+            
 
 // alert('iam going to buy a mac')
 

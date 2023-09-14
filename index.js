@@ -54,4 +54,4 @@ app.use('/api/admin',adminRoter)
 
 
 
-app.listen(PORT,()=>console.log(`server is runnging at the port ${PORT}`))     
+app.listen(PORT,()=>console.log(`server is runnging at the port ${PORT}`))  

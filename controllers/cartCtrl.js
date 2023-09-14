@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel.js')
 const Product = require('../models/productModel.js');
 const { response } = require('../routes/userRouter.js');
-
+const Oder=require('../models/oderModel.js')
 
 
 //-------renderin the cart page --------------------
@@ -235,6 +235,34 @@ const testAjax = asyncHandler(async (req, res) => {
 });
 // ...
 
+
+
+
+
+//----------------------delete all eemnts in the cart -----------------------
+const deleteCart=asyncHandler(async(req,res)=>{
+    try {
+    
+     const  id=req.query.id
+
+const userId = req.session.user;
+    const user = await User.findById(userId);
+
+    user.cart = [];
+
+    const updatedUser = await user.save();
+    const order = await Oder.findById(id)
+
+   
+
+
+    res.render('oderDetails', { order ,user});
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function deletCart',error); 
+        
+    }
+
+})
 // In your routes or controllers, you can call these functions like this:
 // changeQty(userId, productId, change, index);
 // removeCartItem(userId, productId);
@@ -246,7 +274,8 @@ module.exports = {
     addToCart,
     testAjax,
     testdic,
-    deleteItemeCart
+    deleteItemeCart,
+    deleteCart,
    
 
 

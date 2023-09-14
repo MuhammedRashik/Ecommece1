@@ -61,7 +61,7 @@ const oderPlaced=asyncHandler(async(req,res)=>{
 
         const address = user.address.find(item => item._id.toString() === addressId);
 
-      console.log(address);
+      
         const product = await Product.find({ _id: { $in: productIds } });
     
         const oder = new Oder({
@@ -76,10 +76,10 @@ const oderPlaced=asyncHandler(async(req,res)=>{
 
         })
          const oderDb= await oder.save()
-
-         console.log('this is new oder data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ',oderDb);
+        
+        
     if(oderDb){
-        res.json({status:true})
+        res.json({status:true,oderId:oderDb._id})
 
     }
      
@@ -93,4 +93,33 @@ const oderPlaced=asyncHandler(async(req,res)=>{
         
     }
 })
-module.exports = { oderPage, chekOut ,oderPlaced}
+
+//============================================================================
+//--------------------------list the oder datas ------------------------
+
+
+const allOderData=asyncHandler(async(req,res)=>{
+    try {
+ const userId= req.session.user
+        const orders= await Oder.find({userId:userId})
+
+        console.log('this is a user oder',orders[0].product[0].title);
+
+
+       
+
+
+
+        res.render('oderList',{orders})
+        
+    } catch (error) {
+        console.log('Error form oder Ctrl in the function allOderdata', error);
+        
+    }
+})
+
+
+
+
+
+module.exports = { oderPage, chekOut ,oderPlaced ,allOderData}

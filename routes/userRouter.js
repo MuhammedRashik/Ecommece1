@@ -80,7 +80,9 @@ const {
     addToCart,
     testdic,
     testAjax,
-    deleteItemeCart
+    deleteItemeCart,
+    deleteCart
+
   
 
 } = require('../controllers/cartCtrl')
@@ -94,7 +96,8 @@ const {
 const {
     oderPage,
     chekOut,
-    oderPlaced
+    oderPlaced,
+    allOderData
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
@@ -166,6 +169,7 @@ router.get('/addToCart', addToCart)// adt a product to the cart
 router.post('/test',testAjax)//using ajax incrimet the quntity
 router.post('/testdic',testdic)//using ajx dicriment the quantity
 router.post('/deleteItemeCart',deleteItemeCart)//delete a product in the cart
+router.get('/deleteCart',deleteCart)
 //-------------------------------------
 
 
@@ -176,6 +180,7 @@ router.post('/deleteItemeCart',deleteItemeCart)//delete a product in the cart
 router.get('/selectPaymentMethord',chekOut)
 router.get('/oderPage',oderPage)
 router.post('/oderPlaced',oderPlaced)
+router.get('/allOderData',allOderData)
 //----------------------------------
 
 

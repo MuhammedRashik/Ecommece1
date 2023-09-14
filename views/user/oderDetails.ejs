@@ -49,9 +49,9 @@
                                 <div class="text">
                                     <h6 class="mb-1">Customer</h6>
                                     <p class="mb-1">
-                                        John Alexander <br> alex@example.com <br> +998 99 22123456
+                                        <%= user.username %> <br> <%= user.email %><br> +1<%= user.mobile %>
                                     </p>
-                                    <a href="#">View profile</a>
+                                    <a href="/api/user/profile">View profile</a>
                                 </div>
                             </article>
                         </div> <!-- col// -->
@@ -63,7 +63,7 @@
                                 <div class="text">
                                     <h6 class="mb-1">Order info</h6>
                                     <p class="mb-1">
-                                        Shipping: Fargo express <br> Pay method: card <br> Status: new
+                                        Shipping:<%= order.address[0].adressType %>  <br> Pay method:<%= order.payment %>  <br> Status: <%= order.status %> 
                                     </p>
                                     <a href="#">Download info</a>
                                 </div>
@@ -77,8 +77,7 @@
                                 <div class="text">
                                     <h6 class="mb-1">Deliver to</h6>
                                     <p class="mb-1">
-                                        City: Tashkent, Uzbekistan <br>Block A, House 123, Floor 2 <br> Po Box 10000
-                                    </p>
+                                        City: <%= order.address[0].townCity %> <br> <%= order.address[0].addressLine %> <br> Po Box <%= order.address[0]. pinCode %> <br>
                                     <a href="#">View profile</a>
                                 </div>
                             </article>
@@ -97,64 +96,47 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/1.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> T-shirt blue, XXL size </div>
-                                                </a>
-                                            </td>
-                                            <td> $44.25 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $99.50 </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/2.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Winter jacket for men </div>
-                                                </a>
-                                            </td>
-                                            <td> $7.50 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $15.00 </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/3.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Jeans wear for men </div>
-                                                </a>
-                                            </td>
-                                            <td> $43.50 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $102.04 </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/4.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Product name color and size </div>
-                                                </a>
-                                            </td>
-                                            <td> $99.00 </td>
-                                            <td> 3 </td>
-                                            <td class="text-end"> $297.00 </td>
-                                        </tr>
+
+
+
+
+                                        <% for (let i=0; i < order.product.length;i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <a class="itemside" href="#">
+                                                        <div class="left">
+                                                           
+                                                            <img src="/admin/assets/imgs/catogary/<%= order.product[i].images[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                            
+                                                        </div>
+                                                        <div class="info"> <%= order.product[i].title %> </div>
+                                                    </a>
+                                                </td>
+
+
+
+                                                <% let product = order.product[0]; %>
+<% let totalPrice = order.totalPrice; %>
+<% let quantity = Math.round(totalPrice / product.price); %>
+
+                                                
+                                                <td> $<%= order.product[i].price %> </td>
+                                                <td><%= quantity %> </td>
+                                                <td class="text-end"> $<%= totalPrice %></td>
+                                            </tr>
+
+
+                                            <% } %> 
+                                      
+                                        
+                                        
+                                        
                                         <tr>
                                             <td colspan="4">
                                                 <article class="float-end">
                                                     <dl class="dlist">
                                                         <dt>Subtotal:</dt>
-                                                        <dd>$973.35</dd>
+                                                        <dd>$<%= order.totalPrice %></dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Shipping cost:</dt>
@@ -162,7 +144,7 @@
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Grand total:</dt>
-                                                        <dd> <b class="h5">$983.00</b> </dd>
+                                                        <dd> <b class="h5">$<%= order.totalPrice+10.00 %></b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt class="text-muted">Status:</dt>
@@ -176,7 +158,8 @@
                                     </tbody>
                                 </table>
                             </div> <!-- table-responsive// -->
-                            <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a>
+                            <a class="btn btn-primary" href="/api/user/allOderData">View Orders</a>
+                            <a class="btn btn-primary" href="/api/user/">Continue Shoping</a>
                         </div> <!-- col// -->
                         <div class="col-lg-1"></div>
                         <div class="col-lg-4">
