@@ -57,6 +57,8 @@ const oderPlaced=asyncHandler(async(req,res)=>{
         const userId=req.session.user
         const user= await User.findById(userId);
         const productIds = user.cart.map(cartItem => cartItem.ProductId);
+
+        
         // console.log('product is +>>>>>>>>>>>>>>>>>>>>>>>>>',user.address);
 
         const address = user.address.find(item => item._id.toString() === addressId);
@@ -76,10 +78,15 @@ const oderPlaced=asyncHandler(async(req,res)=>{
 
         })
          const oderDb= await oder.save()
+         const cartItemQuantities = user.cart.map(cartItem => ({
+            ProductId: cartItem.ProductId,
+            quantity: cartItem.quantity
+          }));
+          console.log('tis is the cart product quantitess',cartItemQuantities);
         
         
     if(oderDb){
-        res.json({status:true,oderId:oderDb._id})
+        res.json({status:true,oderId:oderDb._id ,qty:cartItemQuantities})
 
     }
      

@@ -242,13 +242,21 @@ const testAjax = asyncHandler(async (req, res) => {
 //----------------------delete all eemnts in the cart -----------------------
 const deleteCart=asyncHandler(async(req,res)=>{
     try {
-    
+   
      const  id=req.query.id
+   
 
 const userId = req.session.user;
     const user = await User.findById(userId);
+    const quantities = user.cart.map(cartItem => cartItem.quantity);
 
-    user.cart = [];
+
+user.cart=[]
+
+
+
+
+    
 
     const updatedUser = await user.save();
     const order = await Oder.findById(id)
@@ -256,7 +264,7 @@ const userId = req.session.user;
    
 
 
-    res.render('oderDetails', { order ,user});
+    res.render('oderDetails', { order ,user ,quantities});
     } catch (error) {
         console.log('errro happemce in cart ctrl in function deletCart',error); 
         

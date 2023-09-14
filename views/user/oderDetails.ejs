@@ -115,15 +115,16 @@
 
 
 
-                                                <% let product = order.product[0]; %>
-<% let totalPrice = order.totalPrice; %>
-<% let quantity = Math.round(totalPrice / product.price); %>
+                                       
 
-                                                
-                                                <td> $<%= order.product[i].price %> </td>
-                                                <td><%= quantity %> </td>
-                                                <td class="text-end"> $<%= totalPrice %></td>
+                                               
+                                                   
+                                                    <td><%= order.product[i].price %></td>
+                                                    <td> x<%= quantities[i] %></td>
+                                                <td>$<%= order.product[i].price +quantities[i] %></td>
+                                                    
                                             </tr>
+                                        
 
 
                                             <% } %> 
@@ -176,7 +177,7 @@
                                     <label>Notes</label>
                                     <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
                                 </div>
-                                <button class="btn btn-primary">Save note</button>
+                                <button class="btn btn-primary" >Save note</button>
                             </div>
                         </div> <!-- col// -->
                     </div>
@@ -192,4 +193,9 @@
     <br>
     <br>
     <%- include('footer') %>
-       
+       <script>
+function hi(){
+    alert(quantities[0])
+}
+        
+       </script>

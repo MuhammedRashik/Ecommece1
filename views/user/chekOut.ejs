@@ -289,10 +289,15 @@ var address=$('.address:checked').val()
                     
                     }
                     const id=response.oderId
-                    alert(id)
+                    const qtyes=response.qty
+                   
+                  
                    
 
-                    window.location.href = '/api/user/deleteCart?id=' + id ;
+                    const url = `/api/user/deleteCart?id=${id}&qtyes=${qtyes}`;
+
+                        // Redirect to the constructed URL
+                        window.location.href = url;
 
                 }
             })
