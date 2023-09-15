@@ -108,7 +108,7 @@ const userLogin = asyncHandler(async (req, res) => {
             req.session.isAuth = findUser._id;
             res.redirect("/api/user");
         } else {
-            req.flash("error", "Invalid User");
+            console.log('error in login userr');
             res.redirect("/api/user/login");
         }
     } catch (error) {
@@ -116,7 +116,7 @@ const userLogin = asyncHandler(async (req, res) => {
         res.json({ mes: "errorr in user loging cactch" });
     }
 });
-//-------------------------------------------
+//------------------------------------------- ---------------------------
 
 //user logout -------------------------------
 const userLogout = async (req, res) => {

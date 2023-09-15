@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 const Product = require('../models/productModel.js');
 const Oder= require('../models/oderModel')
 
-
+const mongoose=require('mongoose')
 
 //-------------------load oder page----------------------
 
@@ -64,26 +64,36 @@ const oderPlaced=asyncHandler(async(req,res)=>{
         const address = user.address.find(item => item._id.toString() === addressId);
 
       
-        const product = await Product.find({ _id: { $in: productIds } });
+        const productDetails = await Product.find({ _id: { $in: productIds } });
+
+        const cartItemQuantities = user.cart.map(cartItem => ({
+          ProductId: cartItem.ProductId,
+          quantity: cartItem.quantity,
+          price: cartItem.price, // Add the price of each product
+        }));
     
+        const orderProducts = productDetails.map(product => ({
+          ProductId: product._id,
+          price: product.price,
+          quantity: cartItemQuantities.find(item => item.ProductId.toString() === product._id.toString()).quantity,
+        }));
+
+
+        console.log('this the produxt that user by ',orderProducts);
+       
         const oder = new Oder({
             totalPrice:totalPrice,    
             createdOn: createdOn,
             date:date,
-            product:product,
+            product:orderProducts,
             userId:userId,
             payment:payment,
             address:address,
             status:'pending'
 
         })
-         const oderDb= await oder.save()
-         const cartItemQuantities = user.cart.map(cartItem => ({
-            ProductId: cartItem.ProductId,
-            quantity: cartItem.quantity
-          }));
-          console.log('tis is the cart product quantitess',cartItemQuantities);
-        
+         const oderDb = await oder.save()
+
         
     if(oderDb){
         res.json({status:true,oderId:oderDb._id ,qty:cartItemQuantities})
@@ -105,22 +115,45 @@ const oderPlaced=asyncHandler(async(req,res)=>{
 //--------------------------list the oder datas ------------------------
 
 
-const allOderData=asyncHandler(async(req,res)=>{
+const allOderData = asyncHandler(async (req, res) => {
     try {
- const userId= req.session.user
-        const orders= await Oder.find({userId:userId})
+        const userId = req.session.user;
+        const orders = await Oder.find({ userId: userId });
 
-        console.log('this is a user oder',orders[0].product[0].title);
+        // Create an array to store promises for populating product details
+        const populatePromises = orders.map(async (order) => {
+            // For each order, populate the product details in the product array
+            await Oder.populate(order, { path: 'product.ProductId', select: 'title' });
+        });
+
+        // Wait for all promises to resolve
+        await Promise.all(populatePromises);
+
+        res.render('oderList', { orders });
+    } catch (error) {
+        console.log('Error from oderCtrl in the function allOderData', error);
+        res.status(500).json({ status: false, error: 'Server error' });
+    }
+});
+//--------------------------------------------------------------------
 
 
-       
+///------------------------the oder trsking page --------------------------
+const oderTraking=asyncHandler(async(req,res)=>{
+    try {
+        const productId=req.query.id
+        const orderId = req.query.orderId 
+     
+        const order=await Oder.findById(orderId)
 
+        console.log('this the oder data >>>>>>>>>>>>>>>>> ',order.product[0].quantity);
+        const userId=req.session.user;
+        const user=await User.findById(userId)   
 
-
-        res.render('oderList',{orders})
+        res.render('oderTraking',{order,user})
         
     } catch (error) {
-        console.log('Error form oder Ctrl in the function allOderdata', error);
+        console.log('Error form oder Ctrl in the function oderTracking', error);
         
     }
 })
@@ -128,5 +161,4 @@ const allOderData=asyncHandler(async(req,res)=>{
 
 
 
-
-module.exports = { oderPage, chekOut ,oderPlaced ,allOderData}
+module.exports = { oderPage, chekOut ,oderPlaced ,allOderData,oderTraking}

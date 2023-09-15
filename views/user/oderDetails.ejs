@@ -106,7 +106,7 @@
                                                     <a class="itemside" href="#">
                                                         <div class="left">
                                                            
-                                                            <img src="/admin/assets/imgs/catogary/<%= order.product[i].images[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                            <img src="/admin/assets/imgs/catogary/<%= %>" width="40" height="40" class="img-xs" alt="Item">
                                                             
                                                         </div>
                                                         <div class="info"> <%= order.product[i].title %> </div>
@@ -120,8 +120,8 @@
                                                
                                                    
                                                     <td><%= order.product[i].price %></td>
-                                                    <td> x<%= quantities[i] %></td>
-                                                <td>$<%= order.product[i].price +quantities[i] %></td>
+                                                    <td> x<%=order.product[i].quantity  %></td>
+                                                    <td>$<%= order.product[i].price *order.product[i].quantity %></td>
                                                     
                                             </tr>
                                         
@@ -148,9 +148,9 @@
                                                         <dd> <b class="h5">$<%= order.totalPrice+10.00 %></b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
-                                                        <dt class="text-muted">Status:</dt>
+                                                        <dt class="text-muted">Status: </dt>
                                                         <dd>
-                                                            <span class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                            <span class="badge rounded-pill alert-success text-success"><%= order.status %></span>
                                                         </dd>
                                                     </dl>
                                                 </article>
@@ -167,7 +167,7 @@
                             <div class="box shadow-sm bg-light">
                                 <h6 class="mb-15">Payment info</h6>
                                 <p>
-                                    <img src="assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
+                                    <img src="/admin/assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
                                     Business name: Grand Market LLC <br>
                                     Phone: +1 (800) 555-154-52
                                 </p>

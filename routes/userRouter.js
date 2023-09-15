@@ -97,7 +97,8 @@ const {
     oderPage,
     chekOut,
     oderPlaced,
-    allOderData
+    allOderData,
+    oderTraking
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
@@ -123,9 +124,9 @@ router.set('views', './views/user');
 //----------------user-----------------------------------
 router.get('/', loadIndex)//load the indexpage 
 router.get('/login', loadSignIn)//load the sign in page 
-router.get('/register', isBloked, loadSignUp)//load the signup page 
-router.post('/register', isBloked, registerUser)//signup a user with data aand otp send 
-router.post('/login', isBloked, userLogin)// user login with data and session created
+router.get('/register', loadSignUp)//load the signup page 
+router.post('/register', registerUser)//signup a user with data aand otp send 
+router.post('/login', userLogin)// user login with data and session created
 router.get('/logout', userLogout)//user logout and session delete
 router.post('/emailVerified', emailVerified)//otp verification 
 router.get('/forgotPassword', forgotPsdPage)//rendering the forgot passrod page 
@@ -181,6 +182,7 @@ router.get('/selectPaymentMethord',chekOut)
 router.get('/oderPage',oderPage)
 router.post('/oderPlaced',oderPlaced)
 router.get('/allOderData',allOderData)
+router.get('/orderTracking',oderTraking)
 //----------------------------------
 
 

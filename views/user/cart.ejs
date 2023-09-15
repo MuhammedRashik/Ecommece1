@@ -188,7 +188,7 @@
                       <tr>
                         <td class="cart_total_label">Cart Subtotal</td>
                         <td class="cart_total_amount">
-                          <span class="font-lg fw-900 text-brand">$<%= totalSubTotal %></span>
+                          <span id="total" class="font-lg fw-900 text-brand">$<%= totalSubTotal %></span>
                         </td>
                       </tr>
                       <tr>
@@ -201,7 +201,7 @@
                         <td class="cart_total_label">Total</td>
                         <td class="cart_total_amount">
                           <strong
-                            ><span class="font-xl fw-900 text-brand"
+                            ><span id="finaltotal" class="font-xl fw-900 text-brand"
                               >$<%= totalSubTotal %></span
                             ></strong
                           >
@@ -252,11 +252,28 @@ function test(productId, cartQty, count, prPrice, i,pqty) {
                 const subtotal = newQuantity * prPrice;
                 const subtotalElement = document.querySelector(`#subtotal${i}`);
                 subtotalElement.innerHTML = `$${subtotal.toFixed(2)}`;
+        
+               
+                const total=document.querySelector('#total');
+                total.innerHTML=response.total;
+
+                const finaltotal=document.querySelector('#finaltotal');
+                finaltotal.innerHTML=response.total;
                 
+
               }
                
 
             
+            }
+            if(response.error=='out of stoke'){
+              Swal.fire({
+    title: 'STOCK!',
+    text: 'Product is out of stock.',
+    icon: 'error',
+    timer: 5000
+  })
+
             }
         },
         error: function (error) {
@@ -295,6 +312,11 @@ function testDic(productId, cartQty, count, prPrice, i){
                 const subtotal = newQuantity * prPrice;
                 const subtotalElement = document.querySelector(`#subtotal${i}`);
                 subtotalElement.innerHTML = `$${subtotal.toFixed(2)}`;
+                const total=document.querySelector('#total');
+                total.innerHTML=response.total;
+
+                const finaltotal=document.querySelector('#finaltotal');
+                finaltotal.innerHTML=response.total;
 
 }
         // alert('iam in  the sucess')

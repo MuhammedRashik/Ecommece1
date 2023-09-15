@@ -67,9 +67,9 @@
                                         <% for (let j = 0; j < orders[i].product.length; j++) { %>
                                         <tr>
                                             <td>2323</td>
-                                            <td><b><%= orders[i].product[j].title %></b></td>
+                                            <td><b><%=  %></b></td>
                                            
-                                            <td>$<%= orders[i].product[j].price %></td>
+                                            <td>$<%= orders[i].totalPrice %></td>
 
                                             <% if (orders[i].status=='pending') { %>
 
@@ -82,9 +82,11 @@
 
                                                     <td><%= orders[i].createdOn.toLocaleDateString() %></td>
                                             <td class="text-end">
-                                                <a href="#" class="btn btn-md rounded font-sm">Detail</a>
+                                                <a href="/api/user/orderTracking?id=<%= orders[i].product[j]._id %>&orderId=<%= orders[i]._id %>" class="btn btn-md rounded font-sm">Detail</a>
+
+
                                                 <a href="#" class="btn btn-md rounded font-sm">Cancel</a>
-                                               
+                                            
                                             </td>
                                         </tr>
 

@@ -100,7 +100,7 @@ const addToCart = asyncHandler(async (req, res) => {
 //-------------cart product quantity down-----------------------
 
 const testdic=asyncHandler(async(req,res)=>{
-    console.log('iam here ajazx ------------------');
+    // console.log('iam here ajazx ------------------');
     try {
         const id = req.body.productId;
         const userId = req.session.user;
@@ -111,8 +111,8 @@ const testdic=asyncHandler(async(req,res)=>{
 
 if(user){
     const existingCartItem = user.cart.find(item => item.ProductId === id);
-    console.log('existing cart item ',existingCartItem);
-    if(existingCartItem){
+    // console.log('existing cart item ',existingCartItem);
+    if(existingCartItem && existingCartItem.quantity > 0){
         const updated = await User.updateOne(
             { _id: userId, 'cart.ProductId': id },
             {
@@ -124,9 +124,14 @@ if(user){
                 },
             }
         );
-        const updatedUser=  await user.save();
-        console.log('this is update user form the dcreiment side ',updatedUser);
-        res.json({ status: true ,quantityInput:existingCartItem.quantity-1});
+        const updatedUser= await user.save();
+        // const totalAmount = updatedUser.cart.reduce((total, item) => total + item.subTotal, 0);
+        const totalAmount=product.price * (existingCartItem.quantity - 1)
+    
+        console.log('this is the toatl amoun fo that product ',totalAmount);
+       
+        // console.log('this is update user form the dcreiment side ',updatedUser);
+        res.json({ status: true ,quantityInput:existingCartItem.quantity-1,total:totalAmount});
     }
 
 }
@@ -211,6 +216,10 @@ const testAjax = asyncHandler(async (req, res) => {
      
 
             if (existingCartItem) {
+                const newQuantity = existingCartItem.quantity + 1;
+    
+                // Check if the new quantity is within bounds (greater than 0 and not exceeding product quantity)
+                if (newQuantity > 0 && newQuantity <= product.quantity) {
                 // If the product is already in the cart, increment the quantity and update the subtotal using $inc
                 const updated = await User.updateOne(
                     { _id: user, 'cart.ProductId': id },
@@ -223,9 +232,14 @@ const testAjax = asyncHandler(async (req, res) => {
                         },
                     }
                 );
+            
+                
                 const updatedUser=  await userData.save();
-          
-           res.json({ status: true ,quantityInput:existingCartItem.quantity+1});
+               const totalAmount=product.price * (existingCartItem.quantity + 1)
+                
+           res.json({ status: true ,quantityInput:existingCartItem.quantity+1,total:totalAmount});
+                }
+                res.json({status:false,error:'out of stoke'})
             }       
             }
     } catch (error) {
@@ -260,6 +274,8 @@ user.cart=[]
 
     const updatedUser = await user.save();
     const order = await Oder.findById(id)
+console.log('this is oder dataaa <<<????????',order.product[0].quantity);
+    
 
    
 
