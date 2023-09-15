@@ -75,6 +75,8 @@ const oderPlaced=asyncHandler(async(req,res)=>{
         const orderProducts = productDetails.map(product => ({
           ProductId: product._id,
           price: product.price,
+          title:product.title,
+          image:product.images[0],
           quantity: cartItemQuantities.find(item => item.ProductId.toString() === product._id.toString()).quantity,
         }));
 
@@ -121,14 +123,12 @@ const allOderData = asyncHandler(async (req, res) => {
         const orders = await Oder.find({ userId: userId });
 
         // Create an array to store promises for populating product details
-        const populatePromises = orders.map(async (order) => {
-            // For each order, populate the product details in the product array
-            await Oder.populate(order, { path: 'product.ProductId', select: 'title' });
+        const orderstitle = await Oder.find({ userId: userId }).populate({
+            path: 'product.ProductId',
+            select: 'title'
         });
 
-        // Wait for all promises to resolve
-        await Promise.all(populatePromises);
-
+       
         res.render('oderList', { orders });
     } catch (error) {
         console.log('Error from oderCtrl in the function allOderData', error);
@@ -139,26 +139,91 @@ const allOderData = asyncHandler(async (req, res) => {
 
 
 ///------------------------the oder trsking page --------------------------
-const oderTraking=asyncHandler(async(req,res)=>{
-    try {
-        const productId=req.query.id
-        const orderId = req.query.orderId 
+// const oderTraking=asyncHandler(async(req,res)=>{
+//     try {
+//         const productId=req.query.id
+//         const orderId = req.query.orderId 
      
-        const order=await Oder.findById(orderId)
+//         const order=await Oder.findById(orderId)
 
-        console.log('this the oder data >>>>>>>>>>>>>>>>> ',order.product[0].quantity);
-        const userId=req.session.user;
-        const user=await User.findById(userId)   
+       
+//         const userId=req.session.user;
+//         const user=await User.findById(userId)   
 
-        res.render('oderTraking',{order,user})
+//         res.render('oderTraking',{order,user})
         
+//     } catch (error) {
+//         console.log('Error form oder Ctrl in the function oderTracking', error);
+        
+//     }
+// })
+
+//----------------------------------------------------
+
+const oderDetails=asyncHandler(async(req,res)=>{
+    try {
+        const orderId = req.query.orderId
+        // console.log('this is oder id ',orderId);
+        // const  id=req.query.id.toString()
+   
+
+       const userId = req.session.user;
+       const user = await User.findById(userId);
+       const order = await Oder.findById(orderId)
+
+       console.log('thid id the odder',order);
+
+       res.render('oderDtls', { order ,user });
+
     } catch (error) {
-        console.log('Error form oder Ctrl in the function oderTracking', error);
+        console.log('errro happemce in cart ctrl in function oderDetails',error); 
+        
+    }
+})
+
+//----------------------------------------------------------------------------------------
+
+
+
+///--------------------------cnasel oder----------------------
+
+
+const canselOder=asyncHandler(async(req,res)=>{
+    try {
+
+        const orderId = req.query.orderId
+        const order = await Oder.findByIdAndUpdate(orderId,{
+            status:'cancel'
+        },{new:true})
+        console.log('thid id the odder',order);
+
+     res.redirect('/api/user/allOderData')
+
+
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function canselOrder',error); 
         
     }
 })
 
 
+//-----------------------------------------------------
 
 
-module.exports = { oderPage, chekOut ,oderPlaced ,allOderData,oderTraking}
+
+//---------------------------get all orders to the admin--------------------
+
+const orderListing=asyncHandler(async(req,res)=>{
+    try {
+        const orders= await Oder.find();
+        console.log('this is orders',orders);
+
+        
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function orderListing',error); 
+        
+    }
+})
+
+
+module.exports = { oderPage, chekOut ,oderPlaced ,allOderData,oderDetails,canselOder,orderListing}

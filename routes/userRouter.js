@@ -81,7 +81,8 @@ const {
     testdic,
     testAjax,
     deleteItemeCart,
-    deleteCart
+    deleteCart,
+    
 
   
 
@@ -98,7 +99,8 @@ const {
     chekOut,
     oderPlaced,
     allOderData,
-    oderTraking
+    oderDetails,
+    canselOder
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
@@ -170,7 +172,7 @@ router.get('/addToCart', addToCart)// adt a product to the cart
 router.post('/test',testAjax)//using ajax incrimet the quntity
 router.post('/testdic',testdic)//using ajx dicriment the quantity
 router.post('/deleteItemeCart',deleteItemeCart)//delete a product in the cart
-router.get('/deleteCart',deleteCart)
+router.get('/deleteCart',deleteCart)//delete a item in cart
 //-------------------------------------
 
 
@@ -178,21 +180,23 @@ router.get('/deleteCart',deleteCart)
 
 
 //-------oder--------------------
-router.get('/selectPaymentMethord',chekOut)
-router.get('/oderPage',oderPage)
-router.post('/oderPlaced',oderPlaced)
-router.get('/allOderData',allOderData)
-router.get('/orderTracking',oderTraking)
+router.get('/selectPaymentMethord',chekOut)//rendering the chekout page
+router.get('/oderPage',oderPage)//rendering the oder page
+router.post('/oderPlaced',oderPlaced)//confrming the order ans selet payment and address
+router.get('/allOderData',allOderData)//user get that spcific oder data
+// router.get('/orderTracking',oderTraking)
+router.get('/oderDetails',oderDetails)//user vist hisorders details
+router.get('/canselOrder',canselOder)//canselng a orde
 //----------------------------------
 
 
 
 //-----for test-----
-router.get('/testEjs',(req,res)=>{
-    res.render('oderList')
-})
+// router.get('/testEjs',(req,res)=>{
+//     res.render('oderTraking')
+// })
 
-//----------------
+//----------------      
 
 module.exports = router
    

@@ -274,7 +274,7 @@ user.cart=[]
 
     const updatedUser = await user.save();
     const order = await Oder.findById(id)
-console.log('this is oder dataaa <<<????????',order.product[0].quantity);
+
     
 
    
@@ -287,6 +287,22 @@ console.log('this is oder dataaa <<<????????',order.product[0].quantity);
     }
 
 })
+
+
+//------------------------------------------------------------------------------
+
+
+
+
+
+/////-------------------------------oderdetails page -----------------------------
+
+
+
+
+
+
+
 // In your routes or controllers, you can call these functions like this:
 // changeQty(userId, productId, change, index);
 // removeCartItem(userId, productId);
@@ -300,7 +316,7 @@ module.exports = {
     testdic,
     deleteItemeCart,
     deleteCart,
-   
+    
 
 
 
