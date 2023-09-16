@@ -109,6 +109,12 @@ const {
 
 
 
+///-----------filter ctrl-----
+const {filterSearch}=require('../controllers/filter.Ctrl')
+
+
+
+
 ///////////////////////////////////////////////////--require end--/////////////////////////////
 
 
@@ -188,6 +194,12 @@ router.get('/allOderData',allOderData)//user get that spcific oder data
 router.get('/oderDetails',oderDetails)//user vist hisorders details
 router.get('/canselOrder',canselOder)//canselng a orde
 //----------------------------------
+
+
+//------------filter the things ----------------------
+
+router.post('/filterSearch',filterSearch)
+
 
 
 
