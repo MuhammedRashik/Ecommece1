@@ -82,35 +82,23 @@
                        
                     </div> <!-- row.// -->
                 </div> <!-- card-body end// -->
+                <% if (totalpages) { %>
+                    <div class="pagination  justify-content-center">
+                      <% if (currentpage > 1) { %>
+                        <button class="btn btn-sm "  ><a href="?page=<%= currentpage - 1 %>">Previous</a></button>
+                      <% } %>
+                  
+                      <% for (let i = 1; i <= totalpages; i++) { %> <!-- Change the loop to start from 1 and go up to totalpages -->
+                        <button class="btn btn-sm "  ><a href="?page=<%= i %>" class="<%= i === currentpage ? 'active' : '' %>"><%= i %></a></button>
+                      <% } %>
+                  
+                      <% if (currentpage < totalpages) { %>
+                        <button  class="btn btn-sm " ><a href="?page=<%= currentpage + 1 %>">Next</a></button>
+                      <% } %>
+                    </div>
+                  <% } %>
             </div> <!-- card end// -->
-            <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item ">
-                            <a class="page-link" href="/api/admin/product?page=<%= page - 1 %>&limit=<%= limit %>">Previous</a>
-                        </li>
-                        <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
-                            <span>&nbsp;</span> <!-- Add a space character for the gap -->
-                        </li>
-                        <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
-                            <span>&nbsp;</span> <!-- Add a space character for the gap -->
-                        </li>
-                        <% for (let i = Math.max(1, page - 2); i <= Math.min(totalPages, page + 2); i++) { %>
-                            <li class="page-item <%= i === page ? 'active' : '' %>">
-                                <a class="page-link" href="/api/admin/product?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
-                            </li>
-                            <% if (i < Math.min(totalPages, page + 2)) { %>
-                                <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
-                                    <span>&nbsp;</span> <!-- Add a space character for the gap -->
-                                </li>
-                            <% } %>
-                        <% } %>
-                        <li class="page-item">
-                            <a class="page-link" href="/api/admin/product?page=<%= page + 1 %>&limit=<%= limit %>">Next</a>
-                        </li
-                    </ul>
-                </nav>
-            </div>
+             
            
 
 

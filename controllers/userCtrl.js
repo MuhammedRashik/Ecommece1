@@ -5,6 +5,12 @@ const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { use } = require("passport");
+const Oder=require('../models/oderModel')
+
+
+
+
+
 
 
 //load the index page ----------------------------
@@ -22,6 +28,11 @@ const loadIndex = asyncHandler(async (req, res) => {
 });
 //-----------------------------------------------
 
+
+
+
+
+
 //---------load the sign in page --------------------------
 const loadSignIn = asyncHandler(async (req, res) => {
     try {
@@ -31,6 +42,11 @@ const loadSignIn = asyncHandler(async (req, res) => {
     }
 });
 //------------------------------------------------------
+
+
+
+
+
 
 //--load the sign up page ---------
 const loadSignUp = asyncHandler(async (req, res) => {
@@ -42,6 +58,11 @@ const loadSignUp = asyncHandler(async (req, res) => {
 });
 //------------------------------------------
 
+
+
+
+
+
 //genarte a otp--------------------------------
 function generateotp() {
     var digits = "1234567890";
@@ -52,6 +73,10 @@ function generateotp() {
     return otp;
 }
 //---------------------------------------------------------
+
+
+
+
 
 //--save the user data throw post methord in signup -----
 const registerUser = asyncHandler(async (req, res) => {
@@ -98,6 +123,11 @@ const registerUser = asyncHandler(async (req, res) => {
 
 //------------------------------------------------------------------
 
+
+
+
+
+
 //user login--------------------------------------------------
 const userLogin = asyncHandler(async (req, res) => {
     try {
@@ -118,6 +148,11 @@ const userLogin = asyncHandler(async (req, res) => {
 });
 //------------------------------------------- ---------------------------
 
+
+
+
+
+
 //user logout -------------------------------
 const userLogout = async (req, res) => {
     try {
@@ -131,6 +166,11 @@ const userLogout = async (req, res) => {
 };
 //-------------------------------------------
 
+
+
+
+
+
 //rendering th otp page ---------------------------------
 const mobileOTP = asyncHandler(async (req, res) => {
     try {
@@ -140,6 +180,11 @@ const mobileOTP = asyncHandler(async (req, res) => {
     }
 });
 //-----------------------------------------------------
+
+
+
+
+
 
 // user otp enter cjeking if its true render home else error mesage-------------
 const emailVerified = async (req, res) => {
@@ -170,6 +215,11 @@ const emailVerified = async (req, res) => {
 };
 //-----------------------------------------------------
 
+
+
+
+
+
 //------rendering the forgote assword page ------------------------
 const forgotPsdPage = asyncHandler(async (req, res) => {
     try {
@@ -182,6 +232,11 @@ const forgotPsdPage = asyncHandler(async (req, res) => {
     }
 });
 //--------------------------------------------
+
+
+
+
+
 
 //---chech the email is valid and send an email to it ---------------
 const forgotEmailValid = asyncHandler(async (req, res) => {
@@ -228,6 +283,12 @@ const forgotEmailValid = asyncHandler(async (req, res) => {
 });
 //---------------------------------------------------------
 
+
+
+
+
+
+
 //------cheking the re entedred email is aledy exist if exist chek otp is valid
 
 const forgotPsdOTP = asyncHandler(async (req, res) => {
@@ -248,6 +309,11 @@ const forgotPsdOTP = asyncHandler(async (req, res) => {
     }
 });
 //---------------------------------------------------------------
+
+
+
+
+
 
 //------------updating password -------------------------------
 const updatePassword = asyncHandler(async (req, res) => {
@@ -275,12 +341,21 @@ const updatePassword = asyncHandler(async (req, res) => {
 });
 //------------------------------------------------------------
 
+
+
+
+
+
 //-------------user prfile rendering----------------------
 const userProfile = asyncHandler(async (req, res) => {
     try {
         const id = req.session.user;
         const user = await User.findById(id);
-        res.render("userProfile", { user });
+        const order = await Oder.find({ userId: id }).sort({ date: -1 });
+
+
+        // console.log('this is the orders od user',);
+        res.render("userProfile", { user,order });
     } catch (error) {
         console.log(
             "Error hapents in userControler userProfile  function :",
@@ -289,6 +364,13 @@ const userProfile = asyncHandler(async (req, res) => {
     }
 });
 //------------------------------------------------------------
+
+
+
+
+
+
+
 
 //ading a new adress to the user-----------------------------------
 const addAddress = asyncHandler(async (req, res) => {
@@ -334,6 +416,10 @@ const addAddress = asyncHandler(async (req, res) => {
 
 //-------------------------------------------------------------------
 
+
+
+
+
 //---------------editing the curent adress--------------------------------
 const loadEditAddress = asyncHandler(async (req, res) => {
     try {
@@ -351,6 +437,10 @@ const loadEditAddress = asyncHandler(async (req, res) => {
 });
 
 //----------------------------------------------------------
+
+
+
+
 
 // editing the corent adress -----------------------------------------------
 const updateEditedAddress = asyncHandler(async (req, res) => {
@@ -398,8 +488,12 @@ const updateEditedAddress = asyncHandler(async (req, res) => {
         );
     }                                      
 });             
-                         
 //------------------------------------------------------
+
+
+
+
+
 
 //------------ddelete a spesific address=----------------------------------------
 
@@ -427,6 +521,11 @@ const deleteAddress = asyncHandler(async (req, res) => {
 
 //---------------------------------------------------------------------------------
 
+
+
+
+
+
 //----------------rendering-edit user profile------------------------------------
 
 const editProfile = asyncHandler(async (req, res) => {
@@ -440,6 +539,11 @@ const editProfile = asyncHandler(async (req, res) => {
     }
 });
 //------------------------------------------------
+
+
+
+
+
 
 // -----------------------updating the user profile data -----------------------------
 
@@ -475,6 +579,11 @@ const updateProfile = asyncHandler(async (req, res) => {
 });
 
 //-------------------------------------------------------------------------------------------
+
+
+
+
+
 ///--------------------add prfile pciture-------------------------
 const addProficPic = asyncHandler(async (req, res) => {
     try {
@@ -497,6 +606,11 @@ const addProficPic = asyncHandler(async (req, res) => {
         );
     }
 });
+
+
+
+
+
 
 module.exports = {
     loadIndex,

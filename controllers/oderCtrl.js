@@ -2,12 +2,14 @@ const asyncHandler = require('express-async-handler')
 const User = require("../models/userModel");
 const Product = require('../models/productModel.js');
 const Oder= require('../models/oderModel')
-
 const mongoose=require('mongoose')
 
+
+
+
+
+
 //-------------------load oder page----------------------
-
-
 const oderPage = asyncHandler(async (req, res) => {
     try {
         res.render('oderPage')
@@ -17,10 +19,11 @@ const oderPage = asyncHandler(async (req, res) => {
     }
 })
 
-
-
-
 // -----------------------------------------------------------
+
+
+
+
 
 
 //--------------------------payment selvtion page--------------------------
@@ -43,6 +46,7 @@ const chekOut = asyncHandler(async (req, res) => {
     }
 })
 //---------------------------------------------------------------
+
 
 
 
@@ -81,7 +85,7 @@ const oderPlaced=asyncHandler(async(req,res)=>{
         }));
 
 
-        console.log('this the produxt that user by ',orderProducts);
+        // console.log('this the produxt that user by ',orderProducts);
        
         const oder = new Oder({
             totalPrice:totalPrice,    
@@ -114,6 +118,11 @@ const oderPlaced=asyncHandler(async(req,res)=>{
 })
 
 //============================================================================
+
+
+
+
+
 //--------------------------list the oder datas ------------------------
 
 
@@ -128,14 +137,26 @@ const allOderData = asyncHandler(async (req, res) => {
             select: 'title'
         });
 
+        const itemsperpage = 3;
+        const currentpage = parseInt(req.query.page) || 1;
+        const startindex = (currentpage - 1) * itemsperpage;
+        const endindex = startindex + itemsperpage;
+        const totalpages = Math.ceil(orders.length / 3);
+        const currentproduct = orders.slice(startindex,endindex);
+
        
-        res.render('oderList', { orders });
+        res.render('oderList', { orders:currentproduct,totalpages,currentpage });
     } catch (error) {
         console.log('Error from oderCtrl in the function allOderData', error);
         res.status(500).json({ status: false, error: 'Server error' });
     }
 });
 //--------------------------------------------------------------------
+
+
+
+
+
 
 
 ///------------------------the oder trsking page --------------------------
@@ -160,6 +181,12 @@ const allOderData = asyncHandler(async (req, res) => {
 
 //----------------------------------------------------
 
+
+
+
+
+///----------------orderdetails for user side-----------------
+
 const oderDetails=asyncHandler(async(req,res)=>{
     try {
         const orderId = req.query.orderId
@@ -171,7 +198,7 @@ const oderDetails=asyncHandler(async(req,res)=>{
        const user = await User.findById(userId);
        const order = await Oder.findById(orderId)
 
-       console.log('thid id the odder',order);
+    //    console.log('thid id the odder',order);
 
        res.render('oderDtls', { order ,user });
 
@@ -185,9 +212,12 @@ const oderDetails=asyncHandler(async(req,res)=>{
 
 
 
+
+
+
+
+
 ///--------------------------cnasel oder----------------------
-
-
 const canselOder=asyncHandler(async(req,res)=>{
     try {
 
@@ -195,7 +225,7 @@ const canselOder=asyncHandler(async(req,res)=>{
         const order = await Oder.findByIdAndUpdate(orderId,{
             status:'cancel'
         },{new:true})
-        console.log('thid id the odder',order);
+        // console.log('thid id the odder',order);
 
      res.redirect('/api/user/allOderData')
 
@@ -205,9 +235,10 @@ const canselOder=asyncHandler(async(req,res)=>{
         
     }
 })
-
-
 //-----------------------------------------------------
+
+
+
 
 
 
@@ -216,14 +247,63 @@ const canselOder=asyncHandler(async(req,res)=>{
 const orderListing=asyncHandler(async(req,res)=>{
     try {
         const orders= await Oder.find();
-        console.log('this is orders',orders);
+        // console.log('this is orders',orders);
+        const itemsperpage = 3;
+        const currentpage = parseInt(req.query.page) || 1;
+        const startindex = (currentpage - 1) * itemsperpage;
+        const endindex = startindex + itemsperpage;
+        const totalpages = Math.ceil(orders.length / 3);
+        const currentproduct = orders.slice(startindex,endindex);
 
+
+        res.render('oderList',{orders:currentproduct,totalpages,currentpage})
         
     } catch (error) {
         console.log('errro happemce in cart ctrl in function orderListing',error); 
         
     }
 })
+//----------------------------------------------------------------------
 
 
-module.exports = { oderPage, chekOut ,oderPlaced ,allOderData,oderDetails,canselOder,orderListing}
+
+
+
+
+////------------------order detail foradmin------------------------
+const oderDetailsAdmin=asyncHandler(async(req,res)=>{
+    try {
+        const orderId = req.query.orderId
+        
+
+  
+       const order = await Oder.findById(orderId)
+       const userId=order.userId
+
+       const user=await User.findById(userId)
+     ;
+
+       res.render('aOrderDetail', { order ,user });
+
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function oderDetails',error); 
+        
+    }
+})
+//-----------------------------------------------------------------------------
+
+
+
+
+
+
+module.exports = {
+     oderPage,
+     chekOut ,
+    oderPlaced ,
+    allOderData,
+    oderDetails,
+    canselOder,
+    orderListing,
+    oderDetailsAdmin
+}

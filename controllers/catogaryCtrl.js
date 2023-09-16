@@ -1,7 +1,9 @@
 const asyncHandler = require('express-async-handler');
-
 const Catogary = require('../models/catogaryModel')
 const sharp = require('sharp')
+
+
+
 
 
 
@@ -15,6 +17,9 @@ const loadCatogary = asyncHandler(async (req, res) => {
     }
 })
 //----------------------------------------------------
+
+
+
 
 
 
@@ -58,14 +63,24 @@ const addCatogary = asyncHandler(async (req, res) => {
 //-------------------------------------------------------------
 
 
+
+
+
 //get all catogaries in database----------------
-
-
 const getAllCatogary = asyncHandler(async (req, res) => {
     try {
         const getAllCatogary = await Catogary.find();
         req.session.Catogary = getAllCatogary;
-        res.render('catogary', { catogary: getAllCatogary })
+        const itemsperpage = 3;
+        const currentpage = parseInt(req.query.page) || 1;
+        const startindex = (currentpage - 1) * itemsperpage;
+        const endindex = startindex + itemsperpage;
+        const totalpages = Math.ceil(getAllCatogary.length / 3);
+        const currentproduct = getAllCatogary.slice(startindex,endindex);
+
+
+
+        res.render('catogary', { catogary: currentproduct,totalpages,currentpage, })
 
     } catch (error) {
         console.log('error happence in catogaryController getAllCatogary function', error);
@@ -114,44 +129,36 @@ const editCatogary = asyncHandler(async (req, res) => {
 
 //--------------------------------------------------------------
 
+
+
+
+
+
 //edit the catogary updating ------------------------------------------
 const updateCatogary = asyncHandler(async (req, res) => {
     try {
         const id = req.body.id;
         const img = req.file ? req.file.filename : null; // Check if req.file is defined
-
-
-
         if (img) {
             await Catogary.findByIdAndUpdate(id, {
                 name: req.body.name,
                 discription: req.body.discription, // Use the description from the request body
                 image: req.file.filename
             }, { new: true })
-
-
-        } else {
+       } else {
             await Catogary.findByIdAndUpdate(id, {
                 name: req.body.name,
                 discription: req.body.discription,
 
             }, { new: true })
-
         }
-
-
-
         res.redirect('/api/admin/catogary')
-
-
-
-
-
-
     } catch (error) {
         console.log('error happence in catogaryController editCatogary function', error);
     }
 })
+//-----------------------------------------------------------
+
 
 
 
@@ -170,6 +177,12 @@ const unlistCatogary = asyncHandler(async (req, res) => {
         console.log('error happence in catogaryController unlistCatogary function', error);
     }
 })
+//-------------------------------------------------------------
+
+
+
+
+
 
 //-------------------list a catogary-----------------------
 const listCatogary = asyncHandler(async (req, res) => {
@@ -188,6 +201,9 @@ const listCatogary = asyncHandler(async (req, res) => {
 })
 
 //--------------------------------------------------------
+
+
+
 
 
 

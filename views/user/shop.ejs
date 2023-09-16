@@ -15,7 +15,7 @@
         <section class="mt-50 mb-50">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-11">
                         <div class="shop-product-fillter">
                             <div class="totall-product">
                                 <p> We found <strong class="text-brand">688</strong> items for you!</p>
@@ -66,55 +66,88 @@
                             <% if (product.length > 0) { %>
 
                                 <% for (let i = 0; i < product.length; i++) { %>
-                                      <!-- a single product div -->
-                            <div class="col-lg-3 col-md-4">
-                                <a href="/api/user/aProduct?id=<%= product[i].id %>"></a>
-                                <div class="product-cart-wrap mb-30">
-                                    <div class="product-img-action-wrap">
-                                        <div class="product-img product-img-zoom">
-                                            <a href="/api/user/aProduct?id=<%= product[i].id %>">
-                                                <img class="default-img" src="/admin/assets/imgs/catogary/<%= product[i].images[0] %>" alt="">
-                                                <img class="hover-img" src="/admin/assets/imgs/catogary/<%= product[i].images[0] %>" alt="">
-                                            </a>
+                                    <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                        <a href="/api/user/aProduct?id=<%= product[i].id %>">
+                                        <div class="product-cart-wrap mb-30">
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="/api/user/aProduct?id=<%= product[i].id %>">
+                                                        <img class="default-img" src="/admin/assets/imgs/catogary/<%= product[i].images[0] %>" alt="">
+                                                        <img class="hover-img" src="/admin/assets/imgs/catogary/<%= product[i].images[0] %>" alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn hover-up" href="#"><i class="fi-rs-shuffle"></i></a>
+                                                </div>
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="hot">Hot</span>
+                                                </div>
+                                            </div>
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="#"><%= product[i].catogary %></a>
+                                                </div>
+                                                <h2><a href="#"><%= product[i].title %></a></h2>
+                                                <div class="rating-result" title="90%">
+                                                    <span>
+                                                        <span><%= product[i].rating %> </span>
+                                                    </span>
+                                                </div>
+                                                <div class="product-price">
+                                                    <span>$<%=product[i].price  %> </span>
+                                                    <span class="old-price">$<%= Math.round(product[i].price+50) %></span>
+                                                    <a class="float-right" href="/api/user/addToCart?id=<%= product[i].id %>"><i class="fi-rs-shopping-bag-add "></i></a>
+                                                </div>
+                                                <div class="">
+                                                    <!-- Use a common class "add-to-cart-btn" for all add to cart buttons -->
+                                                    <!-- <a href="/api/user/addToCart?id=<%= product[i].id %>""><i class="fi-rs-shopping-bag-add"></i></a> -->
+                                                       
+                                                    <!-- <a aria-label="Add To Cart" class="action-btn hover-up add-to-cart-btn" href="/api/user/addToCart?id=<%= product[i].id %>"> <i class="fi-rs-shopping-bag-add"></i> </a> -->
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            </div>
                                         </div>
-                                        <div class="product-action-1">
-                                            <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-<i class="fi-rs-search"></i></a>
-                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                        </div>
-                                        <div class="product-badges product-badges-position product-badges-mrg">
-                                            <span class="hot">Hot</span>
-                                        </div>
+                                    </a>
                                     </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-category">
-                                            <a href="#"><%= product[i].catogary %></a>
-                                        </div>
-                                        <h2><a href="#"><%= product[i].title %>s</a></h2>
-                                        <div class="rating-result" title="90%">
-                                            <span>
-                                                <span><%= product[i].rating %></span>
-                                            </span>
-                                        </div>
-                                        <div class="product-price">
-                                            <span>$<%=product[i].price  %></span>
-                                            <span class="old-price">$<%= Math.round(product[i].price+50) %></span>
-                                        </div>
-                                        <div class="product-action-1 show">
-                                            <a aria-label="Add To Cart" class="action-btn hover-up" href="/api/user/cart"><i class="fi-rs-shopping-bag-add"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            </div>
-                            <!-- single product div end  -->
+
                                     <% } %>
                                     <% } else { %>
                                         <tr>
-                                            <td colspan="2">Product  not found</td>
+                                            <td colspan="2">Product not found</td>
                                         </tr>
                                         <% } %>
+    
 
 
                           
@@ -124,34 +157,21 @@
                            
                         </div>
                         <!--pagination-->
-                        <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item">
-                                        <a class="page-link" href="/api/user/shop?page=<%= page - 1 %>&limit=<%= limit %>">Previous</a>
-                                    </li>
-                                    <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
-                                        <span>&nbsp;</span> <!-- Add a space character for the gap -->
-                                    </li>
-                                    <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
-                                        <span>&nbsp;</span> <!-- Add a space character for the gap -->
-                                    </li>
-                                    <% for (let i = Math.max(1, page - 2); i <= Math.min(totalPages, page + 2); i++) { %>
-                                        <li class="page-item <%= i === page ? 'active' : '' %>">
-                                            <a class="page-link" href="/api/user/shop?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
-                                        </li>
-                                        <% if (i < Math.min(totalPages, page + 2)) { %>
-                                            <li class="page-item gap"> <!-- Add a class 'gap' for styling -->
-                                                <span>&nbsp;</span> <!-- Add a space character for the gap -->
-                                            </li>
-                                        <% } %>
-                                    <% } %>
-                                    <li class="page-item">
-                                        <a class="page-link" href="/api/user/shop?page=<%= page + 1 %>&limit=<%= limit %>">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        <% if (totalpages) { %>
+                            <div class="pagination">
+                              <% if (currentpage > 1) { %>
+                                <button class="btn btn-sm"><a href="?page=<%= currentpage - 1 %>">Previous</a></button>
+                              <% } %>
+                          
+                              <% for (let i = 1; i <= totalpages; i++) { %> <!-- Change the loop to start from 1 and go up to totalpages -->
+                                <button class="btn btn-sm"><a href="?page=<%= i %>" class="<%= i === currentpage ? 'active' : '' %>"><%= i %></a></button>
+                              <% } %>
+                          
+                              <% if (currentpage < totalpages) { %>
+                                <button class="btn btn-sm"><a href="?page=<%= currentpage + 1 %>">Next</a></button>
+                              <% } %>
+                            </div>
+                          <% } %>
                     </div>
                 </div>
             </div>

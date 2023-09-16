@@ -2,6 +2,9 @@ const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 
 
+
+
+
 ///admin login page rendering 
 const adminDashbordPage = asyncHandler(async (req, res) => {
     try {
@@ -12,6 +15,7 @@ const adminDashbordPage = asyncHandler(async (req, res) => {
     }
 })
 ///-----------------------------------------------------------
+
 
 
 
@@ -59,6 +63,9 @@ const adminVerifyLogin = asyncHandler(async (req, res) => {
 
 
 
+
+
+
 //aadmin logout funxtion ---------------------------------------
 const logout = asyncHandler(async (req, res) => {
     try {
@@ -70,6 +77,7 @@ const logout = asyncHandler(async (req, res) => {
     }
 })
 //---------------------------------------------------------------
+
 
 
 
@@ -95,6 +103,8 @@ const users = asyncHandler(async (req, res) => {
 
 
 
+
+
 //blok the user --------------------------
 const blokeUser = asyncHandler(async (req, res) => {
     try {
@@ -116,6 +126,9 @@ const blokeUser = asyncHandler(async (req, res) => {
     }
 });
 //--------------------------------------------------
+
+
+
 
 
 

@@ -6,6 +6,10 @@ const { response } = require('../routes/userRouter.js');
 const Oder=require('../models/oderModel.js')
 
 
+
+
+
+
 //-------renderin the cart page --------------------
 const loadCart = asyncHandler(async (req, res) => {
     try {
@@ -38,6 +42,8 @@ const loadCart = asyncHandler(async (req, res) => {
     }
 })
 //----------------------------------------------
+
+
 
 
 
@@ -97,6 +103,8 @@ const addToCart = asyncHandler(async (req, res) => {
 
 
 
+
+
 //-------------cart product quantity down-----------------------
 
 const testdic=asyncHandler(async(req,res)=>{
@@ -127,27 +135,26 @@ if(user){
         const updatedUser= await user.save();
         // const totalAmount = updatedUser.cart.reduce((total, item) => total + item.subTotal, 0);
         const totalAmount=product.price * (existingCartItem.quantity - 1)
-    
-        console.log('this is the toatl amoun fo that product ',totalAmount);
+   
+        // console.log('this is the toatl amoun fo that product ',totalAmount);
        
         // console.log('this is update user form the dcreiment side ',updatedUser);
         res.json({ status: true ,quantityInput:existingCartItem.quantity-1,total:totalAmount});
     }
-
 }
-      
-
-
-
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: false, error: "Server error" });
     }
 
 })
+//----------------------------------------------------------------------------------
 
 
 
+
+
+//----------------delete a cartitem-------------------------------------
 const deleteItemeCart=asyncHandler(async(req,res)=>{
     try {
       
@@ -171,18 +178,13 @@ if(userData){
 }else{
     //no user data found
 }
-
-       
-
-
-
-
         res.json({status:true})
         
     } catch (error) {
        console.log('errro happemce in cart ctrl in function deleteItemeCart'); 
     }
 })
+//--------------------------------------------------------------------------
 
 
 
@@ -191,8 +193,7 @@ if(userData){
 
 
 
-
-//=====================ajax ++++++-------------------
+//=====================ajax ++++++--Plus butten cart-----------------
 
 const testAjax = asyncHandler(async (req, res) => {
     
@@ -247,7 +248,7 @@ const testAjax = asyncHandler(async (req, res) => {
         return res.status(500).json({ status: false, error: "Server error" });
     }
 });
-// ...
+// ...-------------------------------------------------------------------------------------
 
 
 
@@ -255,41 +256,22 @@ const testAjax = asyncHandler(async (req, res) => {
 
 //----------------------delete all eemnts in the cart -----------------------
 const deleteCart=asyncHandler(async(req,res)=>{
-    try {
-   
+    try {  
      const  id=req.query.id
-   
-
 const userId = req.session.user;
     const user = await User.findById(userId);
-    const quantities = user.cart.map(cartItem => cartItem.quantity);
-
-
+    const quantities = user.cart.map(cartItem => cartItem.quantity)
 user.cart=[]
-
-
-
-
-    
-
     const updatedUser = await user.save();
     const order = await Oder.findById(id)
-
-    
-
-   
-
-
     res.render('oderDetails', { order ,user ,quantities});
     } catch (error) {
-        console.log('errro happemce in cart ctrl in function deletCart',error); 
-        
+        console.log('errro happemce in cart ctrl in function deletCart',error);     
     }
 
 })
-
-
 //------------------------------------------------------------------------------
+
 
 
 
@@ -302,13 +284,15 @@ user.cart=[]
 
 
 
-
 // In your routes or controllers, you can call these functions like this:
 // changeQty(userId, productId, change, index);
 // removeCartItem(userId, productId);
+
+
+
+
+
 //===================================exports------------------------
-
-
 module.exports = {
     loadCart,
     addToCart,
@@ -316,15 +300,10 @@ module.exports = {
     testdic,
     deleteItemeCart,
     deleteCart,
-    
-
-
-
-
-
-
-
 }
+
+
+
 
 
 // // If the product is already in the cart, update the existing entry

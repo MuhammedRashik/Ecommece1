@@ -5,7 +5,7 @@ const {isAdminAuth}=require('../middleware/adminAuth')
 const {loadLogin,adminVerifyLogin,logout,adminDashbordPage,users,blokeUser,unBlokeUser}=require('../controllers/adminCtrl')
 const {loadCatogary ,getAllCatogary ,addCatogary,deleteCatogary,listCatogary,unlistCatogary,editCatogary,updateCatogary}=require('../controllers/catogaryCtrl')
 const {getAllProducts ,addProduct ,createProduct,editProduct,productEdited ,aProductPage,listProduct,unlistProduct }=require('../controllers/productCtrl')
-const {orderListing}=require('../controllers/oderCtrl')
+const {orderListing,oderDetailsAdmin}=require('../controllers/oderCtrl')
 
 
 
@@ -72,6 +72,7 @@ router.post('/updateCatogary',upload.single('image'),updateCatogary)//after rend
 
 //----------------------order-----------------------------
 router.get('/orderListing',orderListing)//show all the orders to the admin page
+router.get('/oderDetailsadmin',oderDetailsAdmin)
 
 
 //------------------------------------------------------------
