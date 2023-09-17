@@ -119,7 +119,7 @@ const {filterSearch}=require('../controllers/filter.Ctrl')
 
 
 //------------------invoice ctrl-----------
-const {invoice}=require('../controllers/invoiceCtrl')
+const {invoice,invoices}=require('../controllers/invoiceCtrl')
 
 
 
@@ -211,6 +211,8 @@ router.post('/filterSearch',filterSearch)
 
 //-----------------invoice------------
 router.get('/invoice',invoice)
+router.get('/invoices',invoices)
+
 
 
 

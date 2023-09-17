@@ -6,7 +6,7 @@
                 <br>
                 <div>
                     <h2 class="content-title card-title ml-200">Invoice</h2>
-                    <p class="ml-200">Details for Order ID: 3453012</p>
+                    <p class="ml-200">Details for Order ID: <%= order.date %></p>
                 </div>
             </div>
             <div class="row justify-content-center" >
@@ -16,13 +16,13 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
                                     <span>
-                                        <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2022, 4:34PM</b>
+                                        <i class="material-icons md-calendar_today"></i> <b><%= order.createdOn.toLocaleDateString() %></b>
                                     </span> <br>
-                                    <small class="text-muted">Order ID: 3453012</small>
+                                    <small class="text-muted">Order ID:<%= order.date %> </small>
                                 </div>
                                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">                                   
-                                    <a class="btn btn-primary" href="#"> <i class="icon material-icons md-cloud_download mr-5"></i>Save PDF</a>
-                                    <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print mr-5"></i>Print</a>
+                                    <a class="btn btn-primary" href="/api/user/invoices?id=<%=order._id %>"> <i class="icon material-icons md-cloud_download mr-5"></i>Save PDF</a>
+
                                 </div>
                             </div>
                         </header> <!-- card-header end// -->
@@ -37,20 +37,20 @@
                                             <div class="col-md-12">
                                                 <div class="invoice-wrapper">
                                                     <div class="intro">
-                                                        Hi <strong>Steven Jobs</strong>,
+                                                        Hi <strong><%= order.address[0].fullName %></strong>,
                                                         <br>
-                                                        This is the receipt for a payment of <strong>$312.00</strong> (USD) for your works
+                                                        This is the receipt for a payment of <strong>$<%= order.totalPrice %></strong> (USD) for your works
                                                     </div>
                         
                                                     <div class="payment-info">
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <span>Payment No.</span>
-                                                                <strong>434334343</strong>
+                                                                <strong><%= order.date %></strong>
                                                             </div>
                                                             <div class="col-sm-6 text-end">
                                                                 <span>Payment Date</span>
-                                                                <strong>Jul 09, 2022 - 12:20 pm</strong>
+                                                                <strong><%= order.createdOn.toLocaleDateString() %></strong>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -60,30 +60,30 @@
                                                             <div class="col-sm-6">
                                                                 <span>Client</span>
                                                                 <strong>
-                                                                    Andres felipe posada
+                                                                    <%= order.address[0].fullName %>
                                                                 </strong>
                                                                 <p>
-                                                                    989 5th Avenue <br>
-                                                                    City of monterrey <br>
-                                                                    55839 <br>
-                                                                    USA <br>
+                                                                    <%= order.address[0].state %> <br>
+                                                                    City of <%= order.address[0].townCity %> <br>
+                                                                    <%= order.address[0].pinCode %><br>
+                                                                    <%= order.address[0].region %> <br>
                                                                     <a href="#">
-                                                                        jonnydeff@gmail.com
+                                                                        <%= user.username %>
                                                                     </a>
                                                                 </p>
                                                             </div>
                                                             <div class="col-sm-6 text-end">
                                                                 <span>Payment To</span>
                                                                 <strong>
-                                                                    Juan fernando arias
+                                                                    <%= order.address[0].fullName %>
                                                                 </strong>
                                                                 <p>
-                                                                    344 9th Avenue <br>
-                                                                    San Francisco <br>
-                                                                    99383 <br>
-                                                                    USA <br>
+                                                                    <%= order.address[0].state %><br>
+                                                                    <%= order.address[0].landmark %> <br>
+                                                                    <%= order.address[0].pinCode %> <br>
+                                                                    <%= order.address[0].region %> <br>
                                                                     <a href="#">
-                                                                        juanfer@gmail.com
+                                                                        <%= user.email %>
                                                                     </a>
                                                                 </p>
                                                             </div>
@@ -98,41 +98,29 @@
                                                                 <div class="col-md-5 text-end">Amount</div>
                                                             </div>
                                                         </div>
-                                                        <div class="items">
-                                                            <div class="row item">
-                                                                <div class="col-md-4 desc">
-                                                                    T-shirt blue, XXL size
+
+                                                        <% for (let i=0; i < order.product.length;i++) { %>
+                                                            <div class="items">
+                                                                <div class="row item">
+                                                                    <div class="col-md-4 desc">
+                                                                        <%= order.product[i].title %>     ,
+                                                                    </div>
+                                                                    <div class="col-md-3 qty">
+                                                                        <%= order.product[i].quantity %>
+                                                                    </div>
+                                                                    <div class="col-md-5 amount text-end">
+                                                                       $ <%= order.product[i].price %>
+
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-3 qty">
-                                                                    3
-                                                                </div>
-                                                                <div class="col-md-5 amount text-end">
-                                                                    $60.00
-                                                                </div>
-                                                            </div>
-                                                            <div class="row item">
-                                                                <div class="col-md-4 desc">
-                                                                    Winter jacket for men
-                                                                </div>
-                                                                <div class="col-md-3 qty">
-                                                                    1
-                                                                </div>
-                                                                <div class="col-md-5 amount text-end">
-                                                                    $20.00
-                                                                </div>
-                                                            </div>
-                                                            <div class="row item">
-                                                                <div class="col-md-4 desc">
-                                                                    Jeans wear for men
-                                                                </div>
-                                                                <div class="col-md-3 qty">
-                                                                    2
-                                                                </div>
-                                                                <div class="col-md-5 amount text-end">
-                                                                    $18.00
-                                                                </div>
-                                                            </div>
+                                                               
+
+                                                            <%}%>
+
+                                                        
+                                                            
                                                         </div>
+                                                        <br><br><br><br><br>
                                                         <div class="total text-end">
                                                             <p class="extra-notes">
                                                                 <strong>Extra Notes</strong>
@@ -140,23 +128,21 @@
                                                                 Thanks a lot.
                                                             </p>
                                                             <div class="field">
-                                                                Subtotal <span>$379.00</span>
+                                                                Subtotal <span>$<%= order.totalPrice %>  </span>
                                                             </div>
                                                             <div class="field">
                                                                 Shipping <span>$0.00</span>
                                                             </div>
-                                                            <div class="field">
-                                                                Discount <span>4.5%</span>
-                                                            </div>
+                                                           
                                                             <div class="field grand-total">
-                                                                Total <span>$312.00</span>
+                                                                Total <span>$<%= order.totalPrice %></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                         
                                                 <div class="footer">
-                                                    Copyright © 2022. company name
+                                                    @evara
                                                 </div>
                                             </div>
                                         
