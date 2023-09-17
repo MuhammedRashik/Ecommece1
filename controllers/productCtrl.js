@@ -107,6 +107,8 @@ const createProduct = asyncHandler(async (req, res) => {
                 color: products.color,
                 quantity: products.quantity,
                 catogary: products.catogary,
+                color:products.color,
+                size:products.size,
                 images: images,
             });
 
@@ -167,6 +169,7 @@ const productEdited = asyncHandler(async (req, res) => {
                 color: products.color,
                 quantity: products.quantity,
                 catogary: products.catogary,
+                size:products.size,
                 images: images,
             }, { new: true })
 

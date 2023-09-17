@@ -129,13 +129,14 @@ const oderPlaced=asyncHandler(async(req,res)=>{
 const allOderData = asyncHandler(async (req, res) => {
     try {
         const userId = req.session.user;
-        const orders = await Oder.find({ userId: userId });
+        const orders = await Oder.find({ userId: userId }).sort({ createdOn: -1 });
 
         // Create an array to store promises for populating product details
         const orderstitle = await Oder.find({ userId: userId }).populate({
             path: 'product.ProductId',
             select: 'title'
         });
+       
 
         const itemsperpage = 3;
         const currentpage = parseInt(req.query.page) || 1;
@@ -143,7 +144,7 @@ const allOderData = asyncHandler(async (req, res) => {
         const endindex = startindex + itemsperpage;
         const totalpages = Math.ceil(orders.length / 3);
         const currentproduct = orders.slice(startindex,endindex);
-
+      
        
         res.render('oderList', { orders:currentproduct,totalpages,currentpage });
     } catch (error) {
@@ -280,6 +281,7 @@ const oderDetailsAdmin=asyncHandler(async(req,res)=>{
        const order = await Oder.findById(orderId)
        const userId=order.userId
 
+  
        const user=await User.findById(userId)
      ;
 
@@ -297,13 +299,141 @@ const oderDetailsAdmin=asyncHandler(async(req,res)=>{
 
 
 
+
+
+
+//-------------------admin change the user orde status --------------------
+//---------------------------------------------------------------
+const changeStatusPending=asyncHandler(async(req,res)=>{
+    try {
+        const orderId = req.query.orderId
+        const order = await Oder.findByIdAndUpdate(orderId,{
+            status:'pending'
+        },{new:true})
+
+        if(order){
+            res.json({status:true})
+        }
+       
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function changeStatusPending',error); 
+        
+    }
+})
+//------------------------------------------------------------------------
+//---------------------------------------------------------------
+const changeStatusConfirmed=asyncHandler(async(req,res)=>{
+    try {
+        const orderId = req.query.orderId
+        const order = await Oder.findByIdAndUpdate(orderId,{
+            status:'conformed'
+        },{new:true})
+        if(order){
+            res.json({status:true})
+        }
+        
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function changeStatusConfirmed',error); 
+        
+    }
+})
+//------------------------------------------------------------------------
+
+//---------------------------------------------------------------
+const changeStatusShipped=asyncHandler(async(req,res)=>{
+    try {
+        const orderId = req.query.orderId
+        const order = await Oder.findByIdAndUpdate(orderId,{
+            status:'shipped'
+        },{new:true})
+        if(order){
+            res.json({status:true})
+        }
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function changeStatusShipped',error); 
+        
+    }
+})
+//------------------------------------------------------------------------
+
+//---------------------------------------------------------------
+const changeStatusDelivered=asyncHandler(async(req,res)=>{
+    try {
+        const orderId = req.query.orderId
+        const order = await Oder.findByIdAndUpdate(orderId,{
+            status:'delivered'
+        },{new:true})
+        if(order){
+            res.json({status:true})
+        }
+        
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function changeStatusDelivered',error); 
+        
+    }
+})
+//------------------------------------------------------------------------
+
+//---------------------------------------------------------------
+const changeStatusreturned=asyncHandler(async(req,res)=>{
+    try {
+        const orderId = req.query.orderId
+        const order = await Oder.findByIdAndUpdate(orderId,{
+            status:'returned'
+        },{new:true})
+        if(order){
+            res.json({status:true})
+        }
+        
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function changeStatusreturned',error); 
+        
+    }
+})
+//------------------------------------------------------------------------
+
+//---------------------------------------------------------------
+const changeStatusCanseled=asyncHandler(async(req,res)=>{
+    try {
+        const orderId = req.query.orderId
+        const order = await Oder.findByIdAndUpdate(orderId,{
+            status:'canceled'
+        },{new:true})
+        if(order){
+            res.json({status:true})
+        }
+        
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function changeStatusCanseled',error); 
+        
+    }
+})
+//------------------------------------------------------------------------
+
+
+
+
+///--------------------------------------------------------------------------
+
+
+
+
+
 module.exports = {
      oderPage,
      chekOut ,
-    oderPlaced ,
+     oderPlaced ,
     allOderData,
     oderDetails,
     canselOder,
     orderListing,
-    oderDetailsAdmin
+    oderDetailsAdmin,
+    changeStatusPending,
+    changeStatusConfirmed,
+    changeStatusShipped,
+    changeStatusDelivered,
+    changeStatusreturned,
+    changeStatusCanseled
+
+
 }

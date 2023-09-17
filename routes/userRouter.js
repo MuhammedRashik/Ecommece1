@@ -111,7 +111,15 @@ const {
 
 ///-----------filter ctrl-----
 const {filterSearch}=require('../controllers/filter.Ctrl')
+//-------------------------------------------
 
+
+
+
+
+
+//------------------invoice ctrl-----------
+const {invoice}=require('../controllers/invoiceCtrl')
 
 
 
@@ -197,9 +205,12 @@ router.get('/canselOrder',canselOder)//canselng a orde
 
 
 //------------filter the things ----------------------
-
 router.post('/filterSearch',filterSearch)
+//----------------------------------
 
+
+//-----------------invoice------------
+router.get('/invoice',invoice)
 
 
 

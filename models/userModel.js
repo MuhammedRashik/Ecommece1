@@ -108,6 +108,14 @@ const userSchema = new mongoose.Schema({
             type:Number,
             
         }
+    },
+    wishlist:{
+        type:Array,
+        ProductId:{
+            type:mongoose.Schema.Types.ObjectId,
+            required:true,
+            ref:"Product"
+        },
     }
         
    

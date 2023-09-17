@@ -17,13 +17,90 @@
                             <small class="text-muted">Order ID: 3453012</small>
                         </div>
                         <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" id="statusSelect">
-                                <option>Change status</option>
-                                <option>Confirmed</option>
-                                <option>Shipped</option>
-                                <option>Delivered</option>
-                            </select>
-                            <a class="btn btn-primary" onclick="hai()" href="#">Save</a>
+
+
+                            <% if (order.status) { %>
+
+
+                                <% if (order.status=='pending') { %>
+                                    <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" id="statusSelect">
+                                        <option>pending</option>
+                                        <option>Confirmed</option>
+                                        <option>Shipped</option>
+                                        <option>Delivered</option>
+                                        <option>Canseled</option>
+        
+        
+                                    </select>
+                                  <button class="btn btn-primary" onclick="statusChange()">Save</button>
+        
+    
+    
+    
+
+                                <% } else if(order.status=='conformed'){ %>
+                                    <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" id="statusSelect">
+                                      
+                                        <option>Confirmed</option>
+                                        <option>Shipped</option>
+                                        <option>Delivered</option>
+                                        <option>Canseled</option>
+        
+        
+                                    </select>
+                                  <button class="btn btn-primary" onclick="statusChange()">Save</button>
+        
+    
+    
+    
+                                <% } else if(order.status=='shipped'){ %>
+                                    <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" id="statusSelect">
+                                       
+                                        <option>Shipped</option>
+                                        <option>Delivered</option>
+                                        <option>Canseled</option>
+        
+        
+                                    </select>
+                                  <button class="btn btn-primary" onclick="statusChange()">Save</button>
+        
+    
+    
+    
+                                <% } else if(order.status=='delivered'){ %>
+                                   
+                                  <button class="btn btn-primary">Delivered</button>
+        
+
+                                <% } else if(order.status=='returned'){ %>
+                                  <button class="btn btn-primary">Returned</button>
+
+
+                                <% } else if(order.status=='canceled'){ %>
+
+                                  <button class="btn btn-primary">Cancelled</button>
+                                            
+                                <% } %>
+                                         
+                                          
+
+
+                                
+
+                                <% } else { %>
+                                    <tr>
+                                      <td colspan="2"><p>hai</p></td>
+                                    </tr>
+                                    <% } %>
+
+
+                           
+
+                          
+
+
+
+
                             <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
                         </div>
                     </div>
@@ -163,7 +240,7 @@
         </section>
         <script>
 
-
+///------------------function hai-------------------------
 function hai(){
     const selectElement = document.getElementById('statusSelect');
 
@@ -182,6 +259,117 @@ console.log('Selected Text:', selectedText);
 
 }
             // Get the select element by its ID
+//-------------------------function end hai------------------------
+
+
+//------function cahngeStatus ---------------------------
+
+function statusChange(){
+    var selectedStatus = document.getElementById("statusSelect").value;
+    if(!selectedStatus){
+        alert('no vall')
+    }else{
+        
+
+        if(selectedStatus=='pending'){
+
+            $.ajax({
+                url : '/api/admin/changeStatusPending?orderId=<%=order._id%>',
+                method:"get",
+                success: (response)=>{
+                    if(response.status){
+                        location.reload()
+                    }
+
+                }
+
+            })
+
+           
+           
+        }else if(selectedStatus=='Confirmed'){
+            $.ajax({
+                url : '/api/admin/changeStatusConfirmed?orderId=<%=order._id%>',
+                method:"get",
+                success: (response)=>{
+                    if(response.status){
+                        location.reload()
+                    }
+
+                }
+
+            })
+
+           
+         
+        }else if(selectedStatus=='Shipped'){
+            $.ajax({
+                url : '/api/admin/changeStatusShipped?orderId=<%=order._id%>',
+                method:"get",
+                success: (response)=>{
+                    if(response.status){
+                        location.reload()
+                    }
+
+                }
+
+            })
+
+          
+        }else if(selectedStatus=='Delivered'){
+            $.ajax({
+                url : '/api/admin/changeStatusDelivered?orderId=<%=order._id%>',
+                method:"get",
+                success: (response)=>{
+                    if(response.status){
+                        location.reload()
+                    }
+
+                }
+
+            })
+          
+            
+        }else if(selectedStatus=='returned'){
+            $.ajax({
+                url : '/api/admin/changeStatusreturned?orderId=<%=order._id%>',
+                method:"get",
+                success: (response)=>{
+                    if(response.status){
+                        location.reload()
+                    }
+
+                }
+
+            })
+
+           
+        }
+        else if(selectedStatus=='canceled'){
+            $.ajax({
+                url : '/api/admin/changeStatusCanseled?orderId=<%=order._id%>',
+                method:"get",
+                success: (response)=>{
+                    if(response.status){
+                        location.reload()
+                    }
+
+                }
+
+            })
+
+           
+        }
+
+
+
+
+    }
+}
+
+//-------------------change status end----------------
+
+
 
         </script>
         <%- include('footer') %>

@@ -14,13 +14,16 @@ const filterSearch=asyncHandler(async(req,res)=>{
         const product=await Product.find({
             catogary:{$regex:`${req.body.search}`,$options:'i'}
         })
-        // const product=await Product.find()
+        const itemsperpage = 6;
+        const currentpage = parseInt(req.query.page) || 1;
+        const startindex = (currentpage - 1) * itemsperpage;
+        const endindex = startindex + itemsperpage;
+        const totalpages = Math.ceil(product.length / 6);
+        const currentproduct = product.slice(startindex,endindex);
 
-        console.log('this is the produts i serched',product);
+        
 
-
-
-        res.render('filter')
+        res.render('filter',{product:currentproduct, totalpages,currentpage,})
         
     } catch (error) {
         console.log('Error happent in filter controller in filterSearch funttion',error);
