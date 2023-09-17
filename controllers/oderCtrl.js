@@ -247,7 +247,7 @@ const canselOder=asyncHandler(async(req,res)=>{
 
 const orderListing=asyncHandler(async(req,res)=>{
     try {
-        const orders= await Oder.find();
+        const orders= await Oder.find().sort({createdOn:-1});
         // console.log('this is orders',orders);
         const itemsperpage = 3;
         const currentpage = parseInt(req.query.page) || 1;

@@ -110,7 +110,14 @@ const {
 
 
 ///-----------filter ctrl-----
-const {filterSearch}=require('../controllers/filter.Ctrl')
+const {
+    filterSearch,
+    sizeFilter,
+    colorFilter,
+    priceFilter
+   
+
+}=require('../controllers/filter.Ctrl')
 //-------------------------------------------
 
 
@@ -206,6 +213,11 @@ router.get('/canselOrder',canselOder)//canselng a orde
 
 //------------filter the things ----------------------
 router.post('/filterSearch',filterSearch)
+router.get('/sizeFilter',sizeFilter)
+router.get('/colorFilter',colorFilter)
+router.get('/priceFilter',priceFilter)
+
+
 //----------------------------------
 
 

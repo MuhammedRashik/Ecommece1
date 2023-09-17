@@ -4501,11 +4501,19 @@ table .product-thumbnail img {
   padding-top: 0;
   border: 0;
 }
-
+.product-color-grey{
+  background: gray;
+}
 .product-color-red {
   background: #ff596d;
 }
+.product-color-Brown {
+  background: brown;
 
+}
+.product-color-silver {
+  background: silver;
+}
 .product-color-yellow {
   background: #ffdb33;
 }
@@ -4520,6 +4528,12 @@ table .product-thumbnail img {
 
 .product-color-cyan {
   background: #80e6ff;
+}
+.product-color-black{
+  background: black;
+}
+.product-color-cream{
+  background: wheat;
 }
 
 .product-color-green {

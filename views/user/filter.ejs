@@ -26,7 +26,7 @@
                                 <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
                                     <h5 class="mb-20">Categories</h5>
                                     <ul class="categor-list">
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Jacket</a>(125)</li>
+                                        <li class="cat-item text-muted"><a href="/api/user/filterb">all</a></li>
                                         <li class="cat-item text-muted"><a href="shop-grid-right.html">Jeans</a>(68)</li>
                                         <li class="cat-item text-muted"><a href="shop-grid-right.html">Sweatshirts</a>(284)</li>
                                         <li class="cat-item text-muted"><a href="shop-grid-right.html">Trousers</a>(274)</li>
@@ -36,7 +36,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
-                                    <h5 class="mb-20">Manufacturers</h5>
+                                    <h5 class="mb-20">Brand</h5>
                                     <ul class="categor-list">
                                         <li class="cat-item text-muted"><a href="shop-grid-right.html">Adidas</a>(125)</li>
                                         <li class="cat-item text-muted"><a href="shop-grid-right.html">Armani</a>(68)</li>
@@ -49,85 +49,38 @@
                                 </div>
                                 <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
                                     <h5 class="mb-20">Price range</h5>
-                                    <ul class="categor-list">
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">All</a></li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">$0.00 - $20.00 </a></li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">$20.00 - $40.00 </a></li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">$40.00 - $60.00 </a></li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">$60.00 - $80.00 </a></li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">$80.00 - $100.00 </a></li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">$100.00 - $200.00 </a></li>
-                                    </ul>
+<ul class="categor-list">
+    <li class="cat-item text-muted"><a href="/api/user/priceFilter?maxPrice=1000&price=0">$0.00 - $999.99</a></li>
+    <li class="cat-item text-muted"><a href="/api/user/priceFilter?maxPrice=2000&price=1000">$1000.00 - $1999.99</a></li>
+    <li class="cat-item text-muted"><a href="/api/user/priceFilter?maxPrice=3000&price=2000">$2000.00 - $2999.99</a></li>
+    <li class="cat-item text-muted"><a href="/api/user/priceFilter?maxPrice=4000&price=3000">$3000.00 - $3999.99</a></li>
+    <li class="cat-item text-muted"><a href="/api/user/priceFilter?maxPrice=5000&price=4000">$4000.00 - $4999.99</a></li>
+</ul>
+
                                 </div>
-                                <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
-                                    <h5 class="mb-20">By Tags</h5>
-                                    <ul class="categor-list">
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Cloth</a>(124)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Apple</a>(234)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Headphone</a>(657)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Music</a>(1221)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Dress</a>(455)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Trending</a>(1553)</li>
-                                    </ul>
-                                </div>
+                               
                                 <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
                                     <h5 class="mb-20">By Color</h5>
-                                    <ul class="list-filter color-filter">
-                                        <li><a href="#" data-color="Red"><span class="product-color-red"></span></a></li>
-                                        <li><a href="#" data-color="Yellow"><span class="product-color-yellow"></span></a></li>
-                                        <li class="active"><a href="#" data-color="White"><span class="product-color-white"></span></a></li>
-                                        <li><a href="#" data-color="Orange"><span class="product-color-orange"></span></a></li>
-                                        <li><a href="#" data-color="Cyan"><span class="product-color-cyan"></span></a></li>
-                                        <li><a href="#" data-color="Green"><span class="product-color-green"></span></a></li>
-                                        <li><a href="#" data-color="Purple"><span class="product-color-purple"></span></a></li>
-                                    </ul>
+<ul class="list-filter color-filter">
+    <li><a href="/api/user/colorFilter?color=Black" data-color="Black"><span class="product-color-black"></span></a></li>
+    <li><a href="/api/user/colorFilter?color=Grey" data-color="Grey"><span class="product-color-grey"></span></a></li>
+    <li class="active"><a href="/api/user/colorFilter?color=White" data-color="White"><span class="product-color-white"></span></a></li>
+    <li><a href="/api/user/colorFilter?color=silver" data-color="silver"><span class="product-color-silver"></span></a></li>
+    <li><a href="/api/user/colorFilter?color=cream" data-color="cream"><span class="product-color-cream"></span></a></li>
+    <li><a href="/api/user/colorFilter?color=Green" data-color="Green"><span class="product-color-green"></span></a></li>
+    <li><a href="/api/user/colorFilter?color=Red" data-color="Red"><span class="product-color-red"></span></a></li>
+    <li><a href="/api/user/colorFilter?color=Brown" data-color="Brown"><span class="product-color-Brown"></span></a></li>
+</ul>
+
                                     <h5 class="mb-15 mt-20">By Size</h5>
                                     <ul class="list-filter size-filter font-small">
-                                        <li><a href="#">S</a></li>
-                                        <li class="active"><a href="#">M</a></li>
-                                        <li><a href="#">L</a></li>
-                                        <li><a href="#">XL</a></li>
-                                        <li><a href="#">XXL</a></li>
-                                    </ul>
+                                        <li><a href="/api/user/sizeFilter?size=s">S</a></li>
+                                        <li class="active"><a href="/api/user/sizeFilter?size=m">M</a></li>
+                                        <li><a href="/api/user/sizeFilter?size=l">L</a></li>
+                                        <li><a href="/api/user/sizeFilter?size=xl">XL</a></li>
+                                    </ul
                                 </div>
-                                <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
-                                    <h5 class="mb-20">By Review</h5>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width:100%">
-                                            </div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (25)</span>
-                                    </div>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width:80%">
-                                            </div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (25)</span>
-                                    </div>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width:60%">
-                                            </div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (25)</span>
-                                    </div>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width:40%">
-                                            </div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (25)</span>
-                                    </div>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width:20%">
-                                            </div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (25)</span>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -219,41 +172,8 @@
                                                     <a class="float-right" href="/api/user/addToCart?id=<%= product[i].id %>"><i class="fi-rs-shopping-bag-add "></i></a>
                                                 </div>
                                                 <div class="">
-                                                    <!-- Use a common class "add-to-cart-btn" for all add to cart buttons -->
-                                                    <!-- <a href="/api/user/addToCart?id=<%= product[i].id %>""><i class="fi-rs-shopping-bag-add"></i></a> -->
-                                                       
-                                                    <!-- <a aria-label="Add To Cart" class="action-btn hover-up add-to-cart-btn" href="/api/user/addToCart?id=<%= product[i].id %>"> <i class="fi-rs-shopping-bag-add"></i> </a> -->
+                                                   
                                                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                             </div>
                                         </div>
                                     </a>
@@ -297,6 +217,115 @@
             </div>
         </section>
     </main>
+    <script>
+
+
+//-----------------------------filter by sizee -----------------------
+        // Get all list items under the 'size-filter' class
+const sizeItems = document.querySelectorAll(".size-filter li");
+// Loop through the list items and add click event listeners
+sizeItems.forEach((item) => {
+    item.addEventListener("click", (event) => {
+        event.preventDefault();
+        sizeItems.forEach((li) => {
+            li.classList.remove("active");
+        });
+        item.classList.add("active");
+        const size = item.querySelector("a").getAttribute("href").split("=")[1];
+        window.location.href=`/api/user/sizeFilter?size=${size}`
+    });
+});
+
+///------------------------------filter by size end -----------------------------------------
+
+
+
+
+
+
+
+//--------------------------filter by color------------------------
+// Get all list items under the 'color-filter' class
+const colorItems = document.querySelectorAll(".color-filter li");
+colorItems.forEach((item) => {
+    item.addEventListener("click", (event) => {
+        event.preventDefault();
+        colorItems.forEach((li) => {
+            li.classList.remove("active");
+        });
+        item.classList.add("active");
+        const color = item.querySelector("a").getAttribute("data-color");
+       window.location.href=`/api/user/colorFilter?color=${color}`    
+    });
+});
+//--------------------------filter by color- end -----------------------
+
+
+
+
+
+//-------------------------------filter by catogary---------------------------
+//-------------------------------filter by catogary end ---------------------------
+
+
+
+
+
+
+
+
+//------------------------filter by product name-------------------------------------
+//------------------------filter by product name-------------------------------------
+
+
+
+
+
+
+
+
+//-------------------------filter by price------------------------
+const priceItems = document.querySelectorAll(".categor-list li");
+
+// Loop through the list items and add click event listeners
+priceItems.forEach((item) => {
+    item.addEventListener("click", (event) => {
+        // Prevent the default behavior of the anchor tag
+        event.preventDefault();
+
+        // Get the href attribute from the anchor tag
+        const href = item.querySelector("a").getAttribute("href");
+
+        // Extract the query parameters from the href
+        const params = new URLSearchParams(href.split('?')[1]);
+
+        // Get the values of maxPrice and price
+        const maxPrice = params.get("maxPrice");
+        const price = params.get("price");
+
+        // Now you have both maxPrice and price values
+        console.log("maxPrice: " + maxPrice);
+        console.log("price: " + price);
+
+        // You can construct your new URL with these values
+        window.location.href = `/api/user/priceFilter?maxPrice=${maxPrice}&price=${price}`;
+
+        // You can perform any additional actions here based on the selected price
+    });
+});
+
+
+//-------------------------filter by price-end-----------------------
+
+//----------------------------------------------------------------
+
+
+
+
+
+
+
+    </script>
    
         <%- include('footer') %>
    
