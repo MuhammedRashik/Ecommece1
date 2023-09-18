@@ -99,20 +99,13 @@
                                                     <h5><a href="shop-product-full.html"><%= product[i].title %></a></h5> <span class="product-qty">x <%= user.cart[i].quantity %></span>
                                                 </td>
                                                 <td>$<%= product[i].price %></td>
-                                               
                                             </tr>
-                                              
-                        <% } %>
-
-                        <% } else { %>
-                            <div class="card-body">
-                                                          
-                                <p>No Product in your cart . Please add a product .</p>
-                                
-                           
-                        </div>
-                            <% } %>
-                                    
+                                        <% } %>
+                                    <% } else { %>
+                                        <div class="card-body">
+                                            <p>No Product in your cart . Please add a product .</p>
+                                        </div>
+                                    <% } %>
                                    
                                   
                                     <tr>
@@ -156,7 +149,10 @@
                             </div>
                         </div>
                         
-                        <button id="submitButten" class="btn btn-fill-out btn-block mt-30" onclick="placeOrder('<%= sum %>','<%= user._id %>',)">Place Order</button>
+                        <button id="submitButten" class="btn btn-fill-out btn-block mt-30" onclick="placeOrder('<%= sum %>','<%= user._id %>')">Place Order</button>
+
+                   
+
                     </div></div>
                     <div class="col-md-6">
                         <% if (user.address.length > 0) { %>
@@ -223,25 +219,20 @@
             </div>
         </section>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-     async  function  placeOrder(totalAmount,userId) {
-            // totalPrice
-            // size
-            // createdOn
-            // date
-            // product
-            // reason
-            // userId
-            // payment
-            // status
 
 
 
 
 
+
+async  function  placeOrder(totalAmount,userId) {
 //-=-==-==--=-=--==-=-=-=--===--=-=-=-=-=-=-=-=-=-=-=-=-=
 var address=$('.address:checked').val()
 var payment=$('.payment:checked').val()
+
+
 
 if(!payment){
     Swal.fire({
@@ -273,50 +264,162 @@ if(!payment){
                     createdOn:Date.now(),
                     date:Date.now(),
                    addressId:address,
-                    payment:selectedPaymentOption,
+                    payment:payment,
                   
                     
                 },
                 async:true,
                 success :function (response) {
-                    if(response.status){
+
+
+
+
+                    if (response.method == 'cod') {
+                        console.log("heloooooooooooooo");
                         Swal.fire({
-    title: 'ODER PLACED ',
-    text: 'Oder placed successfull !!',
-    icon: 'success',
-    timer: 2000
-  })
-                    
+                            title: "Order success",
+                            text: "order placed successfully",
+                            icon: "success",
+                            showCancelButton: true,
+                            confirmButtonText: "view orders",
+                            cancelButtonText: "continue shopping",
+                            reverseButtons: true
+                        })
+                        .then(function (result) {
+                            if (result.value) {
+                        location.href = '/api/user/allOderData'
+                            } else if (result.dismiss === "cancel") {
+                                location.href = '/api/user/allOderData'
+                            }
+                        });
+
+                    } else if (response.method == 'online') {
+    // Replace with your Razorpay API key
+    var razorpayApiKey = 'rzp_test_kkytoEMYHJ1dn3';
+
+    // Calculate the amount dynamically based on the total order amount (in paise)
+    var orderAmount = Math.round(totalAmount * 100);
+
+    // Define the Razorpay options
+    var options = {
+        "key": razorpayApiKey,
+        "amount": orderAmount, // Dynamically calculated amount
+        "currency": "INR",
+        "name": "Evara",
+        "description": "Order Payment",
+        "order_id": response.razorpayOrder.id, // Replace with actual order ID
+        "handler": function (response) {
+            verifyPayment(response);
+        },
+        "prefill": {
+            "name": "Customer Name", // Set to the customer's name
+            "email": "customer@example.com", // Set to the customer's email
+            "contact": "9000090000" // Set to the customer's contact number
+        },
+        "callback_url": "/your-server-callback-url", // Replace with your server's callback URL
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+
+    // Create a new Razorpay instance and open the payment dialog
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+
+
+                    } else {
+                        Swal.fire({
+                            title: 'Error Occured',
+                            text: "Can't process order error occured",
+                            icon: 'fail',
+                            timer: 5000
+                        })
+
                     }
-                    const id=response.oderId
-                    const qtyes=response.qty
-                   
-                  
-                   
-
-                    const url = `/api/user/deleteCart?id=${id}&qtyes=${qtyes}`;
-
-                        // Redirect to the constructed URL
-                        window.location.href = url;
-
                 }
             })
-    
- }
-
-
-
-            
-
-// alert('iam going to buy a mac')
-
-
-           
-            
+          function verifyPayment(order, payment) {
+                alert('0000')
+            $.ajax({
+                url: '/api/user/verifyPayment',
+                method: 'post',
+                data: {
+                    order,
+                    payment
+                },
+                success: (response) => {
+                    if (response.status) {
+                        Swal.fire({
+                            title: "Order success",
+                            text: "order placed successfully",
+                            icon: "success",
+                            showCancelButton: true,
+                            confirmButtonText: "view orders",
+                            cancelButtonText: "continue shopping",
+                            reverseButtons: true
+                        })
+                        .then(function (result) {
+                            if (result.value) {
+                        location.href = '/api/user'
+                            } else if (result.dismiss === "cancel") {
+                                location.href = '/api/user'
+                            }
+                        });
+                    } else {
+                        alert("Payment failed!" + response.errMsg)
+                    }
+                }
+            })
         }
+
+        
+
+
+//                     if(response.status){
+//                         Swal.fire({
+//     title: 'ODER PLACED ',
+//     text: 'Oder placed successfull !!',
+//     icon: 'success',
+//     timer: 2000
+//   })          
+//       }
+//                     const id=response.oderId
+//                     const qtyes=response.qty
+//                     const url = `/api/user/deleteCart?id=${id}&qtyes=${qtyes}`;
+//                         // Redirect to the constructed URL
+//                         window.location.href = url
+
+
+
+
+
+
+
+
+                }
+             
+ }  
      
 
 
     </script>
+
+
+
+
+
+<!-- ------------------------------------------payment with razorpay----------------------------- -->
+
+
+<script>
+   
+
+       
+
+   
+
+   
+</script>
     <%- include('footer') %>
     

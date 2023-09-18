@@ -3,6 +3,10 @@ const User = require("../models/userModel");
 const Product = require('../models/productModel.js');
 const Oder= require('../models/oderModel')
 const mongoose=require('mongoose')
+const Razorpay=require('razorpay')
+
+
+var instance = new Razorpay({ key_id:process.env.RAZORPAY_KEYID, key_secret: process.env.RAZORPAY_SECRETKEY })
 
 
 
@@ -103,7 +107,6 @@ const oderPlaced=asyncHandler(async(req,res)=>{
 
         })
          const oderDb = await oder.save()
-
          //-----------part that dicrese the qunatity od the cutent product --
          for (const orderedProduct of orderProducts) {
             const product = await Product.findById(orderedProduct.ProductId);
@@ -113,17 +116,52 @@ const oderPlaced=asyncHandler(async(req,res)=>{
                 await product.save();
             }
         }
-         //-------------------------------        
-    if(oderDb){
-        res.json({status:true,oderId:oderDb._id ,qty:cartItemQuantities})
+         //-------------------------------  
+         
+         if(oder.payment=='cod'){
+           console.log('yes iam the cod methord');
+            res.json({ payment: true, method: "cod", order: oderDb ,qty:cartItemQuantities,oderId:oderDb._id});
 
-    }
-      
+         }else if(oder.payment=='online'){
+           console.log('yes iam the razorpay methord');
+
+            const generatedOrder = await generateOrderRazorpay(oderDb._id, oderDb.totalPrice);
+            res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:oder._id,qty:cartItemQuantities});
+                        
+         }
+
+
+
+  
     } catch (error) {
         console.log('Error form oder Ctrl in the function oderPlaced', error);
         
     }
 })
+
+
+
+const generateOrderRazorpay = (orderId, total) => {
+    return new Promise((resolve, reject) => {
+        const options = {
+            amount: total * 100,  // amount in the smallest currency unit
+            currency: "INR",
+            receipt: String(orderId)
+        };
+        instance.orders.create(options, function (err, order) {
+            if (err) {
+                console.log("failed");
+                console.log(err);
+                reject(err);
+            } else {
+                console.log("Order Generated RazorPAY: " + JSON.stringify(order));
+                resolve(order);
+            }
+        });
+    })
+}
+
+
 
 //============================================================================
 
@@ -437,6 +475,68 @@ const changeStatusCanseled=asyncHandler(async(req,res)=>{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------payment razorpay------------------------
+const verifyPayment=asyncHandler(async(req,res)=>{
+    try {
+        console.log('iam here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+        verifyOrderPayment(req.body)
+                   
+                        console.log("Payment SUCCESSFUL");
+        
+        
+                        res.json({ status: true });
+        
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function verifyPayment',error); 
+        
+    }
+})
+
+
+const verifyOrderPayment = (details) => {
+        console.log("DETAILS : " + JSON.stringify(details));
+        return new Promise((resolve, reject) => { 
+            const crypto = require('crypto');
+            let hmac = crypto.createHmac('sha256', 'Ag95tYV92s1TcaDaz0Ix79A8')
+            hmac.update(details.payment.razorpay_order_id + '|' + details.payment.razorpay_payment_id);
+            hmac = hmac.digest('hex');
+            if (hmac == details.payment.razorpay_signature) {
+                console.log("Verify SUCCESS");
+                resolve();
+            } else {
+                console.log("Verify FAILED");
+                reject();
+            }
+        })
+    };
+
+
+
+
+
+//----------------------razorpay end------------------------
+
+
+
+
+
+
+
+
+
 ///--------------------------------------------------------------------------
 
 
@@ -457,7 +557,8 @@ module.exports = {
     changeStatusShipped,
     changeStatusDelivered,
     changeStatusreturned,
-    changeStatusCanseled
+    changeStatusCanseled,
+    verifyPayment
 
 
 }

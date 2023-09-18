@@ -100,7 +100,8 @@ const {
     oderPlaced,
     allOderData,
     oderDetails,
-    canselOder
+    canselOder,
+    verifyPayment
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
@@ -131,6 +132,14 @@ const {
     deleteWishlistItem
 
 }=require('../controllers/wishlistCtrl')
+
+//---------------------------
+
+
+
+const {
+confirmation
+}=require('../controllers/razorPayCtrl')
 
 
 
@@ -222,6 +231,7 @@ router.get('/allOderData',allOderData)//user get that spcific oder data
 // router.get('/orderTracking',oderTraking)
 router.get('/oderDetails',oderDetails)//user vist hisorders details
 router.get('/canselOrder',canselOder)//canselng a orde
+router.post('/verifyPayment',verifyPayment)
 //----------------------------------
 
 
