@@ -27,26 +27,25 @@
                                     <h5 class="mb-20">Categories</h5>
                                     <ul class="cat-list">
                                       
-                                        <li class="cat-item text-muted"><a href="/api/user/catogary?catogary=">Jeans</a>(68)</li>
-                                        <li class="cat-item text-muted"><a href="/api/user/catogary?catogary=">Sweatshirts</a>(284)</li>
-                                        <li class="cat-item text-muted"><a href="/api/user/catogary?catogary=">Trousers</a>(274)</li>
-                                        <li class="cat-item text-muted"><a href="/api/user/catogary?catogary=">Kitwears</a>(152)</li>
-                                        <li class="cat-item text-muted"><a href="/api/user/catogary?catogary=">Sportswear</a>(302)</li>
-                                        <li class="cat-item text-muted"><a href="/api/user/catogary?catogary=">Accessories</a>(168)</li>
+                                        <li class="cat-item text-muted"><a href="/api/user/CatogaryFilter?catogary=Men's Clothing">Men</a></li>
+                                        <li class="cat-item text-muted"><a href="/api/user/CatogaryFilter?catogary= Womon's Clothing">Wemon</a></li>
+                                        <li class="cat-item text-muted"><a href="/api/user/CatogaryFilter?catogary= Children's Clothing">Children</a></li>
+                                        <li class="cat-item text-muted"><a href="/api/user/CatogaryFilter?catogary=Athletic and Sportswear">Athletic and Sportswear</a></li>
+                                        <li class="cat-item text-muted"><a href="/api/user/CatogaryFilter?catogary=Accessories">Accessories</a></li>
+                      
                                     </ul>
                                 </div>
                                 <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
                                     <h5 class="mb-20">Brand</h5>
-                                    <ul class="categor-list">
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Adidas</a>(125)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Armani</a>(68)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Burberry</a>(274)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Chanel</a>(152)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Prada</a>(302)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Bootstrap</a>(32)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Helixx</a>(312)</li>
+                                    <ul class="catego-list">
+                                        <li class="cat-item text-muted"><a href="/api/user/brandFilter?brand=ZARA">ZARA</a></li>
+                                        <li class="cat-item text-muted"><a href="/api/user/brandFilter?brand=GUCCI">GUCCI</a></li>
+                                        <li class="cat-item text-muted"><a href="/api/user/brandFilter?brand=Allensolly">Allensolly</a></li>
+                                        <li class="cat-item text-muted"><a href="/api/user/brandFilter?brand=Addidas">Addidas</a></li>
+                                        <li class="cat-item text-muted"><a href="/api/user/brandFilter?brand=Zara Athleticz">Zara Athleticz</a></li>
                                     </ul>
                                 </div>
+                                
                                 <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
                                     <h5 class="mb-20">Price range</h5>
 <ul class="categor-list">
@@ -149,7 +148,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/api/user/addToList"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="#"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -278,6 +277,27 @@ colorItems.forEach((item) => {
 
 
 //------------------------filter by product brand  name-------------------------------------
+// Get all list items under the 'categor-list' class
+const brandItems = document.querySelectorAll(".catego-list li");
+
+// Loop through the list items and add click event listeners
+brandItems.forEach((item) => {
+    item.addEventListener("click", (event) => {
+        
+        // Prevent the default behavior of the anchor tag
+        event.preventDefault();
+
+        // Get the brand name from the clicked link
+        const brandName = item.querySelector("a").getAttribute("href").split("=")[1];
+
+        // Now 'brandName' contains the selected brand name
+        console.log("Selected brand: " + brandName);
+        
+        window.location.href=`/api/user/brandFilter?brand=${brandName}` 
+        // You can perform any additional actions here based on the selected brand
+    });
+});
+
 //------------------------filter by product brand  name-------------------------------------
 
 

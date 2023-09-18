@@ -114,7 +114,9 @@ const {
     filterSearch,
     sizeFilter,
     colorFilter,
-    priceFilter
+    priceFilter,
+    brandFilter,
+    CatogaryFilter
    
 
 }=require('../controllers/filter.Ctrl')
@@ -122,11 +124,23 @@ const {
 
 
 
+//-----------wishlistctrl----
+const {
+    Wishlist,
+    addToList,
+    deleteWishlistItem
+
+}=require('../controllers/wishlistCtrl')
+
 
 
 
 //------------------invoice ctrl-----------
-const {invoice,invoices}=require('../controllers/invoiceCtrl')
+const {
+    invoice,
+    invoices
+
+}=require('../controllers/invoiceCtrl')
 
 
 
@@ -216,6 +230,8 @@ router.post('/filterSearch',filterSearch)
 router.get('/sizeFilter',sizeFilter)
 router.get('/colorFilter',colorFilter)
 router.get('/priceFilter',priceFilter)
+router.get('/brandFilter',brandFilter)
+router.get('/CatogaryFilter',CatogaryFilter)
 
 
 //----------------------------------
@@ -224,8 +240,17 @@ router.get('/priceFilter',priceFilter)
 //-----------------invoice------------
 router.get('/invoice',invoice)
 router.get('/invoices',invoices)
+//==================================
 
 
+
+
+
+//---wishlist-------------------
+
+router.get('/Wishlist',Wishlist)
+router.get('/addToList',addToList)
+router.get('/deleteWishlistItem',deleteWishlistItem)
 
 
 //-----for test-----

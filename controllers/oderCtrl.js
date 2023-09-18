@@ -75,7 +75,9 @@ const oderPlaced=asyncHandler(async(req,res)=>{
           quantity: cartItem.quantity,
           price: cartItem.price, // Add the price of each product
         }));
-    
+      
+
+
         const orderProducts = productDetails.map(product => ({
           ProductId: product._id,
           price: product.price,
@@ -83,6 +85,8 @@ const oderPlaced=asyncHandler(async(req,res)=>{
           image:product.images[0],
           quantity: cartItemQuantities.find(item => item.ProductId.toString() === product._id.toString()).quantity,
         }));
+
+      
 
 
         // console.log('this the produxt that user by ',orderProducts);
@@ -100,17 +104,21 @@ const oderPlaced=asyncHandler(async(req,res)=>{
         })
          const oderDb = await oder.save()
 
-        
+         //-----------part that dicrese the qunatity od the cutent product --
+         for (const orderedProduct of orderProducts) {
+            const product = await Product.findById(orderedProduct.ProductId);
+         if (product) {
+                const newQuantity = product.quantity - orderedProduct.quantity;
+                product.quantity = Math.max(newQuantity, 0);        
+                await product.save();
+            }
+        }
+         //-------------------------------        
     if(oderDb){
         res.json({status:true,oderId:oderDb._id ,qty:cartItemQuantities})
 
     }
-     
-        
-        
-        
-        
-        
+      
     } catch (error) {
         console.log('Error form oder Ctrl in the function oderPlaced', error);
         
@@ -224,9 +232,25 @@ const canselOder=asyncHandler(async(req,res)=>{
 
         const orderId = req.query.orderId
         const order = await Oder.findByIdAndUpdate(orderId,{
-            status:'cancel'
+            status:'canceled'
         },{new:true})
         // console.log('thid id the odder',order);
+
+        for (const productData of order.product) {
+            const productId = productData.ProductId;
+            const quantity = productData.quantity;
+
+            // Find the corresponding product in the database
+            const product = await Product.findById(productId);
+
+            if (product) {
+               
+                product.quantity += quantity;
+
+              
+                await product.save();
+            }
+        }
 
      res.redirect('/api/user/allOderData')
 

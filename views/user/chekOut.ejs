@@ -137,24 +137,20 @@
                                 <h5>Payment</h5>
                             </div>
                             <div class="payment_option">
+                               
                                 <div class="custome-radio">
-                                    <input class="form-check-input"  type="radio" name="payment_option" id="DirectBankTranfer" checked="">
-                                    <label class="form-check-label" for="DirectBankTranfer" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
-                                    
-                                </div>
-                                <div class="custome-radio">
-                                    <input class="form-check-input"  type="radio" name="payment_option" id="CashOnDelivey" checked="">
+                                    <input class="form-check-input payment"  type="radio" value="cod" name="payment_option" id="CashOnDelivey" checked="">
                                     <label class="form-check-label" for="CashOnDelivey" data-bs-toggle="collapse" data-target="#CashOnDelivey" aria-controls="CashOnDelivey">Cash on Delivery</label>
                                    
                                 </div>
                                 <div class="custome-radio">
-                                    <input class="form-check-input"  type="radio" name="payment_option" id="ChekPayment" checked="">
-                                    <label class="form-check-label" for="ChekPayment" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Check Payment</label>
+                                    <input class="form-check-input payment"  type="radio" value="Wallet" name="payment_option" id="Wallet" checked="">
+                                    <label class="form-check-label" for="ChekPayment" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Wallet</label>
                                     
                                 </div>
                                 <div class="custome-radio">
-                                    <input class="form-check-input" required="" type="radio" name="payment_option" id="Paypal" checked="">
-                                    <label class="form-check-label" for="Paypal" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Paypal</label>
+                                    <input class="form-check-input payment" required="" value="online" type="radio" name="payment_option" id="Razorpay" checked="">
+                                    <label class="form-check-label" for="Razorpay" data-bs-toggle="collapse" data-target="#Razorpay" aria-controls="paypal">Razorpay</label>
                                    
                                 </div>
                             </div>
@@ -241,20 +237,24 @@
 
 
 
-//--------------------for geting with payment-----------------
-const paymentOptionElements = document.getElementsByName("payment_option");
-        let selectedPaymentOption = null;
-        for (const element of paymentOptionElements) {
-            if (element.checked) {
-                selectedPaymentOption = element.id;
-                break;
-            }
-        }
-        //===========================================
-//=================select adress--------------------
+
 
 //-=-==-==--=-=--==-=-=-=--===--=-=-=-=-=-=-=-=-=-=-=-=-=
 var address=$('.address:checked').val()
+var payment=$('.payment:checked').val()
+
+if(!payment){
+    Swal.fire({
+    title: ' NO PAYMENT FOUND!',
+    text: 'please select your Payemnt.',
+    icon: 'error',
+    timer: 3000,
+  
+
+  })
+
+}
+
  if(!address){
     Swal.fire({
     title: ' NO ADDRESS FOUND!',
