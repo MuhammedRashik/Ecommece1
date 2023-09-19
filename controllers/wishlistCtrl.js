@@ -1,32 +1,29 @@
 const asyncHandler=require('express-async-handler')
 const User=require('../models/userModel')
 const Product=require('../models/productModel')
-//----------aadd a product to the wish lisy ---------------
 
+
+
+
+
+//----------aadd a product to the wish lisy ---------------
 const addToList=asyncHandler(async(req,res)=>{
     try {
 
 const productId=req.query.id
-console.log('this is thapoduct id pase to wishlist',productId);
+
         const userId= req.session.user;
         const user=await User.findById(userId);
-
         if(user){
             const productAlreadyExist = user.wishlist.some(item => item.productId === productId);
-
             if(productAlreadyExist){
-console.log('this is thapoduct alredy exist',productAlreadyExist);
-
-                res.redirect('/api/user')
-            }else{
-            
+             res.json({status:false})
+            }else{         
                 user.wishlist.push({
                     productId:productId
                 })
-
              const updateduser=   await user.save()
-             res.redirect('/api/user')
-console.log(updateduser,"this is updated user");
+            res.json({status:true}) 
             }
         }else{
             console.log('threre is no user found ');
@@ -40,13 +37,13 @@ console.log(updateduser,"this is updated user");
 
 
 
-//-------------deldte a product in wishlist ---------------------
 
+
+//-------------deldte a product in wishlist ---------------------
 const deleteWishlistItem = asyncHandler(async (req, res) => {
     try {
         const prodId = req.query.id;
         const userId = req.session.user;
-
         const user = await User.findById(userId);
 
         if (user) {
@@ -71,11 +68,14 @@ const deleteWishlistItem = asyncHandler(async (req, res) => {
     }
 });
 
-
 //---------------------------------------------------------
 
-//-------------------load wihlist ------------------
 
+
+
+
+
+//-------------------load wihlist ------------------
 const Wishlist=asyncHandler(async(req,res)=>{
     try {
         const userId=req.session.user;
@@ -97,7 +97,7 @@ const Wishlist=asyncHandler(async(req,res)=>{
         
     }
 })
-
+//-------------------------------------------------------
 
 
 

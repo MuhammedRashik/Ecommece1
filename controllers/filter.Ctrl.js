@@ -31,12 +31,13 @@ const filterSearch=asyncHandler(async(req,res)=>{
         console.log('Error happent in filter controller in filterSearch funttion',error);
     }
 })
-
 //-----------------------------------------
 
 
-///-------------------------filter by size -------------------
 
+
+
+///-------------------------filter by size -------------------
 const sizeFilter=asyncHandler(async(req,res)=>{
     try {
         const size=req.query.size; 
@@ -53,8 +54,11 @@ const sizeFilter=asyncHandler(async(req,res)=>{
         
     }
 })
-
 //-----------------------------------------------------------------
+
+
+
+
 
 //-------------------------filter by coler-------------------------------
 const colorFilter=asyncHandler(async(req,res)=>{
@@ -76,9 +80,14 @@ const colorFilter=asyncHandler(async(req,res)=>{
 })
 //--------------------------------------------
 
+
+
+
+
+
 //-------------filter by -price ------------------
 
-const priceFilter=asyncHandler(async(req,res)=>{
+const priceFilter=asyncHandler(async(req,res)=>{  
     try {
 
         const price = req.query.price;
@@ -101,6 +110,11 @@ const priceFilter=asyncHandler(async(req,res)=>{
 })
 //-------------------------------------------------------
 
+
+
+
+
+
 //------------------filter by brand ----------------------------------
 const brandFilter=asyncHandler(async(req,res)=>{
     try {
@@ -122,6 +136,11 @@ const brandFilter=asyncHandler(async(req,res)=>{
 })
 //--------------------------------------------------------------------
 
+
+
+
+
+
 //-----------------------filter with catogary------------------
 
 const CatogaryFilter=asyncHandler(async(req,res)=>{
@@ -142,6 +161,11 @@ const CatogaryFilter=asyncHandler(async(req,res)=>{
         
     }
 })
+//------------------------------------------
+
+
+
+
 
 
 module.exports={

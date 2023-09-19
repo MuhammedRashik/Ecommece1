@@ -6,11 +6,11 @@ var oderSchema = new mongoose.Schema({
         required:true,
         type:Number
     },
-    size:{
-        type:String
+    size:{  
+        type:String 
     },
     createdOn:{
-        required:true,
+        required:true, 
         type:Date,
         default:Date.now
     },

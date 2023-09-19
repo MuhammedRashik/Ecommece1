@@ -1,33 +1,32 @@
-const isAuth = async(req,res,next)=>{
-    try {
-       if(req.session.isAuth){
-          next()
-       }
-       else{
-          res.redirect('/api/user/');
-       }
-    } catch (error) {
-       console.log(error.message)
+const { adminVerifyLogin } = require('../controllers/adminCtrl')
+const User=require('../models/userModel')
+const isLogged=((req,res,next)=>{
+   console.log('entered');
+    if(req.session.user){
+      console.log('success',req.session.user);
+        User.findById({_id:req.session.user}).lean()
+        .then((data)=>{
+         console.log(data,"this is userdata");
+            if(data.isBlocked==false){
+              next()
+            }else{
+                res.redirect('/api/user/logout')
+            }
+        })
+    }else{
+        res.redirect('/api/user')
     }
- }
- 
- const setUserVariable = (req, res, next) => {
-   res.locals.user = req.session.user || false; // Set 'user' based on the session
-   next();
-};
+})
 
-const isBloked=async(req,res,next)=>{
-   if(req.session.userBloked){
-      req.session.blockedMessage = "You are blocked by the admin.";
-      res.redirect('/api/user/logout')
-      // res.send('hai')
-      // res.redirect('/api/user/login')
-   }else{
-      next()
-   }
+const adminLoggedIn=((req,res,next)=>{
+    if(req.session.adminLoggedIn==true ){
+        next()
+    }else{
+        res.redirect('/admin/admin-login')
+    }
+})
+
+module.exports={
+    isLogged,
+    adminLoggedIn
 }
-
- 
- 
- module.exports = {isAuth, setUserVariable,isBloked}
-

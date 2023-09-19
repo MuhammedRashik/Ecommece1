@@ -275,23 +275,32 @@ if(!payment){
 
 
                     if (response.method == 'cod') {
-                        console.log("heloooooooooooooo");
-                        Swal.fire({
+                       alert('hai 1')
+                        
+                        $.ajax({
+                            url:'/api/user/deleteCart',
+                            method:'get',
+
+                            success:(response)=>{
+                                alert('hai 2')
+                                if(response.status){
+                                    alert('hai 3')
+                                    Swal.fire({
                             title: "Order success",
                             text: "order placed successfully",
                             icon: "success",
-                            showCancelButton: true,
-                            confirmButtonText: "view orders",
-                            cancelButtonText: "continue shopping",
-                            reverseButtons: true
+                            showConfirmButton: false,
+                            timer: 2000,
+                           
                         })
-                        .then(function (result) {
-                            if (result.value) {
-                        location.href = '/api/user/allOderData'
-                            } else if (result.dismiss === "cancel") {
-                                location.href = '/api/user/allOderData'
+                        alert('hai 4')
+                        location.href='/api/user/allOderData'
+
+                                }
+
                             }
-                        });
+                        })
+
 
                     } else if (response.method == 'online') {
     // Replace with your Razorpay API key
@@ -309,7 +318,9 @@ if(!payment){
         "description": "Order Payment",
         "order_id": response.razorpayOrder.id, // Replace with actual order ID
         "handler": function (response) {
+            console.log(response);
             verifyPayment(response);
+            
         },
         "prefill": {
             "name": "Customer Name", // Set to the customer's name
@@ -339,33 +350,42 @@ if(!payment){
                     }
                 }
             })
-          function verifyPayment(order, payment) {
-                alert('0000')
+          function verifyPayment(response) {
+                
             $.ajax({
                 url: '/api/user/verifyPayment',
                 method: 'post',
                 data: {
-                    order,
-                    payment
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_signature: response.razorpay_signature
                 },
                 success: (response) => {
                     if (response.status) {
-                        Swal.fire({
+                        $.ajax({
+                            url:'/api/user/deleteCart',
+                            method:'get',
+
+                            success:(response)=>{
+                                if(response.status){
+                                    Swal.fire({
                             title: "Order success",
                             text: "order placed successfully",
                             icon: "success",
-                            showCancelButton: true,
-                            confirmButtonText: "view orders",
-                            cancelButtonText: "continue shopping",
-                            reverseButtons: true
+                            showConfirmButton: false,
+                            timer: 2000,
+                           
                         })
-                        .then(function (result) {
-                            if (result.value) {
-                        location.href = '/api/user'
-                            } else if (result.dismiss === "cancel") {
-                                location.href = '/api/user'
+                        location.href='/api/user/allOderData'
+
+                                }
+
                             }
-                        });
+                        })
+
+                      
+                        
+                    
                     } else {
                         alert("Payment failed!" + response.errMsg)
                     }

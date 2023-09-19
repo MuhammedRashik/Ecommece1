@@ -6,6 +6,7 @@ const PORT=process.env.PORT || 5000
 const morgan=require('morgan');
 const flash = require('connect-flash');
 const session = require('express-session');
+const nocache=require('nocache')
 const dotenv=require('dotenv').config()
 const { dbConnect } = require('./config/conectDB');
 const mongodbSession=require('connect-mongodb-session')(session)
@@ -13,7 +14,7 @@ const store= new mongodbSession({
     uri:process.env.MONGO_URL,
     collection:"SessionDB",
 })
-const {setUserVariable}=require('./middleware/auth')
+
 dbConnect()
 
 
@@ -28,7 +29,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname,'public')));
 app.use(morgan("dev"))
 app.use(flash());
-
+app.use(nocache())
 
 app.use(session({
       secret:process.env.SESSION_SECRET_KEY,
@@ -41,7 +42,7 @@ app.use(session({
       store:store
     })
   );
-  app.use(setUserVariable)
+ 
 //-----------------user router --------------------
 const userRouter=require('./routes/userRouter')
 app.use('/api/user',userRouter)

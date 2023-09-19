@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="col-lg-7 col-md-6">
                                         <div class="single-slider-img single-slider-img-1">
-                                            <img class="animated" src="/user/assets/imgs/slider/slider-6.png" alt="">
+                                            <img class="animated" src="/admin/assets/imgs/catogary/<%= banner[0].image %>" alt=""  style="width: 1000px; height: 600px;"  >
                                         </div>
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                                     </div>
                                     <div class="col-lg-7 col-md-6">
                                         <div class="single-slider-img single-slider-img-1">
-                                            <img class="animated" src="/user/assets/imgs/slider/slider-7.png" alt="">
+                                            <img class="animated" src="/admin/assets/imgs/catogary/<%= banner[1].image %>" alt="" style="width: 1000px; height: 600px;" >
                                         </div>
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
                                                         </div>
                                                         <div class="product-action-1">
                                                             <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
+                                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="wishList('<%= product[i]._id %>')"><i class="fi-rs-heart"></i></a>
                                                             <a aria-label="Compare" class="action-btn hover-up" href="#"><i class="fi-rs-shuffle"></i></a>
                                                         </div>
                                                         <div class="product-badges product-badges-position product-badges-mrg">
@@ -189,7 +189,8 @@
                                                         <div class="product-price">
                                                             <span>$<%=product[i].price  %> </span>
                                                             <span class="old-price">$<%= Math.round(product[i].price+50) %></span>
-                                                            <a class="float-right" href="/api/user/addToCart?id=<%= product[i].id %>"><i class="fi-rs-shopping-bag-add "></i></a>
+                                                            <a class="float-right" onclick="addToCart('<%= product[i].id %>')" ><i class="fi-rs-shopping-bag-add "></i></a>
+                                                           
                                                         </div>
                                                         <div class="">
                                                             <!-- Use a common class "add-to-cart-btn" for all add to cart buttons -->
@@ -2253,4 +2254,61 @@
             }
         });
     </script>
+     <script>
+        function wishList(id){
+           $.ajax({
+               url:`/api/user/addToList?id=${id}`,
+               method:"get",
+               success:(response)=>{
+                   if(response.status){
+                      
+                   }else{
+                       Swal.fire({
+           title: 'ALREADY SELECTED!',
+           text: 'You already selected',
+           icon: 'error',
+           timer: 3000,
+         
+       
+         })
+                   }
+       
+               }
+           })
+       
+       
+       
+        }
+       
+           </script>
+
+           <script>
+            function addToCart(id){
+                $.ajax({
+                    url:`/api/user/addToCart?id=${id}`,
+                    method:"get",
+                    success: (response)=>{
+                        if(response.status){
+                            Swal.fire({
+  title: 'ADD TO CART',
+  text: 'Product Added to cart',
+  icon: 'success',
+  timer: 1000,
+  showConfirmButton: false, // This removes the button
+});
+                           
+                        }else{
+                            alert('errro')
+                        }
+
+                    }
+                })
+
+            }
+
+
+
+
+
+           </script>
     <%- include('footer') %>

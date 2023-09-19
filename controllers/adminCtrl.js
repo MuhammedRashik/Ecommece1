@@ -158,4 +158,12 @@ const unBlokeUser = asyncHandler(async (req, res) => {
 
 
 
-module.exports = { adminDashbordPage, loadLogin, adminVerifyLogin, logout, users, blokeUser, unBlokeUser }
+module.exports = { 
+    adminDashbordPage, 
+    loadLogin,
+    adminVerifyLogin,
+     logout, 
+    users,
+     blokeUser,
+     unBlokeUser
+     }

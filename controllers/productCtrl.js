@@ -8,12 +8,6 @@ const nodemon = require('nodemon');
 
 
 
-
-
-
-
-
-
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
         
@@ -50,19 +44,7 @@ const currentproduct = allProducts.slice(startindex,endindex);
 //--------------------------------------------------------------
 
 
-//-----displat all proct and rendering the products------------------
-// const getAllProducts = asyncHandler(async (req, res) => {
-//     try {
-//         const allProducts = await Product.find();
-//         req.session.Products = allProducts;
-//         res.render('product', { product: req.session.Products })
 
-//     } catch (error) {
-//         console.log('Error happence in product controller getAllProducts function', error);
-
-//     }
-// })
-//--------------------------------------------------------------------------------
 
 
 
@@ -218,25 +200,6 @@ const aProductPage = asyncHandler(async (req, res) => {
 
 //-------------------------------------------
 
-
-
-
-
-
-//=----------------render the shop page through index ------------------------
-
-// const shop=asyncHandler(async(req,res)=>{
-//     try {
-//         const product = await Product.find();
-
-//             res.render('shop',{product})
-
-
-//     } catch (error) {
-//         console.log('Error happence in product controller shop function', error);
-//     }
-// })
-//---------------------------------------------------------
 
 
 

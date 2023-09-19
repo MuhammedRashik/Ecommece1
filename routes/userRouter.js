@@ -1,11 +1,6 @@
 const express = require('express')
 const router = express();
 //-------------------------------------
-
-
-
-
-
 //-/////////////////////////////////////////-required-/////////////////////////////
 
 
@@ -15,6 +10,7 @@ const router = express();
 //---------multer----------
 const { upload } = require('../multer/multer')
 //-----------------------
+
 
 
 
@@ -50,13 +46,14 @@ const { loadIndex,
 
 
 
+
 //------------auth Midleware-------------
 const { 
-    isAuth,
-    isBloked 
+    isLogged
 
 } = require('../middleware/auth')
 //------------------------------------------
+
 
 
 
@@ -69,6 +66,7 @@ const {
 
 } = require('../controllers/productCtrl')
 //----------------------------------------------
+
 
 
 
@@ -93,6 +91,7 @@ const {
 
 
 
+
 //----------oderCtrl----------------
 const {
     oderPage,
@@ -105,6 +104,7 @@ const {
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
+
 
 
 
@@ -125,6 +125,9 @@ const {
 
 
 
+
+
+
 //-----------wishlistctrl----
 const {
     Wishlist,
@@ -137,10 +140,6 @@ const {
 
 
 
-const {
-confirmation
-}=require('../controllers/razorPayCtrl')
-
 
 
 
@@ -150,6 +149,10 @@ const {
     invoices
 
 }=require('../controllers/invoiceCtrl')
+
+
+
+
 
 
 
@@ -167,8 +170,10 @@ router.set('views', './views/user');
 
 
 
+
+
 //----------------user-----------------------------------
-router.get('/', loadIndex)//load the indexpage 
+router.get('/', isLogged,loadIndex)//load the indexpage 
 router.get('/login', loadSignIn)//load the sign in page 
 router.get('/register', loadSignUp)//load the signup page 
 router.post('/register', registerUser)//signup a user with data aand otp send 
@@ -180,29 +185,39 @@ router.post('/forgotEmailValid', forgotEmailValid)//email cheking forgot passwor
 router.post('/forgotPsdOTP', forgotPsdOTP)//otp send and chek
 router.post('/updatePassword', updatePassword)//if otp corect update the password
 router.get("/mobileOTP", mobileOTP) //mobile otp verification page do it later
-router.get('/profile', userProfile)//renderig profile
-router.get('/editProfile', editProfile)//rendering the user profile edit page
-router.post('/updateProfile', updateProfile)//updating the user profile--
-router.post('/addProficPic', upload.single('image'), addProficPic)
+//---------------------------------------------------------------
+
+
+
+
+
+
+//----------prifle--------------
+router.get('/profile',isLogged ,userProfile)//renderig profile
+router.get('/editProfile', isLogged,editProfile)//rendering the user profile edit page
+router.post('/updateProfile', isLogged,updateProfile)//updating the user profile--
+router.post('/addProficPic', isLogged,upload.single('image'), addProficPic)//user can add a profile picture 
 //----------------------------------------------------------
 
 
 
 
 
+
 //-----adress-----------------------------------------------
-router.post('/addAddress', addAddress)//post the adress add adres 
-router.get('/editAddress', loadEditAddress)//rendering the editaddrress page
-router.post("/editAddress", updateEditedAddress)//update a spesific address
-router.get('/deleteAddress', deleteAddress)//deleting a specific address
+router.post('/addAddress', isLogged,addAddress)//post the adress add adres 
+router.get('/editAddress', isLogged,loadEditAddress)//rendering the editaddrress page
+router.post("/editAddress", isLogged,updateEditedAddress)//update a spesific address
+router.get('/deleteAddress', isLogged,deleteAddress)//deleting a specific address
 //---------------------------------------------
 
 
 
 
 
+
 //-------------products--------------------------------------
-router.get('/aProduct', upload.single('images'), aProductPage)//rendering a single product page
+router.get('/aProduct', isLogged,upload.single('images'), aProductPage)//rendering a single product page
 router.get('/shop', shop)//rendering the shop page
 //------------------------ ---------                       
 
@@ -210,65 +225,70 @@ router.get('/shop', shop)//rendering the shop page
 
 
 
+
 //--------cart----------------------------------
-router.get('/cart', loadCart)//renderin the cart 
-router.get('/addToCart', addToCart)// adt a product to the cart
-router.post('/test',testAjax)//using ajax incrimet the quntity
-router.post('/testdic',testdic)//using ajx dicriment the quantity
-router.post('/deleteItemeCart',deleteItemeCart)//delete a product in the cart
-router.get('/deleteCart',deleteCart)//delete a item in cart
+router.get('/cart', isLogged,loadCart)//renderin the cart 
+router.get('/addToCart', isLogged,addToCart)// adt a product to the cart
+router.post('/test',isLogged,testAjax)//using ajax incrimet the quntity
+router.post('/testdic',isLogged,testdic)//using ajx dicriment the quantity
+router.post('/deleteItemeCart',isLogged,deleteItemeCart)//delete a product in the cart
+router.get('/deleteCart',isLogged,deleteCart)//delete a item in cart
 //-------------------------------------
 
 
 
 
 
+
 //-------oder--------------------
-router.get('/selectPaymentMethord',chekOut)//rendering the chekout page
-router.get('/oderPage',oderPage)//rendering the oder page
-router.post('/oderPlaced',oderPlaced)//confrming the order ans selet payment and address
-router.get('/allOderData',allOderData)//user get that spcific oder data
+router.get('/selectPaymentMethord',isLogged,chekOut)//rendering the chekout page
+router.get('/oderPage',isLogged,oderPage)//rendering the oder page
+router.post('/oderPlaced',isLogged,oderPlaced)//confrming the order ans selet payment and address
+router.get('/allOderData',isLogged,allOderData)//user get that spcific oder data
 // router.get('/orderTracking',oderTraking)
-router.get('/oderDetails',oderDetails)//user vist hisorders details
-router.get('/canselOrder',canselOder)//canselng a orde
-router.post('/verifyPayment',verifyPayment)
+router.get('/oderDetails',isLogged,oderDetails)//user vist hisorders details
+router.get('/canselOrder',isLogged,canselOder)//canselng a orde
+router.post('/verifyPayment',isLogged,verifyPayment)
 //----------------------------------
+
+
+
 
 
 //------------filter the things ----------------------
-router.post('/filterSearch',filterSearch)
-router.get('/sizeFilter',sizeFilter)
-router.get('/colorFilter',colorFilter)
-router.get('/priceFilter',priceFilter)
-router.get('/brandFilter',brandFilter)
-router.get('/CatogaryFilter',CatogaryFilter)
-
-
+router.post('/filterSearch',filterSearch)//filter seach bar by catogay main bar
+router.get('/sizeFilter',sizeFilter)///filtering the prudtc by size
+router.get('/colorFilter',colorFilter)//by coler
+router.get('/priceFilter',priceFilter)//by price
+router.get('/brandFilter',brandFilter)//by brand
+router.get('/CatogaryFilter',CatogaryFilter)//by catogary
 //----------------------------------
 
 
+
+
+
+
 //-----------------invoice------------
-router.get('/invoice',invoice)
-router.get('/invoices',invoices)
+router.get('/invoice',invoice)//renderin the invoice page
+router.get('/invoices',invoices)///user can douload invoice 
 //==================================
 
 
 
 
 
+
 //---wishlist-------------------
+router.get('/Wishlist',isLogged,Wishlist)//rendering the wishlist
+router.get('/addToList',isLogged,addToList)// add apriduct to the wish list
+router.get('/deleteWishlistItem',isLogged,deleteWishlistItem)//delete a item in wish list
+//------------------------------------
 
-router.get('/Wishlist',Wishlist)
-router.get('/addToList',addToList)
-router.get('/deleteWishlistItem',deleteWishlistItem)
 
 
-//-----for test-----
-// router.get('/testEjs',(req,res)=>{
-//     res.render('oderTraking')
-// })
 
-//----------------      
+
 
 module.exports = router
    

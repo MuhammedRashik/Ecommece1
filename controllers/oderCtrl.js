@@ -6,6 +6,9 @@ const mongoose=require('mongoose')
 const Razorpay=require('razorpay')
 
 
+
+
+
 var instance = new Razorpay({ key_id:process.env.RAZORPAY_KEYID, key_secret: process.env.RAZORPAY_SECRETKEY })
 
 
@@ -51,7 +54,7 @@ const chekOut = asyncHandler(async (req, res) => {
 })
 //---------------------------------------------------------------
 
-
+ 
 
 
 
@@ -120,13 +123,13 @@ const oderPlaced=asyncHandler(async(req,res)=>{
          
          if(oder.payment=='cod'){
            console.log('yes iam the cod methord');
-            res.json({ payment: true, method: "cod", order: oderDb ,qty:cartItemQuantities,oderId:oderDb._id});
+            res.json({ payment: true, method: "cod", order: oderDb ,qty:cartItemQuantities,oderId:user});
 
          }else if(oder.payment=='online'){
            console.log('yes iam the razorpay methord');
 
             const generatedOrder = await generateOrderRazorpay(oderDb._id, oderDb.totalPrice);
-            res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:oder._id,qty:cartItemQuantities});
+            res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:user,qty:cartItemQuantities});
                         
          }
 
@@ -138,9 +141,13 @@ const oderPlaced=asyncHandler(async(req,res)=>{
         
     }
 })
+//----------------------------------------------
 
 
 
+
+
+//------------grnerate the razorpay -----------------
 const generateOrderRazorpay = (orderId, total) => {
     return new Promise((resolve, reject) => {
         const options = {
@@ -160,17 +167,14 @@ const generateOrderRazorpay = (orderId, total) => {
         });
     })
 }
+//----------------------------------------------
 
-
-
-//============================================================================
 
 
 
 
 
 //--------------------------list the oder datas ------------------------
-
 
 const allOderData = asyncHandler(async (req, res) => {
     try {
@@ -232,6 +236,7 @@ const allOderData = asyncHandler(async (req, res) => {
 
 
 
+
 ///----------------orderdetails for user side-----------------
 
 const oderDetails=asyncHandler(async(req,res)=>{
@@ -256,8 +261,6 @@ const oderDetails=asyncHandler(async(req,res)=>{
 })
 
 //----------------------------------------------------------------------------------------
-
-
 
 
 
@@ -361,9 +364,6 @@ const oderDetailsAdmin=asyncHandler(async(req,res)=>{
 
 
 
-
-
-
 //-------------------admin change the user orde status --------------------
 //---------------------------------------------------------------
 const changeStatusPending=asyncHandler(async(req,res)=>{
@@ -383,6 +383,11 @@ const changeStatusPending=asyncHandler(async(req,res)=>{
     }
 })
 //------------------------------------------------------------------------
+
+
+
+
+
 //---------------------------------------------------------------
 const changeStatusConfirmed=asyncHandler(async(req,res)=>{
     try {
@@ -401,6 +406,11 @@ const changeStatusConfirmed=asyncHandler(async(req,res)=>{
 })
 //------------------------------------------------------------------------
 
+
+
+
+
+
 //---------------------------------------------------------------
 const changeStatusShipped=asyncHandler(async(req,res)=>{
     try {
@@ -417,6 +427,11 @@ const changeStatusShipped=asyncHandler(async(req,res)=>{
     }
 })
 //------------------------------------------------------------------------
+
+
+
+
+
 
 //---------------------------------------------------------------
 const changeStatusDelivered=asyncHandler(async(req,res)=>{
@@ -436,6 +451,11 @@ const changeStatusDelivered=asyncHandler(async(req,res)=>{
 })
 //------------------------------------------------------------------------
 
+
+
+
+
+
 //---------------------------------------------------------------
 const changeStatusreturned=asyncHandler(async(req,res)=>{
     try {
@@ -453,6 +473,11 @@ const changeStatusreturned=asyncHandler(async(req,res)=>{
     }
 })
 //------------------------------------------------------------------------
+
+
+
+
+
 
 //---------------------------------------------------------------
 const changeStatusCanseled=asyncHandler(async(req,res)=>{
@@ -479,41 +504,34 @@ const changeStatusCanseled=asyncHandler(async(req,res)=>{
 
 
 
-
-
-
-
-
-
-
-
-
 //-----------------------payment razorpay------------------------
 const verifyPayment=asyncHandler(async(req,res)=>{
     try {
-        console.log('iam here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+       
         verifyOrderPayment(req.body)
-                   
-                        console.log("Payment SUCCESSFUL");
-        
-        
-                        res.json({ status: true });
+        res.json({ status: true });
         
     } catch (error) {
         console.log('errro happemce in cart ctrl in function verifyPayment',error); 
         
     }
 })
+//----------------------------------------------
 
+
+
+
+
+//---------------verify the payment  razorpay-------------------------------
 
 const verifyOrderPayment = (details) => {
         console.log("DETAILS : " + JSON.stringify(details));
         return new Promise((resolve, reject) => { 
             const crypto = require('crypto');
-            let hmac = crypto.createHmac('sha256', 'Ag95tYV92s1TcaDaz0Ix79A8')
-            hmac.update(details.payment.razorpay_order_id + '|' + details.payment.razorpay_payment_id);
+            let hmac = crypto.createHmac('sha256', process.env.RAZORPAY_SECRETKEY)
+            hmac.update(details.razorpay_order_id + '|' + details.razorpay_payment_id);
             hmac = hmac.digest('hex');
-            if (hmac == details.payment.razorpay_signature) {
+            if (hmac == details.razorpay_signature) {
                 console.log("Verify SUCCESS");
                 resolve();
             } else {
@@ -523,16 +541,7 @@ const verifyOrderPayment = (details) => {
         })
     };
 
-
-
-
-
 //----------------------razorpay end------------------------
-
-
-
-
-
 
 
 
@@ -540,7 +549,7 @@ const verifyOrderPayment = (details) => {
 ///--------------------------------------------------------------------------
 
 
-
+   
 
 
 module.exports = {

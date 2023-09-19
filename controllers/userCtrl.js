@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { use } = require("passport");
 const Oder=require('../models/oderModel')
-
+const Banner=require('../models/bannerModel')
 
 
 
@@ -18,10 +18,11 @@ const loadIndex = asyncHandler(async (req, res) => {
     try {
         const user = req.session.user;
         const product = await Product.find();
+        const banner= await Banner.find()
         const pr = product.status == true;
         console.log(pr);
         req.session.Product = product;
-        res.render("index", { user, product });
+        res.render("index", { user, product ,banner});
     } catch (error) {
         console.log("Error happens in userController loadIndex function:", error);
     }
@@ -157,11 +158,11 @@ const userLogin = asyncHandler(async (req, res) => {
 const userLogout = async (req, res) => {
     try {
         req.session.user = null;
-        req.session.blockedMessage = "You are logged out."; // Set a message for logout
+        
         res.redirect("/api/user");
     } catch (error) {
         console.log("Error happens in userControler userLogout function:", error);
-        res.json({ mes: "error in user logout catch" });
+       
     }
 };
 //-------------------------------------------

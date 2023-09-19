@@ -1,11 +1,99 @@
 const express=require('express');
 const router=express();
+//----------------------------------------------
 
-const {isAdminAuth}=require('../middleware/adminAuth')
-const {loadLogin,adminVerifyLogin,logout,adminDashbordPage,users,blokeUser,unBlokeUser}=require('../controllers/adminCtrl')
-const {loadCatogary ,getAllCatogary ,addCatogary,deleteCatogary,listCatogary,unlistCatogary,editCatogary,updateCatogary}=require('../controllers/catogaryCtrl')
-const {getAllProducts ,addProduct ,createProduct,editProduct,productEdited ,aProductPage,listProduct,unlistProduct }=require('../controllers/productCtrl')
-const {orderListing,oderDetailsAdmin,changeStatusCanseled,changeStatusConfirmed,changeStatusDelivered,changeStatusPending,changeStatusShipped,changeStatusreturned,}=require('../controllers/oderCtrl')
+
+
+
+
+//---------------auth middlware-------------------------------
+const {
+    isAdminAuth
+}=require('../middleware/adminAuth')
+//----------------------------------------------
+
+
+
+
+
+//---------------------admin ctrl-------------------------
+const {
+    loadLogin,
+    adminVerifyLogin,
+    logout,
+    adminDashbordPage,
+    users,
+    blokeUser,
+    unBlokeUser
+}=require('../controllers/adminCtrl')
+//----------------------------------------------
+
+
+
+
+
+//-----------------catogary ctrl-----------------------------
+const {
+    loadCatogary ,
+    getAllCatogary ,
+    addCatogary,
+    deleteCatogary,
+    listCatogary,
+    unlistCatogary,
+    editCatogary,
+    updateCatogary
+}=require('../controllers/catogaryCtrl')
+//----------------------------------------------
+
+
+
+
+
+//-------------------product ctrl---------------------------
+const {
+    getAllProducts ,
+    addProduct ,
+    createProduct,
+    editProduct,
+    productEdited ,
+    aProductPage,
+    listProduct,
+    unlistProduct
+ }=require('../controllers/productCtrl')
+//----------------------------------------------
+
+
+
+
+
+//-----------------order ctrl-----------------------------
+const {
+    orderListing,
+    oderDetailsAdmin,
+    changeStatusCanseled,
+    changeStatusConfirmed,
+    changeStatusDelivered,
+    changeStatusPending,
+    changeStatusShipped,
+    changeStatusreturned,
+}=require('../controllers/oderCtrl')
+//----------------------------------------------
+
+
+
+
+
+//-------------banner------------
+const {
+    banner,
+    addNewBanner,
+    createBanner,
+    editBanner,
+    updateBanner,
+    deleteBanner
+
+
+}=require('../controllers/bannerCtrl')
 
 
 
@@ -19,9 +107,14 @@ router.set('views','./views/admin');
 
 
 
+
+
 //----------multer setting---------------
-const {upload}=require('../multer/multer')
+const {
+    upload
+}=require('../multer/multer')
 //----------------------------------------
+
 
 
 
@@ -36,6 +129,7 @@ router.get('/users',users)//rendering users page
 router.get('/block',blokeUser)//admin bloking a user 
 router.get('/unblock',unBlokeUser)//admin unbloking a user 
 //--------------------------------------------------
+
 
 
 
@@ -56,6 +150,7 @@ router.get('/listProduct',listProduct)// listing tht product
 
 
 
+
 //-------------catogary-----------------------------------
 router.get('/catogary',getAllCatogary)//rendering catogary page
 router.post('/addCatogary',upload.single('image'),addCatogary)//ading a new catogory to the data bsae and show it
@@ -70,6 +165,7 @@ router.post('/updateCatogary',upload.single('image'),updateCatogary)//after rend
 
 
 
+
 //----------------------order-----------------------------
 router.get('/orderListing',orderListing)//show all the orders to the admin page
 router.get('/oderDetailsadmin',oderDetailsAdmin)//serching the and filtering dt
@@ -79,22 +175,18 @@ router.get('/changeStatusShipped',changeStatusShipped)
 router.get('/changeStatusDelivered',changeStatusDelivered)
 router.get('/changeStatusreturned',changeStatusreturned)
 router.get('/changeStatusCanseled',changeStatusCanseled)
-
- 
 //------------------------------------------------------------
 
 
 
-//===============testing ejs ============
-// router.get('/testEjs',(req,res)=>{
-//     res.render('oderList')
-// })
-
-//------------------------
 
 
-
-
-
+//--------------------------banner-----------------------------------
+router.get('/banner',banner)
+router.get('/addNewBanner',addNewBanner)
+router.post('/createBanner',upload.single('image'),createBanner)
+router.get('/editBanner',editBanner)
+router.post('/updateBanner',upload.single('image'),updateBanner)
+router.get("/deleteBanner",deleteBanner)
 
 module.exports=router

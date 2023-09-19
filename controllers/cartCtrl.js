@@ -90,7 +90,7 @@ const addToCart = asyncHandler(async (req, res) => {
             }
         }
 
-        res.redirect('/api/user');
+       res.json({status:true})
     } catch (error) {
         console.log('Error occurred in cart controller addToCart function', error);
         // Handle the error and possibly send an error response to the client
@@ -191,8 +191,6 @@ if(userData){
 
 
 
-
-
 //=====================ajax ++++++--Plus butten cart-----------------
 
 const testAjax = asyncHandler(async (req, res) => {
@@ -257,14 +255,15 @@ const testAjax = asyncHandler(async (req, res) => {
 //----------------------delete all eemnts in the cart -----------------------
 const deleteCart=asyncHandler(async(req,res)=>{
     try {  
-     const  id=req.query.id
+     
+   
 const userId = req.session.user;
     const user = await User.findById(userId);
-    const quantities = user.cart.map(cartItem => cartItem.quantity)
+    
 user.cart=[]
     const updatedUser = await user.save();
-    const order = await Oder.findById(id)
-    res.render('oderDetails', { order ,user ,quantities});
+   console.log('this sis updated user',updatedUser);
+    res.json({status:true})
     } catch (error) {
         console.log('errro happemce in cart ctrl in function deletCart',error);     
     }
@@ -272,21 +271,6 @@ user.cart=[]
 })
 //------------------------------------------------------------------------------
 
-
-
-
-
-
-/////-------------------------------oderdetails page -----------------------------
-
-
-
-
-
-
-// In your routes or controllers, you can call these functions like this:
-// changeQty(userId, productId, change, index);
-// removeCartItem(userId, productId);
 
 
 
