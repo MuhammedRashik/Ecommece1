@@ -1,5 +1,6 @@
 const express=require('express');
 const router=express();
+
 //----------------------------------------------
 
 
@@ -58,7 +59,8 @@ const {
     productEdited ,
     aProductPage,
     listProduct,
-    unlistProduct
+    unlistProduct,
+    deleteSingleImage
  }=require('../controllers/productCtrl')
 //----------------------------------------------
 
@@ -96,6 +98,10 @@ const {
 }=require('../controllers/bannerCtrl')
 
 
+
+
+
+const {bannerCrop}=require('../sharp/imageCrope')
 
 
 
@@ -144,6 +150,7 @@ router.get('/editProduct',editProduct)//rendering a spesific proct edit page
 router.post('/productEdited',upload.array('images', 12),productEdited)//after editing update thta data to db
 router.get('/unlistProduct',unlistProduct)// unlisting tht prduct
 router.get('/listProduct',listProduct)// listing tht product
+router.get('/deleteSingleImage',deleteSingleImage)
 //--------------------------------------------------------
  
 
@@ -184,9 +191,9 @@ router.get('/changeStatusCanseled',changeStatusCanseled)
 //--------------------------banner-----------------------------------
 router.get('/banner',banner)
 router.get('/addNewBanner',addNewBanner)
-router.post('/createBanner',upload.single('image'),createBanner)
+router.post('/createBanner',upload.single('image'),bannerCrop,createBanner)
 router.get('/editBanner',editBanner)
-router.post('/updateBanner',upload.single('image'),updateBanner)
+router.post('/updateBanner',upload.single('image'),bannerCrop,updateBanner)
 router.get("/deleteBanner",deleteBanner)
 
 module.exports=router

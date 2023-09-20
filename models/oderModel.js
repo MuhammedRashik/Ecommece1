@@ -1,5 +1,9 @@
 const mongoose = require('mongoose'); // Erase if already required
 
+
+
+
+
 // Declare the Schema of the Mongo model
 var oderSchema = new mongoose.Schema({
     totalPrice:{
@@ -46,6 +50,10 @@ var oderSchema = new mongoose.Schema({
     }
     
 });
+
+
+
+
 
 //Export the model
 module.exports = mongoose.model('Oder', oderSchema);

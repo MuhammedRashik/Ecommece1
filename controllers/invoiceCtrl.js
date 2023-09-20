@@ -22,7 +22,7 @@ console.log('this is order dtaa <<<<<',order,user);
 
 
 if (order){
-    res.render('invoice',{order})
+    res.render('invoice',{order,user})
 }
         
     } catch (error) {

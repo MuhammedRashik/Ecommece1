@@ -283,6 +283,39 @@ const listProduct = asyncHandler(async (req, res) => {
 
 
 
+
+//----------------------dete a single picture -------------------
+
+const deleteSingleImage = asyncHandler(async (req, res) => {
+    try {
+        console.log(req.query);
+        const id = req.query.id;
+        const imageToDelete = req.query.img; 
+
+        
+        const product = await Product.findByIdAndUpdate(id, {
+            $pull: { images: imageToDelete }
+        });
+
+        console.log('this is theupdtaed products',product);
+        
+      res.redirect(`/api/admin/editProduct?id=${product._id}`)
+
+    } catch (error) {
+        console.log('Error occurred in categoryController deleteSingleImage function', error);
+    
+       
+    }
+});
+
+
+
+
+
+
+
+
+
 module.exports = {
     getAllProducts,
     addProduct,
@@ -292,5 +325,6 @@ module.exports = {
     aProductPage,
     shop,
     listProduct,
-    unlistProduct
+    unlistProduct,
+    deleteSingleImage
 }

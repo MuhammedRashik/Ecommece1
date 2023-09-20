@@ -122,11 +122,35 @@
                                
                             </div> <!-- col.// -->
                         </div> <!-- .row end// -->
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h6>6. Images</h6>
+                            </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+                            <% for (let i = 0; i < product.images.length; i++) { %>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <div class="col-12"> <td> <img class="rounded"  style="width: 50px; height: 60px;" src="/admin/assets/imgs/catogary/<%= product.images[i] %>" alt="image"></td></div>
+                                    <td><a href="/api/admin/deleteSingleImage?img=<%= product.images[i] %>&id=<%=product._id %>"><span class="badge rounded-pill alert-danger">Delete</span></a></td>
+                                </div>
+                               
+                            </div> <!-- col.// -->
+                            <% } %>
+
+
+                        </div> <!-- .row end// -->
                     </div>
                 </div>
             </div>
         </div>
        
     </form>
+  
 </section> <!-- content-main end// -->
         <%- include('footer') %>

@@ -20,7 +20,7 @@ const loadIndex = asyncHandler(async (req, res) => {
         const product = await Product.find();
         const banner= await Banner.find()
         const pr = product.status == true;
-        console.log(pr);
+       
         req.session.Product = product;
         res.render("index", { user, product ,banner});
     } catch (error) {

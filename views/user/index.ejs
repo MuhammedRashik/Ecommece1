@@ -3,55 +3,53 @@
   
                
     <main class="main">
+        
+        
         <section class="home-slider position-relative mb-30">
             <div class="container">
-                <div class="home-slide-cover bg-grey-10 mt-30">
+                <div class="home-slide-cover mt-30">
+                    
                     <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
-                        <div class="single-hero-slider single-animation-wrap">
-                            <div class="container">
-                                <div class="row align-items-center slider-animated-1">
-                                    <div class="col-lg-5 col-md-6">
-                                        <div class="hero-slider-content-2">
-                                            <h4 class="animated">Trade-In Offer</h4>
-                                            <h3 class="animated fw-900">Supper Value Deals</h3>
-                                            <h2 class="animated fw-900 text-brand">On All Products</h2>
-                                            <p class="animated">Save more with coupons & up to 70% off</p>
-                                            <a class="animated btn btn-brush btn-brush-3" href="shop-product-right.html" tabindex="0"> Shop Now </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7 col-md-6">
-                                        <div class="single-slider-img single-slider-img-1">
-                                            <img class="animated" src="/admin/assets/imgs/catogary/<%= banner[0].image %>" alt=""  style="width: 1000px; height: 600px;"  >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="single-hero-slider single-animation-wrap">
-                            <div class="container">
-                                <div class="row align-items-center slider-animated-1">
-                                    <div class="col-lg-5 col-md-6">
-                                        <div class="hero-slider-content-2">
-                                            <h4 class="animated">Hot promotions</h4>
-                                            <h3 class="animated fw-900">Fashion Trending</h3>
-                                            <h2 class="animated fw-900 text-brand">Great Collection</h2>
-                                            <p class="animated">Save more with coupons & up to 20% off</p>
-                                            <a class="animated btn btn-brush btn-brush-1" href="shop-product-right.html" tabindex="0"> Get It Now </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7 col-md-6">
-                                        <div class="single-slider-img single-slider-img-1">
-                                            <img class="animated" src="/admin/assets/imgs/catogary/<%= banner[1].image %>" alt="" style="width: 1000px; height: 600px;" >
+                        
+                        <% for (let i = 0; i < banner.length; i++) { %>
+
+                            <div class="single-hero-slider single-animation-wrap">
+                                <div class="container">
+        
+
+                                    <div class="row justify-content-center slider-animated-1">
+                                        <div class="col-lg-12 col-md-12 slider-image" style="background-image: url('/admin/assets/imgs/catogary/<%= banner[i].image %>'); ">
+                                            
+                                            <div class="hero-slider-content-2 text-center align-items-center">
+        <br><br><br>
+
+                                                <h2 class="animated fw-900 " style="color:darkgray"><%= banner[i].title %></h2>
+        <br><br><br><br><br><br>
+
+                                                <p class="animated" style="margin-left: 10rem; color:white"><%= banner[i].discription %></p>
+        <br><br><br><br><br><br>
+
+                                                <a class="animated btn btn-brush btn-brush-3" href="#" tabindex="0">Shop Now</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        <% } %>
                     </div>
+        <br><br><br><br>
+       
+                    
                     <div class="slider-arrow hero-slider-1-arrow"></div>
                 </div>
             </div>
         </section>
+        
+        
+        <br><br><br><br><br><br>
+        <br><br><br><br><br><br>
+        
+        
         <section class="banners mb-20">
             <div class="container">
                 <div class="row">
@@ -164,7 +162,7 @@
                                                         <div class="product-img product-img-zoom">
                                                             <a href="/api/user/aProduct?id=<%= product[i].id %>">
                                                                 <img class="default-img" src="/admin/assets/imgs/catogary/<%= product[i].images[0] %>" alt="">
-                                                                <img class="hover-img" src="/admin/assets/imgs/catogary/<%= product[i].images[0] %>" alt="">
+                                                                <img class="hover-img" src="/admin/assets/imgs/catogary/<%= product[i].images[2] %>" alt="">
                                                             </a>
                                                         </div>
                                                         <div class="product-action-1">

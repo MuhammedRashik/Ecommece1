@@ -1,6 +1,9 @@
 const mongoose = require('mongoose'); 
 const { bool } = require('sharp');
 
+
+
+
 const productSchema = new mongoose.Schema({
    
     title:{
@@ -64,6 +67,9 @@ const productSchema = new mongoose.Schema({
    
     
 },{timestamps:true});
+
+
+
 
 //Export the model
 module.exports = mongoose.model('Product', productSchema);

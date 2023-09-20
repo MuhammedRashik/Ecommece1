@@ -47,7 +47,7 @@
                                                         <% } %>
                                                 </td>
                                                 <td class="text-right" data-title="Cart">
-                                                    <a href="/api/user/addToCart"><button class="btn btn-sm"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</button></a>
+                                                    <a><button class="btn btn-sm" onclick="addToCart('<%= products[i].id %>')" ><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</button></a>
                                                 </td>
                                                 <td class="action" data-title="Remove"><a href="/api/user/deleteWishlistItem?id=<%=products[i]._id %>"><i class="fi-rs-trash"></i></a></td>
                                             </tr>
@@ -75,5 +75,34 @@
             </div>
         </section>
     </main>
+    <script>
+        function addToCart(id){
+            $.ajax({
+                url:`/api/user/addToCart?id=${id}`,
+                method:"get",
+                success: (response)=>{
+                    if(response.status){
+                        Swal.fire({
+title: 'ADD TO CART',
+text: 'Product Added to cart',
+icon: 'success',
+timer: 1000,
+showConfirmButton: false, // This removes the button
+});
+                       
+                    }else{
+                        alert('errro')
+                    }
+
+                }
+            })
+
+        }
+
+
+
+
+
+       </script>
     <%- include('footer') %>
   

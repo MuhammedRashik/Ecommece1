@@ -173,7 +173,7 @@ router.set('views', './views/user');
 
 
 //----------------user-----------------------------------
-router.get('/', isLogged,loadIndex)//load the indexpage 
+router.get('/',loadIndex)//load the indexpage 
 router.get('/login', loadSignIn)//load the sign in page 
 router.get('/register', loadSignUp)//load the signup page 
 router.post('/register', registerUser)//signup a user with data aand otp send 
@@ -193,7 +193,7 @@ router.get("/mobileOTP", mobileOTP) //mobile otp verification page do it later
 
 
 //----------prifle--------------
-router.get('/profile',isLogged ,userProfile)//renderig profile
+router.get('/profile' ,userProfile)//renderig profile
 router.get('/editProfile', isLogged,editProfile)//rendering the user profile edit page
 router.post('/updateProfile', isLogged,updateProfile)//updating the user profile--
 router.post('/addProficPic', isLogged,upload.single('image'), addProficPic)//user can add a profile picture 
