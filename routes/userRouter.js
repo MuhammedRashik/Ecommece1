@@ -81,6 +81,7 @@ const {
     deleteItemeCart,
     deleteCart,
     
+    
 
   
 
@@ -100,7 +101,8 @@ const {
     allOderData,
     oderDetails,
     canselOder,
-    verifyPayment
+    verifyPayment,
+    useWallet
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
@@ -179,11 +181,11 @@ router.set('views', './views/user');
 
 //----------------user-----------------------------------
 router.get('/',loadIndex)//load the indexpage 
-router.get('/login', loadSignIn)//load the sign in page 
-router.get('/register', loadSignUp)//load the signup page 
+router.get('/login' ,loadSignIn)//load the sign in page 
+router.get('/register',loadSignUp)//load the signup page 
 router.post('/register', registerUser)//signup a user with data aand otp send 
 router.post('/login', userLogin)// user login with data and session created
-router.get('/logout', isLogged,userLogout)//user logout and session delete
+router.get('/logout',userLogout)//user logout and session delete
 router.post('/emailVerified', emailVerified)//otp verification 
 router.get('/forgotPassword', forgotPsdPage)//rendering the forgot passrod page 
 router.post('/forgotEmailValid', forgotEmailValid)//email cheking forgot password
@@ -254,6 +256,7 @@ router.get('/allOderData',isLogged,allOderData)//user get that spcific oder data
 router.get('/oderDetails',isLogged,oderDetails)//user vist hisorders details
 router.get('/canselOrder',isLogged,canselOder)//canselng a orde
 router.post('/verifyPayment',isLogged,verifyPayment)
+router.post('/useWallet',useWallet)
 //----------------------------------
 
 

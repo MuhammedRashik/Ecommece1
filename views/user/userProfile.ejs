@@ -563,7 +563,7 @@
         $("#addMoneyModal").modal("hide");
         $("#walletBalance").text("₹" + amount);
        
-alert('hai iam here going to start the ajax')
+
         $.ajax({
             url:"/api/user/addMoneyWallet",
             method:"POST",
@@ -571,15 +571,15 @@ alert('hai iam here going to start the ajax')
                 amount:amount
             },
             success:(response)=>{
-                alert('hai iam here return suucees in ajax add money')
+               
 
                 if(response.status){
-                    alert('hai')
+                    
                     var razorpayApiKey = 'rzp_test_kkytoEMYHJ1dn3';
 
 // Calculate the amount dynamically based on the total order amount (in paise)
 var orderAmount = Math.round(amount* 100);
-alert('hai iam here going to open the page')
+
 
 // Define the Razorpay options
 var options = {
@@ -610,7 +610,7 @@ var options = {
 
 // Create a new Razorpay instance and open the payment dialog
 var rzp1 = new Razorpay(options);
-alert('now')
+
 rzp1.open();
 
 

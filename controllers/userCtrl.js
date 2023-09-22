@@ -173,7 +173,7 @@ const userLogin = asyncHandler(async (req, res) => {
 //user logout -------------------------------
 const userLogout = async (req, res) => {
     try {
-        req.session.user = null;
+        req.session.destroy()
         
         res.redirect("/api/user");
     } catch (error) {

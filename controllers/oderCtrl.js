@@ -132,7 +132,12 @@ const oderPlaced=asyncHandler(async(req,res)=>{
             res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:user,qty:cartItemQuantities});
                         
          }else if(oder.payment=='wallet'){
-            res.json({ payment: false, method: "wallet", });
+
+            user.wallet -= totalPrice;
+             await user.save();
+    
+            
+            res.json({ payment: true, method: "wallet", });
             
          }
 
@@ -546,8 +551,22 @@ const verifyOrderPayment = (details) => {
 
 //----------------------razorpay end------------------------
 
+// let sum = 0;
+//         for (let i = 0; i < user.cart.length; i++) {
+//             sum += user.cart[i].subTotal
+//         }
 
 
+const useWallet=asyncHandler(async(req,res)=>{
+    try {
+        console.log('ths is reqqqqqqqq',req.body);
+        res.json({status:true})
+        
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function useWallet',error); 
+        
+    }
+})
 
 ///--------------------------------------------------------------------------
 
@@ -570,7 +589,8 @@ module.exports = {
     changeStatusDelivered,
     changeStatusreturned,
     changeStatusCanseled,
-    verifyPayment
+    verifyPayment,
+    useWallet
 
 
 }
