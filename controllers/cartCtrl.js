@@ -237,8 +237,10 @@ const testAjax = asyncHandler(async (req, res) => {
                const totalAmount=product.price * (existingCartItem.quantity + 1)
                 
            res.json({ status: true ,quantityInput:existingCartItem.quantity+1,total:totalAmount});
+                }else{
+                    res.json({status:false,error:'out of stoke'})
                 }
-                res.json({status:false,error:'out of stoke'})
+              
             }       
             }
     } catch (error) {

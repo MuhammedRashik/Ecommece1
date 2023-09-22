@@ -1,5 +1,5 @@
 <%- include('header') %>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <main class="main">
         <div class="page-header breadcrumb-wrap">
             <div class="container">
@@ -43,15 +43,113 @@
                             <div class="col-md-8">
                                 <div class="tab-content dashboard-content">
                                     <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-                                       
+                                       <div class="row">
+                                        
+<!-- ------------wallet ------------->
+<%  if(user.wallet==0){%>
+    <div class="col-lg-4">
+        <div class="card card-body mb-4">
+            <article class="icontext">
+                <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
+                <div class="text">
+                    <h6 class="mb-1 card-title">Wallet</h6>
+                    <span>₹0.00</span>
+                    <span class="text-sm">
+                       <br>
+                       <br>
+                       <br>
 
-                                        <!-- card for the dash bord user simple details -->
+                       <br>
+                    </span>
+                </div>
+            </article>
+        </div>
+    </div>
+    <%  }else{%>
+        <div class="col-lg-4">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
+                    <div class="text">
+                        <h3 class="mb-1 card-title">Wallet</h3>
+                        <br>
+                        
+                            <br>
+                        
+                        <span><h5>Ballence:₹<%= user.wallet %></h5></span>
+                        <br>
+                        <br>
+                        <span class="text-sm">
+                         
+                            
+                           
+                            <br>
+                        
+                        
+    
+                          
+                          
+
+                        </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <% }%>
+        <div class="col-lg-4 col-md-4 mb-md-3 mb-lg-0">
+            <div class="banner-features wow fadeIn animated hover-up">
+              <img src="/user/assets/imgs/theme/icons/feature-3.png" alt="">
+              <a href="#" data-toggle="modal" data-target="#addMoneyModal"><h4 class="bg-2">Add Money</h4></a>
+            </div>
+          </div>
+  
+        
+
+                                        </div>
+                                        
+                                   <!-- Add Money Modal -->
+<div class="modal fade" id="addMoneyModal" tabindex="-1" role="dialog" aria-labelledby="addMoneyModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addMoneyModalTitle">Add Money</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="addMoneyForm">
+            <div class="form-group">
+              <label for="moneyAmount">Amount (₹)</label>
+              <input type="number" class="form-control" id="moneyAmount" placeholder="Enter amount">
+
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="addMoneyButton">Add Money</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+<!-- ----------------------------------------------------------- -->
+
+                                       
+                             
+
+
+ <!-- card for the dash bord user simple details -->
+
                                             <div class="card mb-4">
                                                 <div class="card-header bg-primary" style="height:150px">
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="row">
+                                                        
                                                         <div class="col-xl col-lg flex-grow-0" style="flex-basis:230px">
+                                                            
                                                             <div class="img-thumbnail shadow w-100 bg-white position-relative text-center" style="height:190px; width:200px; margin-top:-120px">
                                                                 <img style="width: auto; height: 100px;" src="/admin/assets/imgs/catogary/<%= user.image %>" class="center-xy img-fluid" alt="Logo Brand">
                                                                 <div><%  if(!user.image){%>
@@ -64,9 +162,11 @@
                                                            
                                                                         </div>
                                                                     </li>
+                                                                    
                                                                    
 
                                                                     <%  }else{%>
+
                                                                         <li class="dropdown nav-item">
                                                                             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">Edit Profile Pic</a>
                                                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
@@ -92,6 +192,101 @@
                                                          
                                                                 <p> <%= user.mobile %></p>
                                                                 
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
                                                         </div> <!--  col.// -->
                                                         <div class="col-sm-8 col-lg-6 col-xl-5">
                                                             <h6>Address</h6>
@@ -112,6 +307,7 @@
                                                     </div> <!--  row.// -->
                                                 </div> <!--  card-body.// -->
                                             </div> <!--  card.// -->
+                                           
                                        <!-- ----------------------------------------------------------------------- -->
                                     </div>
                                     <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
@@ -348,6 +544,162 @@
             </div>
         </section>
     </main>
+    <script>
+
+
+
+// /api/user/addmoneyToWallet
+    </script>
+<script>
+    $(document).ready(function () {
+      // Handle form submission when "Add Money" button is clicked
+      $("#addMoneyButton").click(function () {
+        var amount = $("#moneyAmount").val(); // Get the entered amount
+  
+        if (amount.trim() === "") {
+          alert("Please enter a valid amount.");
+          return;
+        }
+        $("#addMoneyModal").modal("hide");
+        $("#walletBalance").text("₹" + amount);
+       
+alert('hai iam here going to start the ajax')
+        $.ajax({
+            url:"/api/user/addMoneyWallet",
+            method:"POST",
+            data:{
+                amount:amount
+            },
+            success:(response)=>{
+                alert('hai iam here return suucees in ajax add money')
+
+                if(response.status){
+                    alert('hai')
+                    var razorpayApiKey = 'rzp_test_kkytoEMYHJ1dn3';
+
+// Calculate the amount dynamically based on the total order amount (in paise)
+var orderAmount = Math.round(amount* 100);
+alert('hai iam here going to open the page')
+
+// Define the Razorpay options
+var options = {
+    "key": razorpayApiKey,
+    "amount": orderAmount, // Dynamically calculated amount
+    "currency": "INR",
+    "name": "Evara",
+    "description": "Add money to wallet",
+    "order_id": response.razorpayOrder.id, // Replace with actual order ID
+    "handler": function (response) {
+        console.log(response);
+       
+        verifyPayment(response);
+       
+        
+    },
+    
+    "prefill": {
+        "name": "Customer Name", // Set to the customer's name
+        "email": "customer@example.com", // Set to the customer's email
+        "contact": "9000090000" // Set to the customer's contact number
+    },
+    "callback_url": "/your-server-callback-url", // Replace with your server's callback URL
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+
+// Create a new Razorpay instance and open the payment dialog
+var rzp1 = new Razorpay(options);
+alert('now')
+rzp1.open();
+
+
+
+              
+                
+                
+                
+                
+                
+} 
+                else {
+                    Swal.fire({
+                        title: 'Error Occured',
+                        text: "Can't process order error occured",
+                        icon: 'fail',
+                        timer: 5000
+                    })
+
+                }
+            }
+        })
+      function verifyPayment(response) {
+           
+        $.ajax({
+            url: '/api/user/verifyPayment',
+            method: 'post',
+            data: {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+            },
+            success: (response) => {
+                if (response.status) {
+                    
+
+                    $.ajax({
+                        url:"/api/user/updateMongoWallet",
+                        method:"post",
+                        data:{
+                            amount:amount,
+                            
+                        },
+                        success:(response)=>{
+                            if(response.status){
+                                Swal.fire({
+                        title: "Added success",
+                        text: "Add Moneney successfully",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000,
+                       
+                    })
+                                location.reload()
+                            }
+                        }
+                    })
+
+
+
+
+                    
+                  
+                    
+                
+                } else {
+                    alert("Payment failed!" + response.errMsg)
+                }
+            }
+        })
+                }
+            }
+    )})
+
+
+
+
+  
+       
+     
+    
+  </script>
+  
+      
+      
+      
+      
+      
+      
     
     <%- include('footer') %>
-   
+  

@@ -3,7 +3,10 @@ const Product = require('../models/productModel');
 const slugify = require('slugify');
 const nodemon = require('nodemon');
 
-
+const fs = require('fs');
+const { promisify } = require('util');
+const unlinkAsync = promisify(fs.unlink);
+const path= require('path')
 
 
 
@@ -286,26 +289,30 @@ const listProduct = asyncHandler(async (req, res) => {
 
 //----------------------dete a single picture -------------------
 
+
+
 const deleteSingleImage = asyncHandler(async (req, res) => {
-    try {
-        console.log(req.query);
-        const id = req.query.id;
-        const imageToDelete = req.query.img; 
+  try {
+    console.log(req.query);
+    const id = req.query.id;
+    const imageToDelete = req.query.img;
 
-        
-        const product = await Product.findByIdAndUpdate(id, {
-            $pull: { images: imageToDelete }
-        });
+    // Update the product in the database to remove the image reference
+    const product = await Product.findByIdAndUpdate(id, {
+      $pull: { images: imageToDelete }
+    });
 
-        console.log('this is theupdtaed products',product);
-        
-      res.redirect(`/api/admin/editProduct?id=${product._id}`)
+    // Delete the image file from the filesystem
+    const imagePath = path.join('public', 'admin', 'assets', 'imgs', 'catogary', imageToDelete);
+    await unlinkAsync(imagePath);
 
-    } catch (error) {
-        console.log('Error occurred in categoryController deleteSingleImage function', error);
-    
-       
-    }
+    console.log('Deleted image:', imageToDelete);
+
+    res.redirect(`/api/admin/editProduct?id=${product._id}`);
+  } catch (error) {
+    console.log('Error occurred in categoryController deleteSingleImage function', error);
+   
+  }
 });
 
 

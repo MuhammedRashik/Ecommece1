@@ -131,6 +131,9 @@ const oderPlaced=asyncHandler(async(req,res)=>{
             const generatedOrder = await generateOrderRazorpay(oderDb._id, oderDb.totalPrice);
             res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:user,qty:cartItemQuantities});
                         
+         }else if(oder.payment=='wallet'){
+            res.json({ payment: false, method: "wallet", });
+            
          }
 
 

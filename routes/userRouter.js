@@ -152,6 +152,11 @@ const {
 
 
 
+const {
+    addMoneyWallet,
+    updateMongoWallet
+
+}=require('../controllers/walletCtrl')
 
 
 
@@ -178,7 +183,7 @@ router.get('/login', loadSignIn)//load the sign in page
 router.get('/register', loadSignUp)//load the signup page 
 router.post('/register', registerUser)//signup a user with data aand otp send 
 router.post('/login', userLogin)// user login with data and session created
-router.get('/logout', userLogout)//user logout and session delete
+router.get('/logout', isLogged,userLogout)//user logout and session delete
 router.post('/emailVerified', emailVerified)//otp verification 
 router.get('/forgotPassword', forgotPsdPage)//rendering the forgot passrod page 
 router.post('/forgotEmailValid', forgotEmailValid)//email cheking forgot password
@@ -193,7 +198,7 @@ router.get("/mobileOTP", mobileOTP) //mobile otp verification page do it later
 
 
 //----------prifle--------------
-router.get('/profile' ,userProfile)//renderig profile
+router.get('/profile',isLogged ,userProfile)//renderig profile
 router.get('/editProfile', isLogged,editProfile)//rendering the user profile edit page
 router.post('/updateProfile', isLogged,updateProfile)//updating the user profile--
 router.post('/addProficPic', isLogged,upload.single('image'), addProficPic)//user can add a profile picture 
@@ -270,8 +275,8 @@ router.get('/CatogaryFilter',CatogaryFilter)//by catogary
 
 
 //-----------------invoice------------
-router.get('/invoice',invoice)//renderin the invoice page
-router.get('/invoices',invoices)///user can douload invoice 
+router.get('/invoice',isLogged,invoice)//renderin the invoice page
+router.get('/invoices',isLogged,invoices)///user can douload invoice 
 //==================================
 
 
@@ -285,6 +290,12 @@ router.get('/addToList',isLogged,addToList)// add apriduct to the wish list
 router.get('/deleteWishlistItem',isLogged,deleteWishlistItem)//delete a item in wish list
 //------------------------------------
 
+
+
+//------wallet--------------
+router.post('/addMoneyWallet',isLogged,addMoneyWallet)
+router.post('/updateMongoWallet',isLogged,updateMongoWallet)
+//------------------=-------------
 
 
 

@@ -34,7 +34,7 @@ app.use(nocache())
 app.use(session({
       secret:process.env.SESSION_SECRET_KEY,
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         maxAge: 72 * 60 * 60 * 1000, // Session expires in 72 hours
         httpOnly: true,

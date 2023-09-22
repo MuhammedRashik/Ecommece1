@@ -9,6 +9,12 @@ const Oder=require('../models/oderModel')
 const Banner=require('../models/bannerModel')
 
 
+const generateHashedPassword = async (password) => {
+    const saltRounds = 10; // Number of salt rounds
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    return hashedPassword;
+  };
 
 
 
@@ -17,12 +23,22 @@ const Banner=require('../models/bannerModel')
 const loadIndex = asyncHandler(async (req, res) => {
     try {
         const user = req.session.user;
-        const product = await Product.find();
-        const banner= await Banner.find()
-        const pr = product.status == true;
+        if(user){
+            const userdata=await User.findById(user)
+            const product = await Product.find().limit(9);
+            const banner= await Banner.find()
+            const pr = product.status == true;
+            req.session.Product = product;
+            res.render("index", { user:userdata, product ,banner});
+
+        }else{
+            const product = await Product.find().limit(9);
+            const banner= await Banner.find()
+            const pr = product.status == true;
+            req.session.Product = product;
+            res.render("index", { user, product ,banner});
+        }
        
-        req.session.Product = product;
-        res.render("index", { user, product ,banner});
     } catch (error) {
         console.log("Error happens in userController loadIndex function:", error);
     }
@@ -194,17 +210,21 @@ const emailVerified = async (req, res) => {
         const enteredOTP = first + second + third + fourth + fifth + six;
         if (enteredOTP === req.session.userOTP) {
             const user = req.session.userData;
+
+            const hashedPassword = await generateHashedPassword(user.password);
             const saveUserData = new User({
                 username: user.username,
                 email: user.email,
                 mobile: user.mobile,
-                password: user.password,
+                password: hashedPassword,
             });
             await saveUserData.save();
-            console.log(saveUserData);
+
+            req.session.user=saveUserData._id
+           
             res.redirect("/api/user");
         } else {
-            console.log("error in otp ");
+          
             req.flash("error", "No Match OTP");
         }
     } catch (error) {
@@ -322,15 +342,16 @@ const updatePassword = asyncHandler(async (req, res) => {
         const email = req.session.forgotEmail;
         const user = await User.findOne({ email });
         if (user) {
-            const salt = await bcrypt.genSaltSync(10);
-            const pass = await bcrypt.hash(req.body.password, salt);
+            const hashedPassword = await generateHashedPassword(req.body.password);
             const updateUser = await User.findByIdAndUpdate(
                 user._id,
                 {
-                    password: pass,
+                    password: hashedPassword,
                 },
                 { new: true }
             );
+
+
             res.redirect("/api/user");
         }
     } catch (error) {

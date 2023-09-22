@@ -98,7 +98,7 @@
                                                 <td>
                                                     <h5><a href="shop-product-full.html"><%= product[i].title %></a></h5> <span class="product-qty">x <%= user.cart[i].quantity %></span>
                                                 </td>
-                                                <td>$<%= product[i].price %></td>
+                                                <td>₹<%= product[i].price %></td>
                                             </tr>
                                         <% } %>
                                     <% } else { %>
@@ -111,7 +111,7 @@
                                     <tr>
                                         <th>SubTotal</th>
                                        
-                                        <td class="product-subtotal" colspan="2">$<%= sum.toFixed(2) %></td>
+                                        <td class="product-subtotal" colspan="2">₹<%= sum.toFixed(2) %></td>
                                     </tr>
                                     <tr>
                                         <th>Shipping</th>
@@ -137,10 +137,11 @@
                                    
                                 </div>
                                 <div class="custome-radio">
-                                    <input class="form-check-input payment"  type="radio" value="Wallet" name="payment_option" id="Wallet" checked="">
-                                    <label class="form-check-label" for="ChekPayment" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Wallet</label>
-                                    
+                                    <input class="form-check-input payment" required="" value="wallet" type="radio" name="payment_option" id="wallet" checked="">
+                                    <label class="form-check-label" for="wallet" data-bs-toggle="collapse" data-target="#wallet" aria-controls="paypal">wallet</label>
+                                   
                                 </div>
+                                
                                 <div class="custome-radio">
                                     <input class="form-check-input payment" required="" value="online" type="radio" name="payment_option" id="Razorpay" checked="">
                                     <label class="form-check-label" for="Razorpay" data-bs-toggle="collapse" data-target="#Razorpay" aria-controls="paypal">Razorpay</label>
@@ -263,7 +264,7 @@ if(!payment){
                     totalPrice:totalAmount,
                     createdOn:Date.now(),
                     date:Date.now(),
-                   addressId:address,
+                    addressId:address,
                     payment:payment,
                   
                     
@@ -275,16 +276,16 @@ if(!payment){
 
 
                     if (response.method == 'cod') {
-                       alert('hai 1')
+                       
                         
                         $.ajax({
                             url:'/api/user/deleteCart',
                             method:'get',
 
                             success:(response)=>{
-                                alert('hai 2')
+                               
                                 if(response.status){
-                                    alert('hai 3')
+                                    
                                     Swal.fire({
                             title: "Order success",
                             text: "order placed successfully",
@@ -293,7 +294,7 @@ if(!payment){
                             timer: 2000,
                            
                         })
-                        alert('hai 4')
+                       
                         location.href='/api/user/allOderData'
 
                                 }
@@ -339,7 +340,17 @@ if(!payment){
 
 
 
-                    } else {
+                    }else if(response.method == 'wallet'){
+                        
+
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    else {
                         Swal.fire({
                             title: 'Error Occured',
                             text: "Can't process order error occured",
@@ -361,6 +372,7 @@ if(!payment){
                     razorpay_signature: response.razorpay_signature
                 },
                 success: (response) => {
+                    alert('by')
                     if (response.status) {
                         $.ajax({
                             url:'/api/user/deleteCart',

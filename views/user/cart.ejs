@@ -44,7 +44,7 @@
                           <%= product[i].brand %>.
                       </p>
                   </td>
-                  <td class="price" data-title="Price"><span>$ <%= product[i].price %> </span></td>
+                  <td class="price" data-title="Price"><span>₹ <%= product[i].price %> </span></td>
                   <td class="text-center" data-title="Stock">
                       <div class="detail-qty border radius m-auto">
                           <div class="quantity-control">
@@ -60,7 +60,7 @@
                   </td>
                   <!-- Span with a unique ID -->
                   <td class="text-right" data-title="Cart">
-                    <span id="subtotal<%= i %>">$<%= (product[i].price * cart[i].quantity).toFixed(2) %></span>
+                    <span id="subtotal<%= i %>">₹<%= (product[i].price * cart[i].quantity).toFixed(2) %></span>
                 </td>
                   <td class="action" data-title="Remove">
                       <!-- <a href="#" class="text-muted" onclick="removeCartItem('<%= product[i]._id %>')"><i class="fi-rs-trash"></i></a> -->
@@ -188,7 +188,7 @@
                       <tr>
                         <td class="cart_total_label">Cart Subtotal</td>
                         <td class="cart_total_amount">
-                          <span id="total" class="font-lg fw-900 text-brand">$<%= totalSubTotal %></span>
+                          <span id="total" class="font-lg fw-900 text-brand">₹<%= totalSubTotal %></span>
                         </td>
                       </tr>
                       <tr>
@@ -202,7 +202,7 @@
                         <td class="cart_total_amount">
                           <strong
                             ><span id="finaltotal" class="font-xl fw-900 text-brand"
-                              >$<%= totalSubTotal %></span
+                              >₹<%= totalSubTotal %></span
                             ></strong
                           >
                         </td>
@@ -251,7 +251,7 @@ function test(productId, cartQty, count, prPrice, i,pqty) {
                 const newQuantity = response.quantityInput;
                 const subtotal = newQuantity * prPrice;
                 const subtotalElement = document.querySelector(`#subtotal${i}`);
-                subtotalElement.innerHTML = `$${subtotal.toFixed(2)}`;
+                subtotalElement.innerHTML = `₹${subtotal.toFixed(2)}`;
         
                
                 const total=document.querySelector('#total');
@@ -311,7 +311,7 @@ function testDic(productId, cartQty, count, prPrice, i){
                 const newQuantity = response.quantityInput;
                 const subtotal = newQuantity * prPrice;
                 const subtotalElement = document.querySelector(`#subtotal${i}`);
-                subtotalElement.innerHTML = `$${subtotal.toFixed(2)}`;
+                subtotalElement.innerHTML = `₹${subtotal.toFixed(2)}`;
                 const total=document.querySelector('#total');
                 total.innerHTML=response.total;
 
