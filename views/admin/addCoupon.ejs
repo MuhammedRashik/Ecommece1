@@ -1,0 +1,56 @@
+<%- include('header') %>
+
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header col-8">
+                        <h2 class="content-title">Add New Coupon</h2>
+                        <div>
+                            <form action="/api/admin/addCoupon" method="post" >
+
+                                <button type="submit" class="btn btn-md rounded font-sm hover-up">Add Coupon</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <label for="product_title" class="form-label">Coupon name</label>
+                                    <input type="text" placeholder="Type here" name="name" class="form-control" id="product_title">
+                                </div>
+                                <div class="row gx-3">
+                                    <div class="mb-4">
+                                        <label for="product_title" class="form-label">discription</label>
+                                        <input type="text" placeholder="Type here" name="discription" class="form-control" id="product_title">
+                                    </div>
+                                    <div class="col-md-4  mb-3">
+                                        <label for="product_color" class="form-label">Offer Price</label>
+ 
+                                        <input type="number" placeholder="Type here" name="offerPrice" class="form-control" id="product_color">
+                                    </div>
+                                    <div class="col-md-4  mb-3">
+                                        <label for="product_size" class="form-label">Minimum Amount</label>
+                                        <input type="number " name="minimumAmount" placeholder="Type here" class="form-control" id="product_size">
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="product_brand" class="form-label">Exipiry Date</label>
+                                    <input type="date" placeholder="Type here" name="expiryDate" class="form-control" id="product_brand">
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                       
+                       
+                    </div>
+                    
+                    </div>
+
+
+                            </form>
+                           
+                         
+          
+        </section>
+        <%- include('footer') %>
+       

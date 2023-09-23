@@ -154,12 +154,16 @@ const {
 
 
 
+
+//--------walte ctrl-------
 const {
     addMoneyWallet,
-    updateMongoWallet
+    updateMongoWallet,
+    sumWallet
+   
 
 }=require('../controllers/walletCtrl')
-
+//--------------------------
 
 
 
@@ -256,6 +260,13 @@ router.get('/allOderData',isLogged,allOderData)//user get that spcific oder data
 router.get('/oderDetails',isLogged,oderDetails)//user vist hisorders details
 router.get('/canselOrder',isLogged,canselOder)//canselng a orde
 router.post('/verifyPayment',isLogged,verifyPayment)
+//---------------------------------------
+
+
+
+///---------wallet---------------
+
+router.get('/sumWallet',sumWallet)
 router.post('/useWallet',useWallet)
 //----------------------------------
 
@@ -298,6 +309,7 @@ router.get('/deleteWishlistItem',isLogged,deleteWishlistItem)//delete a item in 
 //------wallet--------------
 router.post('/addMoneyWallet',isLogged,addMoneyWallet)
 router.post('/updateMongoWallet',isLogged,updateMongoWallet)
+router.post('/useWallet',isLogged,useWallet)
 //------------------=-------------
 
 

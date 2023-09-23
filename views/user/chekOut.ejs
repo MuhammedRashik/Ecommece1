@@ -96,6 +96,7 @@
                                             <tr>
                                                 <td class="image product-thumbnail"><img src="/admin/assets/imgs/catogary/<%= product[i].images[i] %>" alt="#"></td>
                                                 <td>
+                                                    <input type="hidden" id="productId" value="<%= product[i]._id %>">
                                                     <h5><a href="shop-product-full.html"><%= product[i].title %></a></h5> <span class="product-qty">x <%= user.cart[i].quantity %></span>
                                                 </td>
                                                 <td>₹<%= product[i].price %></td>
@@ -111,7 +112,7 @@
                                     <tr>
                                         <th>SubTotal</th>
                                        
-                                        <td class="product-subtotal" id="displayedSum" colspan="2">₹<%= sum.toFixed(2) %></td>
+                                        <td class="product-subtotal" id="displayedSum" colspan="2">₹<%= sum %></td>
                                     </tr>
                                     <tr>
                                         <th>Shipping</th>
@@ -119,7 +120,7 @@
                                     </tr>
                                     <tr>
                                         <th>Total</th>
-                                        <td colspan="2" class="product-subtotal"><span id="displayedSum" class="font-xl text-brand fw-900">$<%= sum.toFixed(2) %></span></td>
+                                        <td colspan="2" class="product-subtotal"><span id="displayedSum" value="<%= sum %>" class="font-xl text-brand fw-900">₹<%= sum %></span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -162,7 +163,7 @@
                             </div>
                         </div>
                         
-                        <button id="submitButten" class="btn btn-fill-out btn-block mt-30" onclick="placeOrder('<%= sum %>','<%= user._id %>')">Place Order</button>
+                        <button id="submitButten" class="btn btn-fill-out btn-block mt-30" onclick="placeOrder('<%= user._id %>')">Place Order</button>
 
                    
 
@@ -188,7 +189,12 @@
                                                 </span>
                                             </div>
                                         </article>
-                                        <button id="useWalletButton" onclick="useWallet('<%=  sum %>')" class="btn btn-sm">Use Wallet</button>
+                                        <% if (user.wallet >1) { %>
+                                            <button id="useWalletButton" onclick="useWallet('<%=  sum %>','<%= user.wallet %>')" class="btn btn-sm">Use Wallet</button>
+                                            <% } else { %>
+                                                <% } %>
+                                        
+                                       
                                     </div>
                             </div>
 
@@ -274,13 +280,15 @@
 
 
 
-async  function  placeOrder(totalAmount,userId) {
+async  function  placeOrder(userId) {
 //-=-==-==--=-=--==-=-=-=--===--=-=-=-=-=-=-=-=-=-=-=-=-=
 var address=$('.address:checked').val()
 var payment=$('.payment:checked').val()
 
+const displayedSum = document.getElementById('displayedSum').textContent;
+const numericValue = parseFloat(displayedSum.replace(/[^\d.]/g, ''));
 
-
+alert(numericValue)
 if(!payment){
     Swal.fire({
     title: ' NO PAYMENT FOUND!',
@@ -307,7 +315,7 @@ if(!payment){
                 url:'/api/user/oderPlaced',
                 method:'POST',
                 data:{
-                    totalPrice:totalAmount,
+                    totalPrice:numericValue,
                     createdOn:Date.now(),
                     date:Date.now(),
                     addressId:address,
@@ -354,7 +362,7 @@ if(!payment){
     var razorpayApiKey = 'rzp_test_kkytoEMYHJ1dn3';
 
     // Calculate the amount dynamically based on the total order amount (in paise)
-    var orderAmount = Math.round(totalAmount * 100);
+    var orderAmount = Math.round(numericValue * 100);
 
     // Define the Razorpay options
     var options = {
@@ -442,7 +450,7 @@ if(!payment){
                     razorpay_signature: response.razorpay_signature
                 },
                 success: (response) => {
-                    alert('by')
+                    
                     if (response.status) {
                         $.ajax({
                             url:'/api/user/deleteCart',
@@ -510,22 +518,31 @@ if(!payment){
 
 <script>
 
-    function useWallet(sum){
-        alert('hai')
-        $.ajax({
+    function useWallet(sum,wallet){
+       
+        var productId = document.getElementById('productId').value;
+       
+         $.ajax({
             url:"/api/user/useWallet",
             method:"POST",
             data:{
                 total:sum,
-                wallet:user.wallet
+                wallet:wallet,
+                prodId:productId
             },
             success:(response)=>{
                 if(response.status){
-                    alert('hello')
+                   
+                   
+                  
+                    location.href=`/api/user/sumWallet?sum=${response.sum}`
+                    
                 }
             }
         })
         
+
+      
     }
 </script>
 

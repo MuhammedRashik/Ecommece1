@@ -100,9 +100,23 @@ const {
 
 
 
+//----sharp----image croping-----
+const {
+    bannerCrop
+}=require('../sharp/imageCrope')
+//------------------------------
 
-const {bannerCrop}=require('../sharp/imageCrope')
 
+
+
+const {
+    loadCoupon,
+    addCoupon,
+    coupon,
+    editCoupon,
+    deleteCoupon,
+    updateCoupon
+}=require('../controllers/couponCtrl')
 
 
 //------engine set up------------
@@ -195,5 +209,25 @@ router.post('/createBanner',upload.single('image'),bannerCrop,createBanner)
 router.get('/editBanner',editBanner)
 router.post('/updateBanner',upload.single('image'),bannerCrop,updateBanner)
 router.get("/deleteBanner",deleteBanner)
+//-------------------------------------------------------
+
+
+
+
+
+//-----------coupen-------------------------
+router.get('/addCoupon',loadCoupon)
+router.post('/addCoupon',addCoupon)
+router.get('/coupon',coupon)
+router.get('/deleteCoupon',deleteCoupon)
+router.post('/updateCoupon',updateCoupon)
+router.get('/editCoupon',editCoupon)
+//------------------------------------------
+
+
+
+
+
+
 
 module.exports=router

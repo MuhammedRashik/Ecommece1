@@ -29,7 +29,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname,'public')));
 app.use(morgan("dev"))
 app.use(flash());
-app.use(nocache())
+
 
 app.use(session({
       secret:process.env.SESSION_SECRET_KEY,
@@ -42,6 +42,7 @@ app.use(session({
       store:store
     })
   );
+  app.use(nocache())
  
 //-----------------user router --------------------
 const userRouter=require('./routes/userRouter')

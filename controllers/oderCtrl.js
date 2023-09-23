@@ -19,7 +19,9 @@ var instance = new Razorpay({ key_id:process.env.RAZORPAY_KEYID, key_secret: pro
 //-------------------load oder page----------------------
 const oderPage = asyncHandler(async (req, res) => {
     try {
-        res.render('oderPage')
+        const userId=req.session.user;
+        const user=await User.findById(userId)
+        res.render('oderPage',{user})
 
     } catch (error) {
         console.log('Error form oder Ctrl in the function oderPage', error);
@@ -46,6 +48,7 @@ const chekOut = asyncHandler(async (req, res) => {
         for (let i = 0; i < user.cart.length; i++) {
             sum += user.cart[i].subTotal
         }
+        sum = Math.round(sum * 100) / 100;
         res.render('chekOut', { user, product, sum })
 
     } catch (error) {
@@ -132,8 +135,19 @@ const oderPlaced=asyncHandler(async(req,res)=>{
             res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:user,qty:cartItemQuantities});
                         
          }else if(oder.payment=='wallet'){
+         const a=   user.wallet -= totalPrice;
+            const transaction = {
+                amount: a,
+                status: "debit",
+                timestamp: new Date(), // You can add a timestamp to the transaction
+            };
+        
+            // Push the transaction into the user's history array
+            user.history.push(transaction);
 
-            user.wallet -= totalPrice;
+          
+
+           
              await user.save();
     
             
@@ -186,7 +200,8 @@ const generateOrderRazorpay = (orderId, total) => {
 
 const allOderData = asyncHandler(async (req, res) => {
     try {
-        const userId = req.session.user;
+        const userId=req.session.user;
+        const user=await User.findById(userId)
         const orders = await Oder.find({ userId: userId }).sort({ createdOn: -1 });
 
         // Create an array to store promises for populating product details
@@ -204,7 +219,7 @@ const allOderData = asyncHandler(async (req, res) => {
         const currentproduct = orders.slice(startindex,endindex);
       
        
-        res.render('oderList', { orders:currentproduct,totalpages,currentpage });
+        res.render('oderList', { orders:currentproduct,totalpages,currentpage ,user});
     } catch (error) {
         console.log('Error from oderCtrl in the function allOderData', error);
         res.status(500).json({ status: false, error: 'Server error' });
@@ -559,14 +574,27 @@ const verifyOrderPayment = (details) => {
 
 const useWallet=asyncHandler(async(req,res)=>{
     try {
-        console.log('ths is reqqqqqqqq',req.body);
-        res.json({status:true})
+        console.log('thisd is reqqqqqqqqqq',req.body);
+        const userId=req.session.user;
+        const user=await User.findById(userId)
+
+        if(user){
+            let a=req.body
+           
+            let sum= a.total - a.wallet
+           res.json({status:true,sum})
+        }
+       
+        
+        
+       
         
     } catch (error) {
         console.log('errro happemce in cart ctrl in function useWallet',error); 
         
     }
 })
+
 
 ///--------------------------------------------------------------------------
 

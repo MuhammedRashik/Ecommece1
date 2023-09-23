@@ -1,6 +1,6 @@
 const asyncHandler=require('express-async-handler')
 const User=require('../models/userModel')
-
+const Product=require('../models/productModel')
 const Razorpay=require('razorpay')
 
 
@@ -34,7 +34,7 @@ const addMoneyWallet = asyncHandler(async (req, res) => {
 
 
 function generateUniqueOrderId() {
-    console.log('>>>>>>>>>>>>>>>>>>>>');
+  
     const timestamp = Date.now();
     const uniqueId = Math.random().toString(36).substring(2, 15);
     return `order_${timestamp}_${uniqueId}`;
@@ -76,21 +76,7 @@ const updateMongoWallet = asyncHandler(async (req, res) => {
     //   console.log('this si the amount ;',amount);
         const userId = req.session.user;
     
-        // console.log('this is ;',userId);
 
-// const userdata = await User.findById(userId)      
-// console.log('userdata',userdata); 
-
-
-
-// console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',userdata.wallet);
-// console.log('??????????????????????????????????????????????????????????????????',userdata.wallet[0]);
-// console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',userdata.wallet[0].amount);
-
-// res.json({a:userdata.wallet,b:userdata.wallet[0],c:userdata.wallet[0].amount})
-
-
-        // Find the user by ID
         const user = await User.findByIdAndUpdate(userId, {
            $inc:{"wallet" : amount},
            $push:{
@@ -98,6 +84,7 @@ const updateMongoWallet = asyncHandler(async (req, res) => {
                 amount:amount,
                 status:"credit",
                 timestamp:Date.now()
+                
             }
            }
             
@@ -111,11 +98,7 @@ const updateMongoWallet = asyncHandler(async (req, res) => {
        }else{
         res.json({err:"user is not foundd"})
        }
-        // if (user) {
-        //     res.json({ status: true,user });
-        // }else{
-        //     res.json({mesge:"user not found"})
-        // }
+   
     } catch (error) {
         console.log('Error happened in the wallet ctrl in the function updateMongoWallet', error);
         res.status(500).json({ message: 'An error occurred while updating the wallet', error });
@@ -125,6 +108,37 @@ const updateMongoWallet = asyncHandler(async (req, res) => {
 
 
 
+const   sumWallet=asyncHandler(async(req,res)=>{
+    try {
+        console.log('thisis the sum >>>>>>>>>>>>>>>>>>>>>',req.query);
+        const id = req.session.user
+        const user = await User.findById(id)
+        //   console.log(user.cart);
+        const productIds = user.cart.map(cartItem => cartItem.ProductId);
+        const product = await Product.find({ _id: { $in: productIds } });
+        const transaction = {
+            amount: user.wallet ,
+            status: "debit",
+            timestamp: new Date(), // You can add a timestamp to the transaction
+        };
+        user.wallet=0
+        user.history.push(transaction);
+       
+    
+        // Push the transaction into the user's history array
+       
+
+
+        await user.save()
+        let sum = req.query.sum
+       
+        res.render('chekOut', { user, product, sum })
+        
+    } catch (error) {
+        console.log('Error happened in the wallet ctrl in the function sumWallet', error);
+        
+    }
+})
 
 
 
@@ -146,5 +160,7 @@ const updateMongoWallet = asyncHandler(async (req, res) => {
 
 module.exports={
     addMoneyWallet,
-    updateMongoWallet
+    updateMongoWallet,
+    sumWallet
+   
 }

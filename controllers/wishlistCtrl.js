@@ -89,7 +89,7 @@ const Wishlist=asyncHandler(async(req,res)=>{
         console.log('this is porduct for wishlist',products);
 
         if (products) {
-            res.render('wishList', { products: products });
+            res.render('wishList', { products: products ,user});
         }
  
     } catch (error) {

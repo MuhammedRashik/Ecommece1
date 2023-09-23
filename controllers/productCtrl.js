@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler')
 const Product = require('../models/productModel');
 const slugify = require('slugify');
 const nodemon = require('nodemon');
-
+const User=require('../models/userModel')
 const fs = require('fs');
 const { promisify } = require('util');
 const unlinkAsync = promisify(fs.unlink);
@@ -11,19 +11,22 @@ const path= require('path')
 
 
 
+
+
+
+
+
+
+
+//--------------------get all products =----------------------
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
         
-
+        const userId=req.session.user;
+        const user=await User.findById(userId)
      
         const allProducts = await Product.find()
            
-
-     
-
-
-
-////---------------------------------------------------------------
 
 const itemsperpage = 5;
 const currentpage = parseInt(req.query.page) || 1;
@@ -37,6 +40,7 @@ const currentproduct = allProducts.slice(startindex,endindex);
             product: currentproduct,
             totalpages,
             currentpage,
+            user
         });
 
     } catch (error) {
@@ -54,6 +58,7 @@ const currentproduct = allProducts.slice(startindex,endindex);
 //rendering add new prouct page--------------------
 const addProduct = asyncHandler(async (req, res) => {
     try {
+        
 
         res.render('addProduct')
 
@@ -187,11 +192,13 @@ const productEdited = asyncHandler(async (req, res) => {
 //rendering the product page ---------------------------
 const aProductPage = asyncHandler(async (req, res) => {
     try {
+        const userId=req.session.user;
+        const user=await User.findById(userId)
         const id = req.query.id
         const product = await Product.findById(id)
         if (product) {
 
-            res.render('aProduct', { product: product })
+            res.render('aProduct', { product: product ,user})
         }
 
     } catch (error) {
@@ -211,7 +218,8 @@ const aProductPage = asyncHandler(async (req, res) => {
 //testing oagination--------------------------
 const shop = asyncHandler(async (req, res) => {
     try {
-
+        const userId=req.session.user;
+        const user=await User.findById(userId)
 //   console.log(req.query);
         const product = await Product.find()
             
@@ -235,7 +243,7 @@ const shop = asyncHandler(async (req, res) => {
 
 
 
-        res.render('shop', { product:currentproduct, totalpages,currentpage, });
+        res.render('shop', { product:currentproduct, totalpages,currentpage,user });
     } catch (error) {
         console.log('Error happened in product controller shop function', error);
     }
