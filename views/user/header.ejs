@@ -305,7 +305,16 @@ background-color: #ddd;
                                 <% if (locals.user) { %>
                                 <li class="dropdown nav-item">
                                     <% if (locals.user.image) { %>
-                                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img style="width: 30px; height: 30px; " class="img-xs rounded-circle" src="/admin/assets/imgs/catogary/<%= locals.user.image %>" alt=""></a>
+                                        <% if (locals.user.isGoogle) { %>
+                                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img style="width: 30px; height: 30px; " class="img-xs rounded-circle" src="<%= locals.user.image %>" alt=""></a>
+
+
+                                            <% } else { %>
+                                                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img style="width: 30px; height: 30px; " class="img-xs rounded-circle" src="/admin/assets/imgs/catogary/<%= locals.user.image %>" alt=""></a>
+                                                 <% } %>
+
+                                       
+
                                         <% } else { %>
                                         <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img style="width: 30px; height: 30px; " class="img-xs rounded-circle" src="/user/assets/imgs/theme/flag-fr.png" alt=""></a>
 

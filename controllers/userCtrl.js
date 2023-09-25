@@ -25,7 +25,7 @@ const Banner=require('../models/bannerModel')
 
 
 
-
+//--------------hasinthe password------------------
 
 const generateHashedPassword = async (password) => {
     const saltRounds = 10; // Number of salt rounds
@@ -33,7 +33,7 @@ const generateHashedPassword = async (password) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     return hashedPassword;
   };
-
+//----------------------------------
 
 
 
@@ -629,7 +629,7 @@ const addProficPic = asyncHandler(async (req, res) => {
     try {
         const { id } = req.body;
         const image = req.file.filename;
-        console.log("this is mage ", image);
+       
         const user = await User.findByIdAndUpdate(
             id,
             {
@@ -637,7 +637,7 @@ const addProficPic = asyncHandler(async (req, res) => {
             },
             { new: true }
         );
-        console.log(user);
+      
         res.redirect("/api/user/profile");
     } catch (error) {
         console.log(
@@ -646,6 +646,49 @@ const addProficPic = asyncHandler(async (req, res) => {
         );
     }
 });
+
+
+
+////---------------googler auth=----------------
+
+const googleAuth=asyncHandler(async(req,res)=>{
+  
+
+
+        try {
+           
+            const findUser = await User.findOne({ email: req.user.email });
+            if (findUser) {
+                req.session.user=findUser._id
+                 
+            }else{
+                const user=req.user
+               
+                const saveUserData = new User({
+                    username: user.given_name,
+                    email: user.email,
+                    mobile: user.mobile,
+                    image:user.picture,
+                    password:user.sub,
+                    isGoogle:true
+                });
+                const us=await saveUserData.save();
+                req.session.user=us._id
+               
+            }
+          
+            res.redirect('/api/user')
+            
+        } catch (error) {
+            console.log('errro hapence in the google login route ',error);
+        }
+    
+})
+
+//--------------------------------------
+
+
+
 
 
 
@@ -673,4 +716,5 @@ module.exports = {
     editProfile,
     updateProfile,
     addProficPic,
+    googleAuth
 };

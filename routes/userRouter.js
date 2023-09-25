@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express();
 const passport=require('passport')
+const User=require('../models/userModel')
 //-------------------------------------
 //-/////////////////////////////////////////-required-/////////////////////////////
 
@@ -37,7 +38,8 @@ const { loadIndex,
     deleteAddress,
     editProfile,
     updateProfile,
-    addProficPic
+    addProficPic,
+    googleAuth
 
 
 } = require('../controllers/userCtrl')
@@ -193,18 +195,13 @@ router.set('views', './views/user');
   
   
   
+//--------------------------------google sign up ---------------------
+router.get('/googlLog',passport.authenticate('google',{scope:['profile','email']}))
+router.get('/google/callback',passport.authenticate('google',{failureRedirect:'/failed' }),googleAuth)
+//----------------------------------------------------------------------------------
 
-router.get('/google',passport.authenticate('google',{scope:['profile','email']}))
-router.get('/api/user/api/user/google',
- passport.authenticate('google', { failureRedirect: '/api/user/login' }),
-(req, res) => {
-  // Authentication successful, serialize user to the session
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-  res.redirect('/api/user');
-}
-);
+
+
 
 //----------------user-----------------------------------
 router.get('/',loadIndex)//load the indexpage 
