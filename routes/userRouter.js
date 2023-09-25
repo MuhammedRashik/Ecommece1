@@ -105,7 +105,8 @@ const {
     oderDetails,
     canselOder,
     verifyPayment,
-    useWallet
+    useWallet,
+    returnOrder
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
@@ -280,6 +281,7 @@ router.get('/allOderData',isLogged,allOderData)//user get that spcific oder data
 router.get('/oderDetails',isLogged,oderDetails)//user vist hisorders details
 router.get('/canselOrder',isLogged,canselOder)//canselng a orde
 router.post('/verifyPayment',isLogged,verifyPayment)
+router.get('/return',isLogged,returnOrder)
 //---------------------------------------
 
 

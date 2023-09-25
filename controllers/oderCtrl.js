@@ -291,41 +291,101 @@ const oderDetails=asyncHandler(async(req,res)=>{
 
 
 ///--------------------------cnasel oder----------------------
-const canselOder=asyncHandler(async(req,res)=>{
+const canselOder = asyncHandler(async (req, res) => {
     try {
-
-        const orderId = req.query.orderId
-        const order = await Oder.findByIdAndUpdate(orderId,{
-            status:'canceled'
-        },{new:true})
-        // console.log('thid id the odder',order);
-
-        for (const productData of order.product) {
-            const productId = productData.ProductId;
-            const quantity = productData.quantity;
-
-            // Find the corresponding product in the database
-            const product = await Product.findById(productId);
-
-            if (product) {
-               
-                product.quantity += quantity;
-
-              
-                await product.save();
-            }
+      const userId = req.session.user;
+      const user = await User.findOne({ _id: userId }); // Use findOne to retrieve a single user document
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      const orderId = req.query.orderId;
+      const order = await Oder.findByIdAndUpdate(orderId, {
+        status: 'canceled'
+      }, { new: true });
+  
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+  
+      if (order.payment !== 'cod') {
+        user.wallet += order.totalPrice;
+        await user.save();
+      }
+  
+      for (const productData of order.product) {
+        const productId = productData.ProductId;
+        const quantity = productData.quantity;
+  
+        const product = await Product.findById(productId);
+  
+        if (product) {
+          product.quantity += quantity;
+          await product.save();
         }
-
-     res.redirect('/api/user/allOderData')
-
-
+      }
+  
+      res.redirect('/api/user/allOderData');
     } catch (error) {
-        console.log('errro happemce in cart ctrl in function canselOrder',error); 
-        
+      console.log('Error occurred in cart ctrl in function canselOrder', error);
+      
+      res.status(500).json({ message: 'Internal Server Error' });
     }
-})
+  });
+  
 //-----------------------------------------------------
 
+
+
+
+
+
+//------------------------------returnnorder----------------------------
+const returnOrder = asyncHandler(async (req, res) => {
+    try {
+      const orderId = req.query.orderId;
+      const userId = req.session.user;
+  
+   
+      const user = await User.findOne({ _id: userId });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      const order = await Oder.findByIdAndUpdate(orderId, {
+        status: 'returned'
+      }, { new: true });
+  
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+  
+      user.wallet += order.totalPrice;
+      await user.save();
+  
+      for (const productData of order.product) {
+        const productId = productData.ProductId;
+        const quantity = productData.quantity;
+  
+        // Find the corresponding product in the database
+        const product = await Product.findById(productId);
+  
+        if (product) {
+          product.quantity += quantity;
+          await product.save();
+        }
+      }
+  
+      res.redirect('/api/user/allOderData');
+    } catch (error) {
+      console.log('Error occurred in returnOrder function:', error);
+     
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
 
 
 
@@ -740,7 +800,8 @@ module.exports = {
     verifyPayment,
     useWallet,
     loadsalesReport,
-    salesReport
+    salesReport,
+    returnOrder
 
 
 }

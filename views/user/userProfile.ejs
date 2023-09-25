@@ -76,7 +76,7 @@
                         
                             <br>
                         
-                        <span><h5>Ballence:₹<%= user.wallet %></h5></span>
+                        <span><h5>Ballence:₹<%= user.wallet.toFixed(2) %></h5></span>
                         <br>
                         <br>
                         <span class="text-sm">
@@ -341,11 +341,11 @@
 
                                                             <% for (let i=0; i < order.length;i++) { %>
                                                                 <tr>
-                                                                    <td>#1357</td>
+                                                                    <td><%= i%></td>
                                                                     <td><%= order[i].createdOn.toLocaleDateString() %></td>
                                                                     <td><%= order[i].status %></td>
                                                                     <td>$<%= (order[i].totalPrice ).toFixed(2)%> </td>
-                                                                    <td><a href="/api/user/oderDetails" class="btn-small d-block">View</a></td>
+                                                                    <td><a href="/api/user/oderDetails?orderId=<%= order[i]._id %>" class="btn-small d-block">View</a></td>
                                                                 </tr>
 
                                                                 <% } %> 

@@ -2,6 +2,7 @@ const asyncHandler=require('express-async-handler')
 const User=require('../models/userModel')
 const Product=require('../models/productModel')
 const Razorpay=require('razorpay')
+const Coupon = require('../models/coupenModel')
 
 
 var instance = new Razorpay({ key_id:process.env.RAZORPAY_KEYID, key_secret: process.env.RAZORPAY_SECRETKEY })
@@ -110,6 +111,7 @@ const updateMongoWallet = asyncHandler(async (req, res) => {
 
 const   sumWallet=asyncHandler(async(req,res)=>{
     try {
+        const coupon= await Coupon.find()
         console.log('thisis the sum >>>>>>>>>>>>>>>>>>>>>',req.query);
         const id = req.session.user
         const user = await User.findById(id)
@@ -132,7 +134,7 @@ const   sumWallet=asyncHandler(async(req,res)=>{
         await user.save()
         let sum = req.query.sum
        
-        res.render('chekOut', { user, product, sum })
+        res.render('chekOut', { user, product, sum ,coupon})
         
     } catch (error) {
         console.log('Error happened in the wallet ctrl in the function sumWallet', error);
