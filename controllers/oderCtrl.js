@@ -4,7 +4,7 @@ const Product = require('../models/productModel.js');
 const Oder= require('../models/oderModel')
 const mongoose=require('mongoose')
 const Razorpay=require('razorpay')
-
+const Coupon=require('../models/coupenModel')
 
 
 
@@ -40,7 +40,7 @@ const chekOut = asyncHandler(async (req, res) => {
     try {
         const id = req.session.user
         const user = await User.findById(id)
-        //   console.log(user.cart);
+         const coupon= await Coupon.find()
         const productIds = user.cart.map(cartItem => cartItem.ProductId);
         const product = await Product.find({ _id: { $in: productIds } });
 
@@ -49,7 +49,7 @@ const chekOut = asyncHandler(async (req, res) => {
             sum += user.cart[i].subTotal
         }
         sum = Math.round(sum * 100) / 100;
-        res.render('chekOut', { user, product, sum })
+        res.render('chekOut', { user, product, sum ,coupon})
 
     } catch (error) {
         console.log('Error form oder Ctrl in the function chekOut', error);
@@ -109,7 +109,7 @@ const oderPlaced=asyncHandler(async(req,res)=>{
             userId:userId,
             payment:payment,
             address:address,
-            status:'pending'
+            status:'conformed'
 
         })
          const oderDb = await oder.save()
@@ -599,6 +599,126 @@ const useWallet=asyncHandler(async(req,res)=>{
 ///--------------------------------------------------------------------------
 
 
+
+
+
+const loadsalesReport=asyncHandler(async(req,res)=>{
+    try {
+
+
+        const orders= await Oder.find({status:'delivered'})
+
+        console.log(orders);
+        const itemsperpage = 3;
+        const currentpage = parseInt(req.query.page) || 1;
+        const startindex = (currentpage - 1) * itemsperpage;
+        const endindex = startindex + itemsperpage;
+        const totalpages = Math.ceil(orders.length / 3);
+        const currentproduct = orders.slice(startindex,endindex);
+
+   res.render('salesReport',{orders:currentproduct,totalpages,currentpage})
+
+
+        
+    } catch (error) {
+        console.log('errro happemce in cart ctrl in function loadsalesReport',error); 
+        
+    }
+})
+
+
+
+const salesReport = asyncHandler(async (req, res) => {
+    try {
+        const date = req.query.date;
+        let orders;
+
+        const currentDate = new Date();
+
+        // Helper function to get the first day of the current month
+        function getFirstDayOfMonth(date) {
+            return new Date(date.getFullYear(), date.getMonth(), 1);
+        }
+
+        // Helper function to get the first day of the current year
+        function getFirstDayOfYear(date) {
+            return new Date(date.getFullYear(), 0, 1);
+        }
+
+        switch (date) {
+            case 'today':
+                orders = await Oder.find({
+                    status: 'delivered',
+                    createdOn: {
+                        $gte: new Date().setHours(0, 0, 0, 0), // Start of today
+                        $lt: new Date().setHours(23, 59, 59, 999), // End of today
+                    },
+                });
+                break;
+            case 'week':
+                const startOfWeek = new Date(currentDate);
+                startOfWeek.setDate(currentDate.getDate() - currentDate.getDay()); // Set to the first day of the week (Sunday)
+                startOfWeek.setHours(0, 0, 0, 0);
+
+                const endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to the last day of the week (Saturday)
+                endOfWeek.setHours(23, 59, 59, 999);
+
+                orders = await Oder.find({
+                    status: 'delivered',
+                    createdOn: {
+                        $gte: startOfWeek,
+                        $lt: endOfWeek,
+                    },
+                });
+                break;
+            case 'month':
+                const startOfMonth = getFirstDayOfMonth(currentDate);
+                const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59, 999);
+
+                orders = await Oder.find({
+                    status: 'delivered',
+                    createdOn: {
+                        $gte: startOfMonth,
+                        $lt: endOfMonth,
+                    },
+                });
+                break;
+            case 'year':
+                const startOfYear = getFirstDayOfYear(currentDate);
+                const endOfYear = new Date(currentDate.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+                orders = await Oder.find({
+                    status: 'delivered',
+                    createdOn: {
+                        $gte: startOfYear,
+                        $lt: endOfYear,
+                    },
+                });
+                break;
+            default:
+                // Fetch all orders
+                orders = await Oder.find({ status: 'delivered' });
+        }
+
+        const itemsperpage = 3;
+        const currentpage = parseInt(req.query.page) || 1;
+        const startindex = (currentpage - 1) * itemsperpage;
+        const endindex = startindex + itemsperpage;
+        const totalpages = Math.ceil(orders.length / 3);
+        const currentproduct = orders.slice(startindex,endindex);
+
+   res.render('salesReport',{orders:currentproduct,totalpages,currentpage})
+      
+    } catch (error) {
+        console.log('Error occurred in salesReport route:', error);
+        // Handle errors and send an appropriate response
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
+
+
+
    
 
 
@@ -618,7 +738,9 @@ module.exports = {
     changeStatusreturned,
     changeStatusCanseled,
     verifyPayment,
-    useWallet
+    useWallet,
+    loadsalesReport,
+    salesReport
 
 
 }

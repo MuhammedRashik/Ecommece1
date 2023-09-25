@@ -208,4 +208,13 @@ const listCatogary = asyncHandler(async (req, res) => {
 
 
 
-module.exports = { loadCatogary, getAllCatogary, addCatogary, deleteCatogary, editCatogary, unlistCatogary, listCatogary, updateCatogary }
+module.exports = { 
+    loadCatogary, 
+    getAllCatogary, 
+    addCatogary, 
+    deleteCatogary, 
+    editCatogary, 
+    unlistCatogary, 
+    listCatogary, 
+    updateCatogary
+ }

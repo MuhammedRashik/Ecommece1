@@ -78,6 +78,8 @@ const {
     changeStatusPending,
     changeStatusShipped,
     changeStatusreturned,
+    loadsalesReport,
+    salesReport
 }=require('../controllers/oderCtrl')
 //----------------------------------------------
 
@@ -108,7 +110,7 @@ const {
 
 
 
-
+//------coupon-------------
 const {
     loadCoupon,
     addCoupon,
@@ -117,7 +119,7 @@ const {
     deleteCoupon,
     updateCoupon
 }=require('../controllers/couponCtrl')
-
+//-----------------------
 
 //------engine set up------------
 router.set('view engine','ejs'); 
@@ -223,6 +225,12 @@ router.get('/deleteCoupon',deleteCoupon)
 router.post('/updateCoupon',updateCoupon)
 router.get('/editCoupon',editCoupon)
 //------------------------------------------
+
+
+
+//-----------salesReport--------------
+router.get('/loadsalesReport',loadsalesReport)
+router.get('/salesReport',salesReport)
 
 
 

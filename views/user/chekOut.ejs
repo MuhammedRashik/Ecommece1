@@ -1,5 +1,6 @@
 <%- include('header') %>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <main class="main">
         <div class="page-header breadcrumb-wrap">
@@ -111,19 +112,26 @@
                                   
                                     <tr>
                                         <th>SubTotal</th>
-                                       
-                                        <td class="product-subtotal" id="displayedSum" colspan="2">₹<%= sum %></td>
-                                    </tr>
-                                    <tr>
+                                        <td class="product-subtotal" id="subtotalValue" colspan="2">₹<%= sum %></td>
+                                      </tr>
+                                      <tr>
                                         <th>Shipping</th>
                                         <td colspan="2"><em>Free Shipping</em></td>
-                                    </tr>
-                                    <tr>
+                                      </tr>
+                                      <tr>
                                         <th>Total</th>
-                                        <td colspan="2" class="product-subtotal"><span id="displayedSum" value="<%= sum %>" class="font-xl text-brand fw-900">₹<%= sum %></span></td>
-                                    </tr>
-                                </tbody>
+                                        <td colspan="2" class="product-subtotal"><span id="totalValue" value="<%= sum %>" class="font-xl text-brand fw-900">₹<%= sum %></span></td>
+                                      </tr>
                             </table>
+                           <div class="col-lg-3">
+                            <button class="btn btn-sm" type="button" data-toggle="modal" data-target="#exampleModalCenter"  > Your Coupons</button>
+                            <br><br>
+                            
+                            <button class="btn btn-sm" onclick="applyCoupon()"> Apply Coupons</button>
+                              
+                             
+                              
+                           </div>
                         </div>
                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                         <div class="payment_method">
@@ -149,7 +157,44 @@
                                         <% } %>
 
                               
-                               
+                                        
+                                          <!------------------------------------- Modal ------------------------------------>
+                                          <div class="modal fade " id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Your Coupons</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table class="table">
+                                                            <tbody>
+                                                                <% if (coupon.length > 0) { %>
+                                                                    <% for (let i = 0; i < coupon.length; i++) { %>
+                                                                        <tr>
+                                                                            <td><%= coupon[i].name %></td>
+                                                                            <td class="text-right">
+                                                                                <button class="btn btn-sm btn-copy" data-coupon-name="<%= coupon[i].name %>">Copy</button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    <% } %>
+                                                                <% } else { %>
+                                                                    <tr>
+                                                                        <td colspan="2">No Coupon Available</td>
+                                                                    </tr>
+                                                                <% } %>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                          <!------------------------------------- Modal -end----------------------------------->
 
 
 
@@ -271,8 +316,110 @@
                 </div>
             </div>
         </section>
+
+       
+
+
+
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<!------------------------- coupons --------------------------------->
+<script>
+
+
+function applyCoupon() {
+  swal({
+    text: 'Apply your coupon code here !!!',
+    content: 'input',
+    button: {
+      text: 'Apply!',
+      closeModal: false,
+    },
+  })
+  .then(couponCode => {
+    if (!couponCode) {
+      throw null; // No coupon code provided, so exit without making an AJAX request
+    }
+
+    // Perform an AJAX request here with the couponCode
+    fetch('/api/user/validateCoupon', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ couponCode }), // Send the couponCode in the request body
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.isValid) {
+      
+        const displayedSum = document.getElementById('totalValue').textContent;
+    const numericValue = parseFloat(displayedSum.replace(/[^\d.]/g, ''));
+    const couponOfferPrice = parseFloat(data.coupon.offerPrice);
+    const newSum = numericValue - couponOfferPrice;
+    
+    // Update the displayedSum value on the webpage
+    const displayedSumElement = document.getElementById('totalValue');
+    displayedSumElement.textContent = '₹' + newSum.toFixed(2);
+    
+    swal('Coupon Valid!', `Coupon code '${couponCode}' is valid.`);
+
+
+      } else {
+        swal('Invalid Coupon', `Coupon code '${couponCode}' is not valid.`);
+      }
+    })
+    .catch(error => {
+      console.error('Error occurred during AJAX request:', error);
+      swal('Error', 'An error occurred while processing your request.', 'error');
+    });
+  })
+  .catch(error => {
+    if (error) {
+      swal('Oh noes!', 'An error occurred!', 'error');
+    } else {
+      swal.stopLoading();
+      swal.close();
+    }
+  });
+}
+
+
+
+</script>
+<!------------------------- coupons end--------------------------------->
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    const copyButtons = document.querySelectorAll(".btn-copy");
+    copyButtons.forEach(copyButton => {
+        copyButton.addEventListener("click", function () {
+            const couponName = this.getAttribute("data-coupon-name");
+            copyToClipboard(couponName);
+            updateCopyButton(this); // Update the clicked copy button's appearance
+        });
+    });
+});
+
+function updateCopyButton(button) {
+    button.textContent = 'Copied';
+    button.disabled = true; 
+}
+
+async function copyToClipboard(text) {
+    try {
+        await navigator.clipboard.writeText(text);
+        console.log('Text copied to clipboard:', text);
+    } catch (error) {
+        console.error("Failed to copy:", error);
+    }
+}
+</script>
+
+
+
+
     <script>
 
 
@@ -285,10 +432,10 @@ async  function  placeOrder(userId) {
 var address=$('.address:checked').val()
 var payment=$('.payment:checked').val()
 
-const displayedSum = document.getElementById('displayedSum').textContent;
+const displayedSum = document.getElementById('totalValue').textContent;
 const numericValue = parseFloat(displayedSum.replace(/[^\d.]/g, ''));
 
-alert(numericValue)
+// alert(numericValue)
 if(!payment){
     Swal.fire({
     title: ' NO PAYMENT FOUND!',

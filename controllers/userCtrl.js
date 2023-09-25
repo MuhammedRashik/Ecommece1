@@ -9,6 +9,24 @@ const Oder=require('../models/oderModel')
 const Banner=require('../models/bannerModel')
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const generateHashedPassword = async (password) => {
     const saltRounds = 10; // Number of salt rounds
     const salt = await bcrypt.genSalt(saltRounds);

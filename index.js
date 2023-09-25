@@ -8,12 +8,15 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const nocache=require('nocache')
 const dotenv=require('dotenv').config()
+
 const { dbConnect } = require('./config/conectDB');
 const mongodbSession=require('connect-mongodb-session')(session)
 const store= new mongodbSession({
     uri:process.env.MONGO_URL,
     collection:"SessionDB",
 })
+
+
 
 dbConnect()
 
@@ -31,6 +34,7 @@ app.use(morgan("dev"))
 app.use(flash());
 
 
+
 app.use(session({
       secret:process.env.SESSION_SECRET_KEY,
       resave: false,
@@ -43,7 +47,7 @@ app.use(session({
     })
   );
   app.use(nocache())
- 
+
 //-----------------user router --------------------
 const userRouter=require('./routes/userRouter')
 app.use('/api/user',userRouter)
@@ -54,6 +58,11 @@ const adminRoter=require('./routes/adminRouter');
 app.use('/api/admin',adminRoter)
  //-------------------------------------------------
 
+
+// app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'], session: false }));
+// app.get('/auth/google/redirect', passport.authenticate('google', { session: false, failureRedirect: `https://localhost:3000/login` }), (req, res) => {
+//   res.redirect(req.user); //req.user has the redirection_url
+// });
 
 
 app.listen(PORT,()=>console.log(`server is runnging at the port ${PORT}`))  

@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express();
+const passport=require('passport')
 //-------------------------------------
 //-/////////////////////////////////////////-required-/////////////////////////////
 
@@ -12,7 +13,7 @@ const { upload } = require('../multer/multer')
 //-----------------------
 
 
-
+require('../config/passport') 
 
 
 
@@ -167,6 +168,14 @@ const {
 
 
 
+
+
+
+//-------coupon--------
+const {validateCoupon}=require('../controllers/couponCtrl')
+//-------------------------
+
+const {google} = require('googleapis');
 ///////////////////////////////////////////////////--require end--/////////////////////////////
 
 
@@ -179,9 +188,23 @@ router.set('views', './views/user');
 //-------------------------
 
 
+  
+  
+  
+  
+  
 
-
-
+router.get('/google',passport.authenticate('google',{scope:['profile','email']}))
+router.get('/api/user/api/user/google',
+ passport.authenticate('google', { failureRedirect: '/api/user/login' }),
+(req, res) => {
+  // Authentication successful, serialize user to the session
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+  res.redirect('/api/user');
+}
+);
 
 //----------------user-----------------------------------
 router.get('/',loadIndex)//load the indexpage 
@@ -311,6 +334,22 @@ router.post('/addMoneyWallet',isLogged,addMoneyWallet)
 router.post('/updateMongoWallet',isLogged,updateMongoWallet)
 router.post('/useWallet',isLogged,useWallet)
 //------------------=-------------
+
+
+
+//--------------coupon---------------
+router.post('/validateCoupon',validateCoupon)
+
+
+
+
+
+
+// Microsoft Routes
+// router.get('/auth/microsoft', passport.authenticate('microsoft', { session: false }));
+// router.get('/auth/microsoft/redirect', passport.authenticate('microsoft', { session: false, failureRedirect: `https://localhost:3000/login` }), (req, res) => {
+//   res.redirect(req.user);
+// });
 
 
 

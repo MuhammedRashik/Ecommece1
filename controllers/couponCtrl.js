@@ -1,5 +1,6 @@
 const asyncHandler=require('express-async-handler')
-const Coupon=require('../models/coupenModel')
+const Coupon=require('../models/coupenModel');
+
 
 //---------------rendering the coupen add page---------------
 const loadCoupon=asyncHandler(async(req,res)=>{
@@ -16,28 +17,30 @@ const loadCoupon=asyncHandler(async(req,res)=>{
 
 //--------------------cerate a coupen whith coupen ----------------
 
-const addCoupon=asyncHandler(async(req,res)=>{
+const addCoupon = asyncHandler(async (req, res) => {
     try {
-     console.log(req.body);
-     const x= req.body
-     const coupon= new Coupon({
-    name:x.name,
-    discription:x.discription,
-    offerPrice:x.offerPrice,
-    minimumAmount:x.minimumAmount,
-    createdOn:Date.now(),
-    expiryDate:x.expiryDate
- })
+        console.log(req.body);
+        const x = req.body;
 
- await coupon.save()
+        const customExpiryDate = new Date(x.expiryDate); 
 
- res.redirect('/api/admin/coupon')
-        
+        const coupon = new Coupon({
+            name: x.name,
+            discription: x.discription,
+            offerPrice: x.offerPrice,
+            minimumAmount: x.minimumAmount,
+            createdOn: Date.now(),
+            expiryDate: customExpiryDate,
+        });
+
+        const create = await coupon.save();
+
+       
+        res.redirect('/api/admin/coupon');
     } catch (error) {
-        console.log('Error happence in the coupon controller in the funtion addCoupon',error);
-        
+        console.log('Error happened in the coupon controller in the function addCoupon', error);
     }
-})
+});
 
 
 //--------------rendering the coupen page with data-----------------
@@ -72,7 +75,7 @@ const deleteCoupon=asyncHandler(async(req,res)=>{
 
         const coupon= await Coupon.findByIdAndDelete(id)
 
-console.log('this the deleted adata ',coupon);
+
 
         res.redirect('/api/admin/coupon')
 
@@ -104,44 +107,86 @@ const editCoupon=asyncHandler(async(req,res)=>{
 
 
 
-const updateCoupon=asyncHandler(async(req,res)=>{
+const updateCoupon = asyncHandler(async (req, res) => {
     try {
-        const id= req.body.id
+      const id = req.body.id;
+      const x = req.body;
+  
+     
+      if (x.expiryDate) {
+      
+  
+      
+        const updatedCoupon = await Coupon.findByIdAndUpdate(
+          id,
+          {
+            name: x.name,
+            discription: x.discription,
+            offerPrice: x.offerPrice,
+            minimumAmount: x.minimumAmount,
+            expiryDate: x.expiryDate,
+          },
+          { new: true }
+        );
+  
+     
+    
+  
+      
+      } else {
        
-const x=req.body
-const expiryDate = new Date(x.expiryDate);
-
-if(expiryDate){
-    const coupon= await Coupon.findByIdAndUpdate(id,{
-        name:x.name,
-discription:x.discription,
-offerPrice:x.offerPrice,
-minimumAmount:x.minimumAmount,
-expiryDate:expiryDate
-
-    },{new:true})
-
-}else{
-    const coupon= await Coupon.findByIdAndUpdate(id,{
-        name:x.name,
-        discription:x.discription,
-        offerPrice:x.offerPrice,
-        minimumAmount:x.minimumAmount,
-
-
-    },{new:true})
-}
+        const updatedCoupon = await Coupon.findByIdAndUpdate(
+          id,
+          {
+            name: x.name,
+            discription: x.discription,
+            offerPrice: x.offerPrice,
+            minimumAmount: x.minimumAmount,
+          },
+          { new: true }
+        );
+  
        
-        console.log('thie si updated coupon',coupon);
-        res.redirect('/api/admin/coupon')
-        
+      }
+  
+      res.redirect('/api/admin/coupon');
     } catch (error) {
-        console.log('Error happence in the coupon controller in the funtion editCoupon',error);
-        
+      console.log('Error happened in the coupon controller in the function editCoupon', error);
     }
-})
+  });
+
+  //--------------------------------------------------------------
 
 
+
+  const validateCoupon = asyncHandler(async (req, res) => {
+    try {
+      const name = req.body.couponCode;
+  
+      // Query the database to find the coupon by its name
+      const coupon = await Coupon.findOne({ name: name });
+  
+      if (coupon) {
+        // If a coupon with the provided name is found, send it as a JSON response
+        res.status(200).json({
+          isValid: true,
+          coupon: coupon, // Include the coupon data in the response
+        });
+      } else {
+        // If no coupon with the provided name is found, send an error response
+        res.status(404).json({
+          isValid: false,
+          error: 'Coupon not found',
+        });
+      }
+    } catch (error) {
+      console.log('Error happened in the coupon controller in the function validateCoupon', error);
+      res.status(500).json({
+        isValid: false,
+        error: 'An error occurred while processing your request',
+      });
+    }
+  });
 
 module.exports={
     loadCoupon,
@@ -149,5 +194,6 @@ module.exports={
     coupon,
     editCoupon,
     deleteCoupon,
-    updateCoupon
+    updateCoupon,
+    validateCoupon
 }
