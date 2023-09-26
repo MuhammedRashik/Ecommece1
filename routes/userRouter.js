@@ -83,7 +83,7 @@ const {
     testAjax,
     deleteItemeCart,
     deleteCart,
-    
+    updateCart
     
 
   
@@ -106,7 +106,9 @@ const {
     canselOder,
     verifyPayment,
     useWallet,
-    returnOrder
+    returnOrder,
+    buyNOw,
+    buynowPlaceOrder
     
 }=require('../controllers/oderCtrl')
 //------------------------------------
@@ -219,7 +221,7 @@ router.post('/updatePassword', updatePassword)//if otp corect update the passwor
 router.get("/mobileOTP", mobileOTP) //mobile otp verification page do it later
 //---------------------------------------------------------------
 
-
+     
 
 
 
@@ -251,6 +253,7 @@ router.get('/deleteAddress', isLogged,deleteAddress)//deleting a specific addres
 //-------------products--------------------------------------
 router.get('/aProduct', isLogged,upload.single('images'), aProductPage)//rendering a single product page
 router.get('/shop', shop)//rendering the shop page
+
 //------------------------ ---------                       
 
 
@@ -265,6 +268,7 @@ router.post('/test',isLogged,testAjax)//using ajax incrimet the quntity
 router.post('/testdic',isLogged,testdic)//using ajx dicriment the quantity
 router.post('/deleteItemeCart',isLogged,deleteItemeCart)//delete a product in the cart
 router.get('/deleteCart',isLogged,deleteCart)//delete a item in cart
+router.post('/updateCart',updateCart)
 //-------------------------------------
 
 
@@ -272,7 +276,7 @@ router.get('/deleteCart',isLogged,deleteCart)//delete a item in cart
 
 
 
-//-------oder--------------------
+//--------------------------oder--------------------------------
 router.get('/selectPaymentMethord',isLogged,chekOut)//rendering the chekout page
 router.get('/oderPage',isLogged,oderPage)//rendering the oder page
 router.post('/oderPlaced',isLogged,oderPlaced)//confrming the order ans selet payment and address
@@ -280,15 +284,17 @@ router.get('/allOderData',isLogged,allOderData)//user get that spcific oder data
 // router.get('/orderTracking',oderTraking)
 router.get('/oderDetails',isLogged,oderDetails)//user vist hisorders details
 router.get('/canselOrder',isLogged,canselOder)//canselng a orde
-router.post('/verifyPayment',isLogged,verifyPayment)
-router.get('/return',isLogged,returnOrder)
+router.post('/verifyPayment',isLogged,verifyPayment)//
+router.get('/return',isLogged,returnOrder)//delivered order return
+router.get('/buyNOw',buyNOw)//a single produt buynow
+router.post('/buynowPlaceOrder',buynowPlaceOrder)
 //---------------------------------------
 
 
 
 ///---------wallet---------------
 
-router.get('/sumWallet',sumWallet)
+router.get('/sumWallet',sumWallet)//
 router.post('/useWallet',useWallet)
 //----------------------------------
 

@@ -34,7 +34,7 @@ const loadCart = asyncHandler(async (req, res) => {
             totalSubTotal += item.subTotal;
             quantity += item.quantity
         }
-        // console.log(totalSubTotal);
+       
 
         res.render('cart', { product, cart: user.cart, quantity, totalSubTotal,user });
     } catch (error) {
@@ -133,12 +133,12 @@ if(user){
             }
         );
         const updatedUser= await user.save();
-        // const totalAmount = updatedUser.cart.reduce((total, item) => total + item.subTotal, 0);
+      
         const totalAmount=product.price * (existingCartItem.quantity - 1)
    
-        // console.log('this is the toatl amoun fo that product ',totalAmount);
        
-        // console.log('this is update user form the dcreiment side ',updatedUser);
+       
+        
         res.json({ status: true ,quantityInput:existingCartItem.quantity-1,total:totalAmount});
     }
 }
@@ -224,7 +224,7 @@ const testAjax = asyncHandler(async (req, res) => {
                     { _id: user, 'cart.ProductId': id },
                     {
                         $inc: {
-                            'cart.$.quantity': 1, // Increment the quantity
+                            'cart.$.quantity': 1, 
                         },
                         $set: {
                             'cart.$.subTotal': (product.price * (existingCartItem.quantity + 1)), // Update the subtotal
@@ -249,6 +249,80 @@ const testAjax = asyncHandler(async (req, res) => {
     }
 });
 // ...-------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+const updateCart = asyncHandler(async (req, res) => {
+    try {
+        console.log('i entered ');
+        const id = req.body.productId;
+        const userId = req.session.user;
+        const count = req.body.count; // Added count parameter
+
+      
+        
+        // Find the user by their ID
+        const user = await User.findById(userId);
+        const product = await Product.findById(id);
+
+        if (user) {
+           
+            const existingCartItem = user.cart.find(item => item.ProductId === id);
+          
+            if (existingCartItem) {
+                let newQuantity;
+                if (count == 1) {
+                  
+                    // Increment quantity
+                    newQuantity = existingCartItem.quantity + 1;
+                   
+                } else if (count == -1) {
+                  
+                    newQuantity = existingCartItem.quantity - 1;
+                } else {
+                   
+                    return res.status(400).json({ status: false, error: "Invalid count" });
+                }
+
+                // Check if the new quantity is within bounds (greater than 0 and not exceeding product quantity)
+                if (newQuantity > 0 && newQuantity <= product.quantity) {
+                    const updated = await User.updateOne(
+                        { _id: userId, 'cart.ProductId': id },
+                        {
+                            $set: {
+                                'cart.$.quantity': newQuantity, // Update the quantity
+                                'cart.$.subTotal': (product.price * newQuantity), // Update the subtotal
+                            },
+                        }
+                    );
+                   
+
+                    const updatedUser = await user.save();
+                   
+                    const totalAmount = product.price * newQuantity;
+                   
+                    res.json({ status: true, quantityInput: newQuantity, total: totalAmount });
+                } else {
+      
+
+                    res.json({ status: false, error: 'out of stock' });
+                }
+            }
+        }
+    } catch (error) {
+        console.error('ERROR hapence in cart ctrl in the funtion update crt',error);
+        return res.status(500).json({ status: false, error: "Server error" });
+    }
+});
+
+
+
 
 
 
@@ -286,6 +360,8 @@ module.exports = {
     testdic,
     deleteItemeCart,
     deleteCart,
+    updateCart
+    
 }
 
 

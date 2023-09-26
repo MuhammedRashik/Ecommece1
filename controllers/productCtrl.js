@@ -192,13 +192,19 @@ const productEdited = asyncHandler(async (req, res) => {
 //rendering the product page ---------------------------
 const aProductPage = asyncHandler(async (req, res) => {
     try {
+
+
+
         const userId=req.session.user;
         const user=await User.findById(userId)
         const id = req.query.id
         const product = await Product.findById(id)
-        if (product) {
+        const relatedPr= await Product.find({catogary:product.catogary}).limit(4)
+        if (product ) {
+           
 
-            res.render('aProduct', { product: product ,user})
+            
+            res.render('aProduct', { product: product ,user,relatedPr})
         }
 
     } catch (error) {

@@ -112,7 +112,7 @@ const updateMongoWallet = asyncHandler(async (req, res) => {
 const   sumWallet=asyncHandler(async(req,res)=>{
     try {
         const coupon= await Coupon.find()
-        console.log('thisis the sum >>>>>>>>>>>>>>>>>>>>>',req.query);
+    
         const id = req.session.user
         const user = await User.findById(id)
         //   console.log(user.cart);

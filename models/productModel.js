@@ -58,8 +58,18 @@ const productSchema = new mongoose.Schema({
     },
     rating:[{
         star:Number,
+
         postedby:{type:mongoose.Schema.Types.ObjectId,ref:"User"},
     }],
+    review:{
+        type:Array,
+
+        text:{
+            type:String
+        }
+
+        
+    },
     status:{
         type:Boolean,
         default:true

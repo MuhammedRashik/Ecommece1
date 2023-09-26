@@ -7,7 +7,7 @@ const mongoosePaginate = require("mongoose-paginate-v2");
 const { use } = require("passport");
 const Oder=require('../models/oderModel')
 const Banner=require('../models/bannerModel')
-
+const Catogary=require('../models/catogaryModel')
 
 
 
@@ -42,19 +42,21 @@ const loadIndex = asyncHandler(async (req, res) => {
     try {
         const user = req.session.user;
         if(user){
+            const catogary= await Catogary.find()
             const userdata=await User.findById(user)
             const product = await Product.find().limit(9);
             const banner= await Banner.find()
             const pr = product.status == true;
             req.session.Product = product;
-            res.render("index", { user:userdata, product ,banner});
+            res.render("index", { user:userdata, product ,banner,catogary});
 
         }else{
+            const catogary= await Catogary.find()
             const product = await Product.find().limit(9);
             const banner= await Banner.find()
             const pr = product.status == true;
             req.session.Product = product;
-            res.render("index", { user, product ,banner});
+            res.render("index", { user, product ,banner, catogary});
         }
        
     } catch (error) {
@@ -663,11 +665,9 @@ const googleAuth=asyncHandler(async(req,res)=>{
                  
             }else{
                 const user=req.user
-               
                 const saveUserData = new User({
                     username: user.given_name,
                     email: user.email,
-                    mobile: user.mobile,
                     image:user.picture,
                     password:user.sub,
                     isGoogle:true

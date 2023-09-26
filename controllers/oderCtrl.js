@@ -8,7 +8,6 @@ const Coupon=require('../models/coupenModel')
 
 
 
-
 var instance = new Razorpay({ key_id:process.env.RAZORPAY_KEYID, key_secret: process.env.RAZORPAY_SECRETKEY })
 
 
@@ -167,6 +166,91 @@ const oderPlaced=asyncHandler(async(req,res)=>{
 
 
 
+const buynowPlaceOrder=asyncHandler(async(req,res)=>{
+    try {
+        // console.log(req.body);
+        const {totalPrice,createdOn,date,payment,addressId,prId}=req.body
+        // console.log(addressId);
+        const userId=req.session.user
+        const user= await User.findById(userId);
+       
+
+        
+        // console.log('product is +>>>>>>>>>>>>>>>>>>>>>>>>>',user.address);
+
+        const address = user.address.find(item => item._id.toString() === addressId);
+
+      
+        const productDetails = await Product.findById(prId);
+
+       
+      
+
+
+        // console.log('this the produxt that user by ',orderProducts);
+       
+        const oder = new Oder({
+            totalPrice:totalPrice,    
+            createdOn: createdOn,
+            date:date,
+            product:productDetails,
+            userId:userId,
+            payment:payment,
+            address:address,
+            status:'conformed'
+
+        })
+         const oderDb = await oder.save()
+         //-----------part that dicrese the qunatity od the cutent product --
+       
+         productDetails.quantity= productDetails.quantity-1      
+         await productDetails.save();
+            
+        
+         //-------------------------------  
+         
+         if(oder.payment=='cod'){
+           console.log('yes iam the cod methord');
+            res.json({ payment: true, method: "cod", order: oderDb ,qty:productDetails.quantity,oderId:user});
+
+         }else if(oder.payment=='online'){
+           console.log('yes iam the razorpay methord');
+
+            const generatedOrder = await generateOrderRazorpay(oderDb._id, oderDb.totalPrice);
+            res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:user,qty:productDetails.quantity});
+                        
+         }else if(oder.payment=='wallet'){
+         const a=   user.wallet -= totalPrice;
+            const transaction = {
+                amount: a,
+                status: "debit",
+                timestamp: new Date(), // You can add a timestamp to the transaction
+            };
+        
+            // Push the transaction into the user's history array
+            user.history.push(transaction);
+
+          
+
+           
+             await user.save();
+    
+            
+            res.json({ payment: true, method: "wallet", });
+            
+         }
+
+
+
+  
+    } catch (error) {
+        console.log('Error form oder Ctrl in the function oderPlaced', error);
+        
+    }
+    
+})
+
+
 
 
 //------------grnerate the razorpay -----------------
@@ -204,12 +288,9 @@ const allOderData = asyncHandler(async (req, res) => {
         const user=await User.findById(userId)
         const orders = await Oder.find({ userId: userId }).sort({ createdOn: -1 });
 
-        // Create an array to store promises for populating product details
-        const orderstitle = await Oder.find({ userId: userId }).populate({
-            path: 'product.ProductId',
-            select: 'title'
-        });
+
        
+     
 
         const itemsperpage = 3;
         const currentpage = parseInt(req.query.page) || 1;
@@ -218,7 +299,7 @@ const allOderData = asyncHandler(async (req, res) => {
         const totalpages = Math.ceil(orders.length / 3);
         const currentproduct = orders.slice(startindex,endindex);
       
-       
+    
         res.render('oderList', { orders:currentproduct,totalpages,currentpage ,user});
     } catch (error) {
         console.log('Error from oderCtrl in the function allOderData', error);
@@ -624,17 +705,10 @@ const verifyOrderPayment = (details) => {
         })
     };
 
-//----------------------razorpay end------------------------
-
-// let sum = 0;
-//         for (let i = 0; i < user.cart.length; i++) {
-//             sum += user.cart[i].subTotal
-//         }
-
 
 const useWallet=asyncHandler(async(req,res)=>{
     try {
-        console.log('thisd is reqqqqqqqqqq',req.body);
+       
         const userId=req.session.user;
         const user=await User.findById(userId)
 
@@ -668,7 +742,7 @@ const loadsalesReport=asyncHandler(async(req,res)=>{
 
         const orders= await Oder.find({status:'delivered'})
 
-        console.log(orders);
+      
         const itemsperpage = 3;
         const currentpage = parseInt(req.query.page) || 1;
         const startindex = (currentpage - 1) * itemsperpage;
@@ -779,6 +853,31 @@ const salesReport = asyncHandler(async (req, res) => {
 
 
 
+/////----------------------------------------a single product buyNOw --------
+
+const buyNOw=asyncHandler(async(req,res)=>{
+    try {
+        const product= await Product.findById(req.query.id)
+
+        console.log('this is buynow product ',product);
+
+        const id = req.session.user
+        const user = await User.findById(id)
+         const coupon= await Coupon.find()
+        
+       let sum= product.price 
+        res.render('buyNow', { user, product, sum ,coupon})
+
+
+
+    } catch (error) {
+        console.log('Error occurred in orderCTrl buyNOw:', error);
+        
+    }
+
+})
+
+
    
 
 
@@ -801,7 +900,9 @@ module.exports = {
     useWallet,
     loadsalesReport,
     salesReport,
-    returnOrder
+    returnOrder,
+    buyNOw,
+    buynowPlaceOrder
 
 
 }

@@ -26,6 +26,7 @@
     "express-session": "^1.17.3",
     "google": "^2.1.0",
     "googleapis": "^126.0.1",
+    "js-image-zoom": "^0.7.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.0",
     "mongoose-paginate-v2": "^1.7.31",
