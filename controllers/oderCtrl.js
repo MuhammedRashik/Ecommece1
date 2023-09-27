@@ -789,7 +789,7 @@ const salesReport = asyncHandler(async (req, res) => {
                     },
                 });
                 break;
-            case 'week':
+             case 'week':
                 const startOfWeek = new Date(currentDate);
                 startOfWeek.setDate(currentDate.getDate() - currentDate.getDay()); // Set to the first day of the week (Sunday)
                 startOfWeek.setHours(0, 0, 0, 0);
@@ -829,6 +829,7 @@ const salesReport = asyncHandler(async (req, res) => {
                         $lt: endOfYear,
                     },
                 });
+               
                 break;
             default:
                 // Fetch all orders

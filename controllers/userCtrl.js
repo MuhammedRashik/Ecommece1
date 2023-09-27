@@ -42,21 +42,25 @@ const loadIndex = asyncHandler(async (req, res) => {
     try {
         const user = req.session.user;
         if(user){
+            const womens=await Product.find({catogary:" Womon's Clothing"})
+          
             const catogary= await Catogary.find()
             const userdata=await User.findById(user)
             const product = await Product.find().limit(9);
             const banner= await Banner.find()
             const pr = product.status == true;
             req.session.Product = product;
-            res.render("index", { user:userdata, product ,banner,catogary});
+            res.render("index", { user:userdata, product ,banner,catogary,womens});
 
         }else{
+            const womens=await Product.find({catogary:" Womon's Clothing"})
+            
             const catogary= await Catogary.find()
             const product = await Product.find().limit(9);
             const banner= await Banner.find()
             const pr = product.status == true;
             req.session.Product = product;
-            res.render("index", { user, product ,banner, catogary});
+            res.render("index", { user, product ,banner, catogary,womens});
         }
        
     } catch (error) {

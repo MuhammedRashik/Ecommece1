@@ -8,7 +8,7 @@ passport.use(new GoogleStrategy({
     callbackURL:process.env.GOOGLE_CLIENT_callbackURL,
     passReqToCallback:true
 }, async function (request ,accesTocken,refresToken,profile,done){
-    console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',profile);
+   
     return done(null,profile )
 }
 ))

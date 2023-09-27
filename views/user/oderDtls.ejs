@@ -168,13 +168,80 @@
                                     Phone: +1 (800) 555-154-52
                                 </p>
                             </div>
-                            <div class="h-25 pt-4">
-                                <div class="mb-3">
-                                    <label>Notes</label>
-                                    <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
+                            <% if (order.status == 'delivered') { %>
+                            <div class="comment-form">
+                                <h4 class="mb-15">Add a review</h4>
+                          
+                                
+<!----------------------------------------------1 star grops _____________________________________________________________ -->
+<i class="bi bi-star star" data-value="1"></i>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+
+</svg>  <i class="bi bi-star star" data-value="2"></i>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+
+</svg>  <i class="bi bi-star star" data-value="3"></i>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+
+</svg>  <i class="bi bi-star star" data-value="4"></i>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+
+</svg>  <i class="bi bi-star star" data-value="5"></i>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+
+</svg>
+<!----------------------------------------------1 star grops ____end_________________________________________________________ -->
+                     
+<!----------------------------------------------1 star grops ____end_________________________________________________________ -->
+
+
+<br><br>
+
+
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-12">
+                                        <form class="form-contact comment_form" action="/api/user/review" id="commentForm">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <textarea class="form-control w-100" name="comment"
+                                                            id="comment" cols="30" rows="9"
+                                                            placeholder="Write Comment"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="name" id="name"
+                                                            type="text" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="email" id="email"
+                                                            type="email" placeholder="Email">
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit"
+                                                    class="button button-contactForm">Submit
+                                                    Review</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                                <button class="btn btn-primary" >Save note</button>
                             </div>
+
+                                <% } else { %>
+                                    
+                                    <% } %>
+                            
                             
                            
                         </div> <!-- col// -->
@@ -193,6 +260,32 @@
 <br>
     <br>
     <br>
+    
+    <script>
+        jQuery(document).ready(function ($) {
+       const stars = document.querySelectorAll('.star');
+
+stars.forEach((star) => {
+    star.addEventListener('click', (event) => {
+        const selectedValue = parseInt(event.currentTarget.getAttribute('data-value'));
+        console.log('Selected Rating: ' + selectedValue);
+alert(selectedValue)
+        // You can now use the selectedValue in your code, such as for updating the rating input.
+    });
+});
+})
+     
+
+    </script>
   
     <%- include('footer') %>
     
+
+
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: goldenrod;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+    </svg>
+ <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: goldenrod;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+</svg>
+</div>
