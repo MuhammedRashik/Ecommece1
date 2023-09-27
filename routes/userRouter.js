@@ -2,6 +2,7 @@ const express = require('express')
 const router = express();
 const passport=require('passport')
 const User=require('../models/userModel')
+const errorHandler=require('../middleware/errorHandler')
 //-------------------------------------
 //-/////////////////////////////////////////-required-/////////////////////////////
 
@@ -39,7 +40,8 @@ const { loadIndex,
     editProfile,
     updateProfile,
     addProficPic,
-    googleAuth
+    googleAuth,
+   
 
 
 } = require('../controllers/userCtrl')
@@ -348,7 +350,7 @@ router.post('/validateCoupon',validateCoupon)
 
 
 
-
+router.use(errorHandler)
 
 // Microsoft Routes
 // router.get('/auth/microsoft', passport.authenticate('microsoft', { session: false }));

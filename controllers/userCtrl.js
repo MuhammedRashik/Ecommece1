@@ -694,7 +694,6 @@ const googleAuth=asyncHandler(async(req,res)=>{
 
 
 
-
 module.exports = {
     loadIndex,
     loadSignIn,
@@ -716,5 +715,6 @@ module.exports = {
     editProfile,
     updateProfile,
     addProficPic,
-    googleAuth
+    googleAuth,
+   
 };

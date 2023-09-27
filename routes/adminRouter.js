@@ -1,6 +1,6 @@
 const express=require('express');
 const router=express();
-
+const errorHandler=require('../middleware/errorHandler')
 //----------------------------------------------
 
 
@@ -234,7 +234,7 @@ router.get('/salesReport',salesReport)
 
 
 
-
+router.use(errorHandler)
 
 
 

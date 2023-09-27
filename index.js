@@ -9,6 +9,7 @@ const session = require('express-session');
 const nocache=require('nocache')
 const dotenv=require('dotenv').config()
 const passport=require('passport')
+
 const { dbConnect } = require('./config/conectDB');
 const mongodbSession=require('connect-mongodb-session')(session)
 const store= new mongodbSession({
@@ -34,7 +35,6 @@ app.use(morgan("dev"))
 app.use(flash());
 
 
-
 app.use(session({
       secret:process.env.SESSION_SECRET_KEY,
       resave: false,
@@ -49,6 +49,8 @@ app.use(session({
   app.use(nocache())
   app.use(passport.initialize())
   app.use(passport.session())
+
+ 
 //-----------------user router --------------------
 const userRouter=require('./routes/userRouter')
 app.use('/api/user',userRouter)
