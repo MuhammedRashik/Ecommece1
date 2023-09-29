@@ -333,6 +333,18 @@ const deleteSingleImage = asyncHandler(async (req, res) => {
 
 
 
+///sending the i value back
+const modal=asyncHandler(async(req,res)=>{
+    try {
+        const i = req.query.i
+        res.json({status:true, i })
+        
+    } catch (error) {
+    console.log('Error occurred in categoryController deleteSingleImage function', error);
+        
+    }
+})
+
 
 
 
@@ -347,5 +359,7 @@ module.exports = {
     shop,
     listProduct,
     unlistProduct,
-    deleteSingleImage
+    deleteSingleImage,
+    modal
+    
 }

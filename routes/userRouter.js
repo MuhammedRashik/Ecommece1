@@ -67,7 +67,8 @@ const {
 //-----------------productCtrl------------------
 const { 
     aProductPage,
-    shop 
+    shop ,
+    modal
 
 } = require('../controllers/productCtrl')
 //----------------------------------------------
@@ -127,7 +128,9 @@ const {
     colorFilter,
     priceFilter,
     brandFilter,
-    CatogaryFilter
+    CatogaryFilter,
+    clearFilter,
+    sortByPrice
    
 
 }=require('../controllers/filter.Ctrl')
@@ -176,10 +179,19 @@ const {
 
 
 
+//-----revieww--
+const {
+    review
+}=require('../controllers/reviewCtrl')
+
+
+
 
 
 //-------coupon--------
-const {validateCoupon}=require('../controllers/couponCtrl')
+const {
+    validateCoupon
+}=require('../controllers/couponCtrl')
 //-------------------------
 
 const {google} = require('googleapis');
@@ -255,7 +267,7 @@ router.get('/deleteAddress', isLogged,deleteAddress)//deleting a specific addres
 //-------------products--------------------------------------
 router.get('/aProduct', isLogged,upload.single('images'), aProductPage)//rendering a single product page
 router.get('/shop', shop)//rendering the shop page
-
+router.get('/modal',modal)
 //------------------------ ---------                       
 
 
@@ -311,6 +323,8 @@ router.get('/colorFilter',colorFilter)//by coler
 router.get('/priceFilter',priceFilter)//by price
 router.get('/brandFilter',brandFilter)//by brand
 router.get('/CatogaryFilter',CatogaryFilter)//by catogary
+router.get('/clearFilter',clearFilter)//clear all the filter 
+router.get('/sortByPrice',sortByPrice)
 //----------------------------------
 
 
@@ -346,6 +360,13 @@ router.post('/useWallet',isLogged,useWallet)
 
 //--------------coupon---------------
 router.post('/validateCoupon',validateCoupon)
+//----------------------------------------
+
+
+
+
+//---------------rating and review----
+router.post('/review',review)
 
 
 

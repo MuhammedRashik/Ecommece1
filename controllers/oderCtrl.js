@@ -244,7 +244,7 @@ const buynowPlaceOrder=asyncHandler(async(req,res)=>{
 
   
     } catch (error) {
-        console.log('Error form oder Ctrl in the function oderPlaced', error);
+        console.log('Error form oder Ctrl in the function buy now ', error);
         
     }
     
@@ -348,7 +348,7 @@ const oderDetails=asyncHandler(async(req,res)=>{
         const orderId = req.query.orderId
         // console.log('this is oder id ',orderId);
         // const  id=req.query.id.toString()
-   
+   console.log();
 
        const userId = req.session.user;
        const user = await User.findById(userId);
@@ -392,7 +392,21 @@ const canselOder = asyncHandler(async (req, res) => {
   
       if (order.payment !== 'cod') {
         user.wallet += order.totalPrice;
+
+        const transaction = {
+            amount:order.totalPrice ,
+            status: "credit",
+            timestamp: new Date(), // You can add a timestamp to the transaction
+        };
+      
+        user.history.push(transaction);
+
+
+
         await user.save();
+
+
+
       }
   
       for (const productData of order.product) {
@@ -444,6 +458,15 @@ const returnOrder = asyncHandler(async (req, res) => {
       }
   
       user.wallet += order.totalPrice;
+
+
+      const transaction = {
+        amount: user.wallet ,
+        status: "credit",
+        timestamp: new Date(), // You can add a timestamp to the transaction
+    };
+    
+    user.history.push(transaction);
       await user.save();
   
       for (const productData of order.product) {

@@ -16,11 +16,11 @@ const filterSearch=asyncHandler(async(req,res)=>{
             catogary:{$regex:`${req.body.search}`,$options:'i'}
         })
         
-        const itemsperpage = 6;
+        const itemsperpage = 8;
         const currentpage = parseInt(req.query.page) || 1;
         const startindex = (currentpage - 1) * itemsperpage;
         const endindex = startindex + itemsperpage;
-        const totalpages = Math.ceil(product.length / 6);
+        const totalpages = Math.ceil(product.length / 8);
         const currentproduct = product.slice(startindex,endindex);
 
         
@@ -42,11 +42,11 @@ const sizeFilter=asyncHandler(async(req,res)=>{
     try {
         const size=req.query.size; 
         const product=await Product.find({size:size})
-        const itemsperpage = 6;
+        const itemsperpage = 8;
         const currentpage = parseInt(req.query.page) || 1;
         const startindex = (currentpage - 1) * itemsperpage;
         const endindex = startindex + itemsperpage;
-        const totalpages = Math.ceil(product.length / 6);
+        const totalpages = Math.ceil(product.length / 8);
         const currentproduct = product.slice(startindex,endindex);
         res.render('filter',{product:currentproduct, totalpages,currentpage,})       
     } catch (error) {
@@ -65,11 +65,11 @@ const colorFilter=asyncHandler(async(req,res)=>{
     try {
         const color=req.query.color;
         const product=await Product.find({color:color})
-        const itemsperpage = 6;
+        const itemsperpage = 8;
         const currentpage = parseInt(req.query.page) || 1;
         const startindex = (currentpage - 1) * itemsperpage;
         const endindex = startindex + itemsperpage;
-        const totalpages = Math.ceil(product.length / 6);
+        const totalpages = Math.ceil(product.length / 8);
         const currentproduct = product.slice(startindex,endindex);
         res.render('filter',{product:currentproduct, totalpages,currentpage,})
 
@@ -94,11 +94,11 @@ const priceFilter=asyncHandler(async(req,res)=>{
         const maxPrice = req.query.maxPrice;
         const product = await Product.find({ $and: [{ price: { $gte: price } }, { price: { $lte: maxPrice } }] });
         
-        const itemsperpage = 6;
+        const itemsperpage = 8;
         const currentpage = parseInt(req.query.page) || 1;
         const startindex = (currentpage - 1) * itemsperpage;
         const endindex = startindex + itemsperpage;
-        const totalpages = Math.ceil(product.length / 6);
+        const totalpages = Math.ceil(product.length / 8);
         const currentproduct = product.slice(startindex,endindex);
         res.render('filter',{product:currentproduct, totalpages,currentpage,})
 
@@ -120,11 +120,11 @@ const brandFilter=asyncHandler(async(req,res)=>{
     try {
         const brand=req.query.brand;
         const product=await Product.find({brand:brand})
-        const itemsperpage = 6;
+        const itemsperpage = 8;
         const currentpage = parseInt(req.query.page) || 1;
         const startindex = (currentpage - 1) * itemsperpage;
         const endindex = startindex + itemsperpage;
-        const totalpages = Math.ceil(product.length / 6);
+        const totalpages = Math.ceil(product.length / 8);
         const currentproduct = product.slice(startindex,endindex);
         res.render('filter',{product:currentproduct, totalpages,currentpage,})
 
@@ -147,11 +147,11 @@ const CatogaryFilter=asyncHandler(async(req,res)=>{
     try {
         const catogary=req.query.catogary
         const product=await Product.find({catogary:catogary})
-        const itemsperpage = 6;
+        const itemsperpage = 8;
         const currentpage = parseInt(req.query.page) || 1;
         const startindex = (currentpage - 1) * itemsperpage;
         const endindex = startindex + itemsperpage;
-        const totalpages = Math.ceil(product.length / 6);
+        const totalpages = Math.ceil(product.length / 8);
         const currentproduct = product.slice(startindex,endindex);
         res.render('filter',{product:currentproduct, totalpages,currentpage,})
 
@@ -165,6 +165,79 @@ const CatogaryFilter=asyncHandler(async(req,res)=>{
 
 
 
+//--------------clear the fi;lter and show all the data-------------------
+const clearFilter = asyncHandler(async(req,res)=>{
+ try {
+   
+    const product=await Product.find()
+    const itemsperpage = 8;
+    const currentpage = parseInt(req.query.page) || 1;
+    const startindex = (currentpage - 1) * itemsperpage;
+    const endindex = startindex + itemsperpage;
+    const totalpages = Math.ceil(product.length / 8);
+    const currentproduct = product.slice(startindex,endindex);
+    res.render('filter',{product:currentproduct, totalpages,currentpage,})
+
+    
+    
+ } catch (error) {
+    console.log('Error happent in filter controller in clearFilter funttion',error);
+    
+ }
+})
+
+//---------------------------------------------
+
+
+
+
+
+
+//---------------------sort by price-------------
+const sortByPrice=asyncHandler(async(req,res)=>{
+
+ 
+        try {
+          const sort = req.query.sort;
+          console.log(sort,">>>>>>>>>");
+          let sortOrder
+        if(sort=="lowToHigh"){
+            sortOrder= 1
+        }else{
+            sortOrder=-1
+        }
+       
+          console.log(sortOrder,">>>>>>>>>");
+      
+          let product = await Product.find().sort({ price: sortOrder });
+          console.log(sortOrder,">>>>>>>>>");
+
+          const itemsperpage = 8;
+          const currentpage = parseInt(req.query.page) || 1;
+          const startindex = (currentpage - 1) * itemsperpage;
+          const endindex = startindex + itemsperpage;
+          const totalpages = Math.ceil(product.length / 8);
+          const currentproduct = product.slice(startindex,endindex);
+         
+      
+          res.render('filter', { product: currentproduct, totalpages, currentpage });
+        } catch (error) {
+          console.log('Error happened in filter controller in sortByPrice function', error);
+        }
+      });
+
+
+//----------------------------
+
+
+
+
+
+
+
+
+    
+
 
 
 
@@ -174,6 +247,9 @@ module.exports={
     colorFilter,
     priceFilter,
     brandFilter,
-    CatogaryFilter
+    CatogaryFilter,
+    clearFilter,
+    sortByPrice
+    
    
 }

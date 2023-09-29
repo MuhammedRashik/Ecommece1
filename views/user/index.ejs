@@ -221,19 +221,17 @@
                           </a>
                         </div>
                         <div class="product-action-1">
-                          <a
-                            aria-label="Quick view"
-                            class="action-btn hover-up"
-                            data-bs-toggle="modal"
-                            data-bs-target="#quickViewModal"
-                            ><i class="fi-rs-eye"></i
-                          ></a>
+                        
                           <a
                             aria-label="Add To Wishlist"
                             class="action-btn hover-up"
                             onclick="wishList('<%= product[i]._id %>')"
                             ><i class="fi-rs-heart"></i
                           ></a>
+
+
+
+
                           <a
                             aria-label="Compare"
                             class="action-btn hover-up"
@@ -280,11 +278,42 @@
                   </a>
                 </div>
 
-                <% } %> <% } else { %>
-                <tr>
-                  <td colspan="2">Product not found</td>
-                </tr>
-                <% } %>
+
+
+
+
+
+
+
+<!---------------- this is the modal -------------------->
+
+
+
+
+
+
+
+
+                <% } %> 
+                
+               
+                
+                
+                <% } else { %>
+               
+                
+                  <% } %>
+
+                  
+
+                  
+
+                 
+
+                
+
+
+
               </div>
             </div>
           </div>
@@ -770,6 +799,17 @@
   <br />
   <br /><br /><br /><br /><br /><br />
 </main>
+
+
+<script>
+function modal(value) {
+    // Your code here
+    console.log('Modal function called with value:', value);
+   
+}
+   
+
+</script>
 <script>
   // Use event delegation to handle clicks on "Add To Cart" buttons
   document
