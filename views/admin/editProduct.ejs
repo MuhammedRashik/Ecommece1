@@ -77,35 +77,22 @@
                             <div class="col-md-3">
                                 <h6>4. Category</h6>
                             </div>
-                            <div class="col-md-9">
-                                <div class="mb-4">
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" checked="" value="Men's Clothing" name="catogary" type="radio">
-                                        <span class="form-check-label"> Men's Clothing </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value=" Women's Clothing" name="catogary" type="radio">
-                                        <span class="form-check-label"> Women's Clothing </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value=" Children's Clothing" name="catogary" type="radio">
-                                        <span class="form-check-label"> Children's Clothing </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Athletic and Sportswear" name="<%= product.catogary %>" type="radio">
-                                        <span class="form-check-label"> Athletic and Sportswear </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Accessories" name="<%= product.catogary %>" type="radio">
-                                        <span class="form-check-label"> Accessories </span>
-                                    </label>
-                                    
-                                  
+
+
+                            <div class="caogary-Dropdoun">
+                               
+                                    <select class="select-active" name="catogary">
+                                        <% for (let i = 0; i < catogary.length; i++) { %>
+                                            <option  value="<%= catogary[i].name %>"><%= catogary[i].name %></option>
+                                        <% } %>
+                                       
+                                       
+                                    </select>
                                    
-                                    
-                                
-                                </div>
-                            </div> <!-- col.// -->
+                              
+                            </div>
+
+
                         </div> <!-- row.// -->
                         <hr class="mb-4 mt-0">
                         <div class="row">

@@ -7,7 +7,7 @@ const fs = require('fs');
 const { promisify } = require('util');
 const unlinkAsync = promisify(fs.unlink);
 const path= require('path')
-
+const Catogary=require('../models/catogaryModel')
 
 
 
@@ -58,9 +58,9 @@ const currentproduct = allProducts.slice(startindex,endindex);
 //rendering add new prouct page--------------------
 const addProduct = asyncHandler(async (req, res) => {
     try {
-        
+        const catogary=await Catogary.find()
 
-        res.render('addProduct')
+        res.render('addProduct',{catogary})
 
     } catch (error) {
         console.log('Error happence in product controller addProduct function', error);
@@ -119,11 +119,11 @@ const createProduct = asyncHandler(async (req, res) => {
 const editProduct = asyncHandler(async (req, res) => {
     try {
         const id = req.query.id
-
+        const catogary=await Catogary.find()
         const product = await Product.findById(id)
 
         if (product) {
-            res.render('editProduct', { product: product })
+            res.render('editProduct', { product: product,catogary })
         }
 
 

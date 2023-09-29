@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Catogary = require('../models/catogaryModel')
 const sharp = require('sharp')
-
+const Product=require('../models/productModel')
 
 
 
@@ -26,40 +26,50 @@ const loadCatogary = asyncHandler(async (req, res) => {
 //adttCatogary to data base-----------------------------
 const addCatogary = asyncHandler(async (req, res) => {
     try {
-        const { name, discription } = req.body; // Destructure the description field
+        const { name, discription } = req.body;
 
         if (!discription) {
-            // If description is missing, respond with a 400 Bad Request status
             return res.status(400).send('Description is required');
         }
 
-        const catogaryExist = await Catogary.findOne({ name });
+        // Convert name to lowercase
+        const catogaryExist = await Catogary.findOne( {name} );
 
         if (catogaryExist) {
-            console.log('Category already exists');
-            // Respond with an appropriate status code (e.g., 400 for Bad Request)
-            return res.status(400).send('Category already exists');
+            res.redirect('/api/admin/catogary');
+            
+        }else{
+            const caseInsensitiveCatogaryExist = await Catogary.findOne({
+                name: { $regex: new RegExp('^' + name + '$', 'i') }
+            });
+    
+            if (caseInsensitiveCatogaryExist) {
+                
+                res.redirect('/api/admin/catogary');
+            }
+    
+            const newCatogary = new Catogary({
+                name: name, 
+                discription,
+                image: req.file.filename
+            });
+    
+            await newCatogary.save();
+    
+            console.log('newCatogary:', newCatogary);
+            res.redirect('/api/admin/catogary');
+
         }
 
-
-        const newCatogary = new Catogary({
-            name,
-            discription, // Use the description from the request body
-            image: req.file.filename
-        });
-
-        await newCatogary.save();
-
-
-        console.log('newCatogary:', newCatogary);
-        res.redirect('/api/admin/catogary')
-
+     
+       
     } catch (error) {
         console.log('Error happened in catogaryController addCatogary function', error);
-        // Respond with an appropriate status code and error message
         res.status(500).send('Error saving category');
     }
 });
+
+
 //-------------------------------------------------------------
 
 
@@ -91,13 +101,30 @@ const getAllCatogary = asyncHandler(async (req, res) => {
 const deleteCatogary = asyncHandler(async (req, res) => {
     try {
         const id = req.query.id;
-        const user=await Catogary.findByIdAndDelete(id)
-        res.redirect('/api/admin/catogary')
-        
+        const catogary = await Catogary.findById(id);
+
+        console.log('this is catogaruy', catogary,">>>>>>>>>>>>>>>",catogary.name );
+
+        const products = await Product.find({ catogary: catogary.name });
+        console.log('this is products 0', products);
+
+        const deletedProducts = await Product.deleteMany({ catogary: catogary.name });
+        console.log('Deleted products:', deletedProducts);
+
+        const deletedCatogary = await Catogary.findByIdAndDelete(id);
+        console.log('Deleted catogary:', deletedCatogary);
+
+        res.redirect('/api/admin/catogary');
     } catch (error) {
-        console.log('error happence in catogaryController deleteCatogary function', error);
+        console.log('Error happened in catogaryController deleteCatogary function', error);
+        res.status(500).send('Error deleting category and associated products');
     }
-})
+});
+
+
+
+
+
 
 //--------------------------------------------------------------
 
@@ -222,4 +249,3 @@ module.exports = {
 
 
 
- 

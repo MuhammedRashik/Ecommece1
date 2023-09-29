@@ -88,31 +88,22 @@
                             <div class="col-md-3">
                                 <h6>4. Category</h6>
                             </div>
-                            <div class="col-md-9">
-                                <div class="mb-4">
-                                   <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" checked="" value="Men's Clothing" name="catogary" type="radio">
-                                        <span class="form-check-label"> Men's Clothing </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value=" Women's Clothing" name="catogary" type="radio">
-                                        <span class="form-check-label"> Women's Clothing </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value=" Children's Clothing" name="catogary" type="radio">
-                                        <span class="form-check-label"> Children's Clothing </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Athletic and Sportswear" name="catogary" type="radio">
-                                        <span class="form-check-label"> Athletic and Sportswear </span>
-                                    </label>
-                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                        <input class="form-check-input" value="Accessories" name="catogary" type="radio">
-                                        <span class="form-check-label"> Accessories </span>
-                                    </label>
-                                
-                                </div>
-                            </div> <!-- col.// -->
+
+
+                            <div class="caogary-Dropdoun">
+                               
+                                    <select class="select-active" name="catogary">
+                                        <% for (let i = 0; i < catogary.length; i++) { %>
+                                            <option  value="<%= catogary[i].name %>"><%= catogary[i].name %></option>
+                                        <% } %>
+                                       
+                                       
+                                    </select>
+                                   
+                              
+                            </div>
+
+
                         </div> <!-- row.// -->
                         <hr class="mb-4 mt-0">
                         <div class="row">
@@ -145,7 +136,8 @@
     const brand = document.getElementsByName('brand')[0].value;
     const price = document.getElementsByName('price')[0].value;
     const color = document.getElementsByName('color')[0].value;
-    const categoryInputs = document.getElementsByName('catogary');
+    const category = document.getElementsByName('catogary')[0].value; // Get the selected category
+
     const images = document.getElementsByName('images')[0].files;
 
     let isValid = true; // Assume the form is valid by default
@@ -177,21 +169,15 @@
     }
 
     // Check if a category is selected
-    let categorySelected = false;
-    for (const categoryInput of categoryInputs) {
-        if (categoryInput.checked) {
-            categorySelected = true;
-            break;
-        }
-    }
-    if (!categorySelected) {
-        displayErrorMessage('catogary', 'Please select a category.');
-        isValid = false;
-    }
+    
 
     // Check if at least one image is selected
     if (images.length === 0) {
         displayErrorMessage('images', 'Please select at least one image.');
+        isValid = false;
+    }
+    if (category.trim() === '') {
+        displayErrorMessage('catogary', 'Please select a product category.');
         isValid = false;
     }
 
