@@ -43,6 +43,7 @@
                 legend: {
                     labels: {
                     usePointStyle: true,
+                    
                     },
                 }
                 }
@@ -101,4 +102,4 @@
         });
     } //end if
     
-})(jQuery);
+})(jQuery);   

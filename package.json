@@ -29,6 +29,7 @@
     "googleapis": "^126.0.1",
     "js-image-zoom": "^0.7.0",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.29.4",
     "mongodb": "^6.1.0",
     "mongoose": "^7.5.3",
     "mongoose-paginate-v2": "^1.7.31",
