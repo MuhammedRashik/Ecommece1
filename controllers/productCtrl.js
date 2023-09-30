@@ -192,28 +192,29 @@ const productEdited = asyncHandler(async (req, res) => {
 //rendering the product page ---------------------------
 const aProductPage = asyncHandler(async (req, res) => {
     try {
+        const userId = req.session.user;
+        const user = await User.findById(userId);
+        const id = req.query.id;
 
-
-
-        const userId=req.session.user;
-        const user=await User.findById(userId)
-        const id = req.query.id
         const product = await Product.findById(id)
-        const relatedPr= await Product.find({catogary:product.catogary}).limit(4)
-        if (product ) {
-           
+        .populate({
+            path: 'individualRatings.postedBy',
+            model: 'User',
+            select: 'username image isGoogle', // Include both 'username' and 'image'
+        }); 
 
-            
-            res.render('aProduct', { product: product ,user,relatedPr})
+
+           
+        const relatedPr = await Product.find({ catogary: product.catogary }).limit(4);
+
+        if (product) {
+            res.render('aProduct', { product, user, relatedPr });
         }
 
     } catch (error) {
-        console.log('Error happence in product controller aProductPage function', error);
-
-
+        console.log('Error happened in product controller aProductPage function', error);
     }
-})
-
+});
 //-------------------------------------------
 
 

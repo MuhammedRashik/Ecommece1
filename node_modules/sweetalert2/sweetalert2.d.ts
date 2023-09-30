@@ -274,9 +274,25 @@ declare module 'sweetalert2' {
      * Increase timer. Returns number of milliseconds of an updated timer.
      * If `timer` parameter isn't set, returns `undefined`.
      *
-     * @param n The number of milliseconds to add to the currect timer
+     * @param ms The number of milliseconds to add to the currect timer
      */
-    function increaseTimer(n: number): number | undefined
+    function increaseTimer(ms: number): number | undefined
+
+    /**
+     * Allows to trigger popups declaratively:
+     *
+     * ```
+     * <button data-swal-template="#hello-world-alert">Click me!</button>
+     *
+     * <template id="hello-world-alert">
+     *   <swal-title>Hello world!</swal-title>
+     *   <swal-html>Here I come...</swal-html>
+     * </template>
+     * ```
+     *
+     * @param attribute The attribute name to search for, defaults to `data-swal-template`
+     */
+    function bindClickHandler(attribute?: string): void
 
     /**
      * Determines if a given parameter name is valid.
@@ -587,7 +603,7 @@ declare module 'sweetalert2' {
      *
      * @default 'body'
      */
-    target?: string | HTMLElement
+    target?: string | HTMLElement | null
 
     /**
      * Input field type, can be `'text'`, `'email'`, `'password'`, `'number'`, `'tel'`, `'range'`, `'textarea'`,
@@ -969,7 +985,7 @@ declare module 'sweetalert2' {
      *
      * @default undefined
      */
-    imageUrl?: string
+    imageUrl?: string | null
 
     /**
      * If imageUrl is set, you can specify imageWidth to describes image width.
@@ -1069,7 +1085,7 @@ declare module 'sweetalert2' {
      *
      * @default undefined
      */
-    inputValidator?(inputValue: string, validationMessage?: string): SyncOrAsync<string | null | void>
+    inputValidator?(inputValue: string, validationMessage?: string): SyncOrAsync<string | null | false | void>
 
     /**
      * If you want to return the input value as `result.value` when denying the popup, set to `true`.

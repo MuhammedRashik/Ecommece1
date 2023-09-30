@@ -92,70 +92,143 @@
                                             <td class="text-end">
                                                 <a href="/api/user/oderDetails?id=<%= orders[i].product[j]._id %>&orderId=<%= orders[i]._id %>" class="btn btn-md rounded font-sm">Detail</a>
                                                 <% if (orders[i].status=='pending') { %>
-                                                <a href="/api/user/canselOrder?id=<%= orders[i].product[j]._id %>&orderId=<%= orders[i]._id %>"" class="btn btn-md rounded font-sm">Cancel</a>
+                                                    <a onclick="conformCansel('<%= orders[i].product[j]._id %>','<%= orders[i]._id %>')" class="btn btn-md rounded font-sm">Cancel</a>
                                                 <% } else if(orders[i].status=='conformed'){ %>
-                                                    <a href="/api/user/canselOrder?id=<%= orders[i].product[j]._id %>&orderId=<%= orders[i]._id %>"" class="btn btn-md rounded font-sm">Cancel</a>
+                                                    <a onclick="conformCansel('<%= orders[i].product[j]._id %>','<%= orders[i]._id %>')" class="btn btn-md rounded font-sm">Cancel</a>
                                                    
 
                                                     <% } else if(orders[i].status=='canceled'){ %>
                                                         <% } else if(orders[i].status=='shipped'){ %>
-                                                            <a href="/api/user/canselOrder?id=<%= orders[i].product[j]._id %>&orderId=<%= orders[i]._id %>"" class="btn btn-md rounded font-sm">Cancel</a>
-                                                            <% } else if(orders[i].status=='delivered'){ %>
-                                                                <a href="/api/user/return?id=<%= orders[i].product[j]._id %>&orderId=<%= orders[i]._id %>"" class="btn btn-md rounded font-sm">Return</a>
-                                                                <% } else if(orders[i].status=='returned'){ %>
+                                                            <a onclick="conformCansel('<%= orders[i].product[j]._id %>','<%= orders[i]._id %>')" class="btn btn-md rounded font-sm">Cancel</a>
+                                                            
 
-                                                    <% } %> 
-                                                
-                                            
-                                            </td>
-                                        </tr>
 
-                                        <% } %> 
-                                        <% } %>
-                                        <% } else { %>
-                                            <tr>
-                                              <td colspan="2">No item found in Oders</td>
-                                            </tr>
-                                            <% } %>
-                                   
-                                   
-                                    
-                                   
-                                  
-                                 
-                                   
-                                   
-                                   
-                                 
-                                  
-                                </tbody>
-                            </table>
-                        </div> <!-- table-responsive //end -->
-                    </div> <!-- card-body end// -->
-                </div> <!-- card end// -->
-                
+    <% } else if(orders[i].status=='delivered'){ %>
+        <a onclick="conformReturn('<%= orders[i].product[j]._id %>','<%= orders[i]._id %>')" class="btn btn-md rounded font-sm">Return</a>
+        <% } else if(orders[i].status=='returned'){ %>
+           
+<% } %> 
+
+
+</td>
+</tr>
+
+<% } %> 
+<% } %>
+<% } else { %>
+<tr>
+<td colspan="2">No item found in Oders</td>
+</tr>
+<% } %>
 
 
 
 
-                <% if (totalpages) { %>
-                    <div class="pagination">
-                      <% if (currentpage > 1) { %>
-                        <button class="btn btn-sm"><a href="?page=<%= currentpage - 1 %>">Previous</a></button>
-                      <% } %>
-                  
-                      <% for (let i = 1; i <= totalpages; i++) { %> <!-- Change the loop to start from 1 and go up to totalpages -->
-                        <button class="btn btn-sm"><a href="?page=<%= i %>" class="<%= i === currentpage ? 'active' : '' %>"><%= i %></a></button>
-                      <% } %>
-                  
-                      <% if (currentpage < totalpages) { %>
-                        <button class="btn btn-sm"><a href="?page=<%= currentpage + 1 %>">Next</a></button>
-                      <% } %>
-                    </div>
-                  <% } %>
-            </section> <!-- content-main end// -->
-        </div>
-       </div>
-     
-    <%- include('footer') %>
-       
+
+
+
+
+
+
+
+</tbody>
+</table>
+</div> <!-- table-responsive //end -->
+</div> <!-- card-body end// -->
+</div> <!-- card end// -->
+
+
+
+
+
+<% if (totalpages) { %>
+<div class="pagination">
+<% if (currentpage > 1) { %>
+<button class="btn btn-sm"><a href="?page=<%= currentpage - 1 %>">Previous</a></button>
+<% } %>
+
+<% for (let i = 1; i <= totalpages; i++) { %> <!-- Change the loop to start from 1 and go up to totalpages -->
+<button class="btn btn-sm"><a href="?page=<%= i %>" class="<%= i === currentpage ? 'active' : '' %>"><%= i %></a></button>
+<% } %>
+
+<% if (currentpage < totalpages) { %>
+<button class="btn btn-sm"><a href="?page=<%= currentpage + 1 %>">Next</a></button>
+<% } %>
+</div>
+<% } %>
+</section> <!-- content-main end// -->
+</div>
+</div>
+<script>
+function conformReturn(id,orderId){
+swal({
+title: "Are you sure?",
+text: "Once Return, you will not be able to recover this Product!",
+icon: "warning",
+buttons: true,
+dangerMode: true,
+})
+.then((willDelete) => {
+if (willDelete) {
+swal("Poof! Your imaginary file has been deleted!", {
+icon: "success",
+});
+    location.href=`/api/user/return?id=${id}&orderId=${orderId}`
+} else {
+    Swal.fire({
+                      title: "Return Cansell Success",
+                     
+                      icon: "error",
+                      timer: 1000,
+                      showConfirmButton: false, // This removes the button
+                    });
+}
+});
+
+}
+</script>
+
+
+<script>
+function conformCansel(id,orderId){
+    swal({
+title: "Are you sure?",
+text: "Once Cansel, you will not be able to recover this Product!",
+icon: "warning",
+buttons: true,
+dangerMode: true,
+})
+.then((willDelete) => {
+if (willDelete) {
+swal("Poof! Your imaginary file has been deleted!", {
+icon: "success",
+});
+    location.href=`/api/user/canselOrder?id=${id}&orderId=${orderId}`
+} else {
+    Swal.fire({
+                      title: "Cansel Success",
+                     
+                      icon: "error",
+                      timer: 1000,
+                      showConfirmButton: false, // This removes the button
+                    });
+}
+});
+
+}
+
+
+
+</script>
+<%- include('footer') %>
+
+
+
+
+
+
+
+
+
+
+

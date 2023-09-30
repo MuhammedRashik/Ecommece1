@@ -39,7 +39,7 @@ const chekOut = asyncHandler(async (req, res) => {
     try {
         const id = req.session.user
         const user = await User.findById(id)
-         const coupon= await Coupon.find()
+        const coupon= await Coupon.find()
         const productIds = user.cart.map(cartItem => cartItem.ProductId);
         const product = await Product.find({ _id: { $in: productIds } });
 
@@ -181,10 +181,18 @@ const buynowPlaceOrder=asyncHandler(async(req,res)=>{
         const address = user.address.find(item => item._id.toString() === addressId);
 
       
-        const productDetails = await Product.findById(prId);
+        const productDetail = await Product.findById(prId);
 
        
-      
+      const productDetails={
+        ProductId:productDetail._id,
+        price:productDetail.price,
+        title:productDetail.title,
+        image:productDetail.images[0],
+        quantity:1
+
+
+      }
 
 
         // console.log('this the produxt that user by ',orderProducts);
@@ -204,23 +212,23 @@ const buynowPlaceOrder=asyncHandler(async(req,res)=>{
          //-----------part that dicrese the qunatity od the cutent product --
        
          productDetails.quantity= productDetails.quantity-1      
-         await productDetails.save();
+         await productDetail.save();
             
         
          //-------------------------------  
          
          if(oder.payment=='cod'){
            console.log('yes iam the cod methord');
-            res.json({ payment: true, method: "cod", order: oderDb ,qty:productDetails.quantity,oderId:user});
+            res.json({ payment: true, method: "cod", order: oderDb ,qty:1,oderId:user});
 
          }else if(oder.payment=='online'){
            console.log('yes iam the razorpay methord');
 
             const generatedOrder = await generateOrderRazorpay(oderDb._id, oderDb.totalPrice);
-            res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:user,qty:productDetails.quantity});
+            res.json({ payment: false, method: "online", razorpayOrder: generatedOrder, order: oderDb ,oderId:user,qty:1});
                         
          }else if(oder.payment=='wallet'){
-         const a=   user.wallet -= totalPrice;
+         const a =   user.wallet -= totalPrice;
             const transaction = {
                 amount: a,
                 status: "debit",
@@ -883,14 +891,21 @@ const buyNOw=asyncHandler(async(req,res)=>{
     try {
         const product= await Product.findById(req.query.id)
 
-        console.log('this is buynow product ',product);
 
-        const id = req.session.user
-        const user = await User.findById(id)
-         const coupon= await Coupon.find()
-        
-       let sum= product.price 
-        res.render('buyNow', { user, product, sum ,coupon})
+        if(product.quantity >=1 ){
+            console.log('this is buynow product ',product);
+
+            const id = req.session.user
+            const user = await User.findById(id)
+             const coupon= await Coupon.find()
+            
+           let sum= product.price 
+            res.render('buyNow', { user, product, sum ,coupon})
+
+        }else{
+            res.redirect(`/api/user/aProduct?id=${product._id}`)
+        }
+       
 
 
 

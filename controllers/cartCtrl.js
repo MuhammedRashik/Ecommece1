@@ -57,40 +57,48 @@ const addToCart = asyncHandler(async (req, res) => {
         // Find the product by its ID
         const product = await Product.findById(id);
 
-        // Find the user by their ID
-        const userData = await User.findById(user);
 
-        if (userData) {
-            // Check if the product is already in the cart
-            const existingCartItem = userData.cart.find(item => item.ProductId === id);
+        if(product.quantity >= 1 ){
+            const userData = await User.findById(user);
 
-            if (existingCartItem) {
-                // If the product is already in the cart, increment the quantity and update the subtotal using $inc
-                const updated = await User.updateOne(
-                    { _id: user, 'cart.ProductId': id },
-                    {
-                        $inc: {
-                            'cart.$.quantity': 1, // Increment the quantity
-                            'cart.$.subTotal': product.price, // Update the subtotal
-                        },
-                    }
-                );
-
-            } else {
-                // If the product is not in the cart, add it as a new entry
-                userData.cart.push({
-                    ProductId: id,
-                    quantity: 1,
-                    total: product.price,
-                    subTotal: product.price, // Initial subtotal is the same as the product price
-                });
-
-                await userData.save();
-
+            if (userData) {
+                // Check if the product is already in the cart
+                const existingCartItem = userData.cart.find(item => item.ProductId === id);
+    
+                if (existingCartItem) {
+                    // If the product is already in the cart, increment the quantity and update the subtotal using $inc
+                    const updated = await User.updateOne(
+                        { _id: user, 'cart.ProductId': id },
+                        {
+                            $inc: {
+                                'cart.$.quantity': 1, // Increment the quantity
+                                'cart.$.subTotal': product.price, // Update the subtotal
+                            },
+                        }
+                    );
+    
+                } else {
+                    // If the product is not in the cart, add it as a new entry
+                    userData.cart.push({
+                        ProductId: id,
+                        quantity: 1,
+                        total: product.price,
+                        subTotal: product.price, // Initial subtotal is the same as the product price
+                    });
+    
+                    await userData.save();
+    
+                }
             }
+    
+           res.json({status:true})
+
+        }else{
+            res.json({ status:false})
         }
 
-       res.json({status:true})
+        // Find the user by their ID
+       
     } catch (error) {
         console.log('Error occurred in cart controller addToCart function', error);
         // Handle the error and possibly send an error response to the client
@@ -254,8 +262,7 @@ const testAjax = asyncHandler(async (req, res) => {
 
 
 
-
-
+//---------------------thisis 
 
 
 const updateCart = asyncHandler(async (req, res) => {

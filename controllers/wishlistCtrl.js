@@ -86,8 +86,7 @@ const Wishlist=asyncHandler(async(req,res)=>{
 
         // Use $in operator to find products with matching IDs
         const products = await Product.find({ _id: { $in: productIds } });
-        console.log('this is porduct for wishlist',products);
-
+       
         if (products) {
             res.render('wishList', { products: products ,user});
         }

@@ -57,20 +57,25 @@ const productSchema = new mongoose.Schema({
        required:true
     },
     rating: {
+        type:Object,
+        average: {
+            type:Number,
+        }, 
+        totalRatings: {
+            type:Number
+        },
+    },
+    individualRatings: {
         type:Array,
-        average: Number, 
-        totalRatings: Number,
-        individualRatings: {
-            type:Array,
-                star: Number, 
-                review: String,
-                postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
-            },
-        
-        default: {
-            average: 0,
-            totalRatings: 0,
-            individualRatings: [],
+        star: {
+            type:Number,
+        }, 
+        review: {
+            type:String,
+        },
+        postedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User', 
         },
     },
     status:{

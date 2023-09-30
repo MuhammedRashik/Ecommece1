@@ -875,7 +875,13 @@ function modal(value) {
             showConfirmButton: false, // This removes the button
           });
         } else {
-          alert("errro");
+          Swal.fire({
+            title: "OUT OFF STOK",
+            text: "The Product out off Stoke",
+            icon: "error",
+            timer: 1000,
+            showConfirmButton: false, // This removes the button
+          });
         }
       },
     });

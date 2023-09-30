@@ -76,6 +76,8 @@ const addCatogary = asyncHandler(async (req, res) => {
 
 
 
+
+
 //get all catogaries in database----------------
 const getAllCatogary = asyncHandler(async (req, res) => {
     try {
@@ -96,6 +98,11 @@ const getAllCatogary = asyncHandler(async (req, res) => {
         console.log('error happence in catogaryController getAllCatogary function', error);
     }
 })
+
+
+
+
+
 
 // soft delete a catogary-------------------------
 const deleteCatogary = asyncHandler(async (req, res) => {

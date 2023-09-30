@@ -389,35 +389,33 @@ priceItems.forEach((item) => {
     }
    
        </script>
-        <script>
-            function addToCart(id){
-                $.ajax({
-                    url:`/api/user/addToCart?id=${id}`,
-                    method:"get",
-                    success: (response)=>{
-                        if(response.status){
-                            Swal.fire({
-  title: 'ADD TO CART',
-  text: 'Product Added to cart',
-  icon: 'success',
-  timer: 1000,
-  showConfirmButton: false, // This removes the button
-});
-                           
-                        }else{
-                            alert('errro')
-                        }
-
-                    }
-                })
-
-            }
-
-
-
-
-
-           </script>
+       <script>
+        function addToCart(id) {
+          $.ajax({
+            url: `/api/user/addToCart?id=${id}`,
+            method: "get",
+            success: (response) => {
+              if (response.status) {
+                Swal.fire({
+                  title: "ADD TO CART",
+                  text: "Product Added to cart",
+                  icon: "success",
+                  timer: 1000,
+                  showConfirmButton: false, // This removes the button
+                });
+              } else {
+                Swal.fire({
+                  title: "OUT OFF STOK",
+                  text: "The Product out off Stoke",
+                  icon: "error",
+                  timer: 1000,
+                  showConfirmButton: false, // This removes the button
+                });
+              }
+            },
+          });
+        }
+      </script>
 
 
 
