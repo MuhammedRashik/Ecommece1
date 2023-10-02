@@ -417,7 +417,7 @@ if(!payment){
                     date:Date.now(),
                     addressId:address,
                     payment:payment,
-                  prId:prId
+                     prId:prId
                     
                 },
                 async:true,
@@ -427,17 +427,7 @@ if(!payment){
 
 
                     if (response.method == 'cod') {
-                       
-                        
-                        $.ajax({
-                            url:'/api/user/deleteCart',
-                            method:'get',
-
-                            success:(response)=>{
-                               
-                                if(response.status){
-                                    
-                                    Swal.fire({
+                        Swal.fire({
                             title: "Order success",
                             text: "order placed successfully",
                             icon: "success",
@@ -445,15 +435,13 @@ if(!payment){
                             timer: 2000,
                            
                         })
-                       
                         location.href='/api/user/allOderData'
 
-                                }
+                       
+                        
+                
 
-                            }
-                        })
-
-
+                    
                     } else if (response.method == 'online') {
     // Replace with your Razorpay API key
     var razorpayApiKey = 'rzp_test_kkytoEMYHJ1dn3';
@@ -470,7 +458,7 @@ if(!payment){
         "description": "Order Payment",
         "order_id": response.razorpayOrder.id, // Replace with actual order ID
         "handler": function (response) {
-            console.log(response);
+            
             verifyPayment(response);
             
         },
@@ -493,15 +481,9 @@ if(!payment){
 
                     }else if(response.method == 'wallet'){
                          
-                        $.ajax({
-                            url:'/api/user/deleteCart',
-                            method:'get',
+                       
 
-                            success:(response)=>{
-                               
-                                if(response.status){
-                                    
-                                    Swal.fire({
+                        Swal.fire({
                             title: "Order success",
                             text: "order placed successfully",
                             icon: "success",
@@ -509,13 +491,7 @@ if(!payment){
                             timer: 2000,
                            
                         })
-                       
                         location.href='/api/user/allOderData'
-
-                                }
-
-                            }
-                        })
                         
 
                     }
@@ -549,13 +525,8 @@ if(!payment){
                 success: (response) => {
                     
                     if (response.status) {
-                        $.ajax({
-                            url:'/api/user/deleteCart',
-                            method:'get',
-
-                            success:(response)=>{
-                                if(response.status){
-                                    Swal.fire({
+                       
+                        Swal.fire({
                             title: "Order success",
                             text: "order placed successfully",
                             icon: "success",
@@ -564,13 +535,6 @@ if(!payment){
                            
                         })
                         location.href='/api/user/allOderData'
-
-                                }
-
-                            }
-                        })
-
-                      
                         
                     
                     } else {

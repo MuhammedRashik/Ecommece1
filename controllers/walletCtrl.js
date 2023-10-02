@@ -177,7 +177,7 @@ const sumWalletBuynow= asyncHandler(async(req,res)=>{
         let sum = req.query.sum
         console.log('this is sum>>>>',sum);
        
-        res.render('chekOutBuyNow', { user, product, sum ,coupon,offer})
+        res.render('buyNow', { user, product, sum ,coupon,offer})
         
 
         

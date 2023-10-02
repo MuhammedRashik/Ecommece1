@@ -238,6 +238,7 @@ color: #fff;
                                                     <td><%= order.product[i].price %></td>
                                                     <td> x<%=order.product[i].quantity  %></td>
                                                     <td>$<%= order.product[i].price *order.product[i].quantity %></td>
+                                                    <% var x= order.product[i].price *order.product[i].quantity%>
                                                     <% if (order.status == 'delivered') { %>
                                                         <td> 
                                                           <a
@@ -266,15 +267,15 @@ color: #fff;
                                                 <article class="float-end">
                                                     <dl class="dlist">
                                                         <dt>Subtotal:</dt>
-                                                        <dd>$<%= (order.totalPrice).toFixed(2) %></dd>
+                                                        <dd>$<%= (x).toFixed(2) %></dd>
                                                     </dl>
                                                     <dl class="dlist">
-                                                        <dt>Shipping cost:</dt>
-                                                        <dd>$10.00</dd>
+                                                        <dt> Offer:</dt>
+                                                        <dd>₹ <%=x -(order.totalPrice).toFixed(2) %></dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Grand total:</dt>
-                                                        <dd> <b class="h5">$<%= (order.totalPrice+10.00).toFixed(2) %></b> </dd>
+                                                        <dd> <b class="h5">$<%= (order.totalPrice).toFixed(2) %></b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt class="text-muted">Status: </dt>
