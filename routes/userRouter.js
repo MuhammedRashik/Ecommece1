@@ -170,7 +170,8 @@ const {
 const {
     addMoneyWallet,
     updateMongoWallet,
-    sumWallet
+    sumWallet,
+    sumWalletBuynow
    
 
 }=require('../controllers/walletCtrl')
@@ -310,6 +311,7 @@ router.post('/buynowPlaceOrder',buynowPlaceOrder)
 
 router.get('/sumWallet',sumWallet)//
 router.post('/useWallet',useWallet)
+router.get('/sumWalletBuynow',sumWalletBuynow)
 //----------------------------------
 
 
@@ -354,6 +356,7 @@ router.get('/deleteWishlistItem',isLogged,deleteWishlistItem)//delete a item in 
 router.post('/addMoneyWallet',isLogged,addMoneyWallet)
 router.post('/updateMongoWallet',isLogged,updateMongoWallet)
 router.post('/useWallet',isLogged,useWallet)
+router.get('/sumWalletBuynow',sumWalletBuynow)
 //------------------=-------------
 
 

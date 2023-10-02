@@ -114,11 +114,16 @@
                                         <th>SubTotal</th>
                                         <td class="product-subtotal" id="subtotalValue" colspan="2">₹<%= sum %></td>
                                       </tr>
-                                      <tr>
-                                        <th>Shipping</th>
-                                        <td colspan="2"><em>Free Shipping</em></td>
-                                      </tr>
-                                      <tr>
+                                      <% if (offer){%>
+                                        <tr>
+                                         
+                                          <th>offer Price</th>
+                                         
+                                          <td colspan="2"><em><%= offer %></em></td>
+                                        </tr>
+                                        <%}else{%>
+                                          <%}%>
+                                        <tr>
                                         <th>Total</th>
                                         <td colspan="2" class="product-subtotal"><span id="totalValue" value="<%= sum %>" class="font-xl text-brand fw-900">₹<%= sum %></span></td>
                                       </tr>

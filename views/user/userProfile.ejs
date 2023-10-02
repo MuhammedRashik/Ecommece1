@@ -33,10 +33,14 @@
                                         <li class="nav-item">
                                             <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Add new Address</a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"onclick="referal('<%= user._id%>')" ><i class="fi-rs-user mr-10"></i><i class="fi-rs-user mr-10"></i> Reffer Your Freinds </a>
+                                        </li>
                                         
                                         <li class="nav-item">
                                             <a class="nav-link" href="/api/user/logout"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
                                         </li>
+                                       
                                     </ul>
                                 </div>
                             </div>
@@ -381,7 +385,7 @@
                                                         <tr>
                                                             <td><%=i%></td>
                                                             <td><%= new Date(user.history[i].timestamp).toLocaleDateString() %></td>
-                                                            <td><%= user.history[i].status %></td>
+                                                          
                                                             <td><%= user.history[i].status %></td>
                                                             <td>$<%= (user.history[i].amount ).toFixed(2)%> </td>
                                                             
@@ -567,10 +571,35 @@
         </section>
     </main>
     <script>
+function referal(id) {
+  var copyText = `http://localhost:5000/api/user/register?id=${id}`;
+  
+ 
+  Swal.fire({
+
+    icon: 'success',
+    title: 'Copied SuccessFull',
+    showConfirmButton: false,
+    timer: 1500
+  });
 
 
 
-// /api/user/addmoneyToWallet
+  navigator.clipboard.writeText(copyText)
+    .then(function() {
+      console.log("Text copied to clipboard: " + copyText);
+      
+      // If you want to close something with the class 'close-container' here
+      var noThanksButton = document.querySelector('.close-container button');
+      if (noThanksButton) {
+        noThanksButton.click();
+      }
+    })
+    .catch(function(err) {
+      console.error("Failed to copy text: " + err);
+    });
+}
+
     </script>
 <script>
     $(document).ready(function () {

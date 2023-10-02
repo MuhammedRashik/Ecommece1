@@ -27,6 +27,9 @@ const productSchema = new mongoose.Schema({
         type:String,
        required:true
     },
+    offerPrice:{
+        type:Number,
+    },
     price:{
         type:Number,
         required:true,
@@ -43,6 +46,12 @@ const productSchema = new mongoose.Schema({
         type:Number,
         default:0,
         select:false
+    },
+    saleStatus:{
+        type:String,
+    },
+    savedPrice:{
+        type:Number,
     },
     size:{
         type:String,
@@ -64,7 +73,11 @@ const productSchema = new mongoose.Schema({
         totalRatings: {
             type:Number
         },
+        default: {
+            average: 0,       
+            totalRatings: 0,  
     },
+},
     individualRatings: {
         type:Array,
         star: {

@@ -126,6 +126,11 @@ const   sumWallet=asyncHandler(async(req,res)=>{
         user.wallet=0
         user.history.push(transaction);
        
+        let offer = 0;
+        for(let j=0; j < product.length;j++ ){
+            offer+=product[j].offerPrice
+           
+        }
     
         // Push the transaction into the user's history array
        
@@ -134,7 +139,7 @@ const   sumWallet=asyncHandler(async(req,res)=>{
         await user.save()
         let sum = req.query.sum
        
-        res.render('chekOut', { user, product, sum ,coupon})
+        res.render('chekOut', { user, product, sum ,coupon,offer})
         
     } catch (error) {
         console.log('Error happened in the wallet ctrl in the function sumWallet', error);
@@ -150,6 +155,38 @@ const   sumWallet=asyncHandler(async(req,res)=>{
 //---------------------------------------------------------
 
 
+const sumWalletBuynow= asyncHandler(async(req,res)=>{
+    try {
+        const coupon= await Coupon.find()
+    
+        const id = req.session.user
+        const user = await User.findById(id)
+        const product=await Product.findById(req.query.id)
+        const offer=product.offerPrice
+        console.log('this is product in buynow ',product);
+        const transaction = {
+            amount: user.wallet ,
+            status: "debit",
+            timestamp: new Date(), 
+        };
+        user.wallet=0
+        user.history.push(transaction);
+
+        await user.save()
+
+        let sum = req.query.sum
+        console.log('this is sum>>>>',sum);
+       
+        res.render('chekOutBuyNow', { user, product, sum ,coupon,offer})
+        
+
+        
+    } catch (error) {
+        console.log('Error happened in the wallet ctrl in the function sumWalletBuynow', error);
+        
+    }
+})
+
 
 
 
@@ -163,6 +200,7 @@ const   sumWallet=asyncHandler(async(req,res)=>{
 module.exports={
     addMoneyWallet,
     updateMongoWallet,
-    sumWallet
+    sumWallet,
+    sumWalletBuynow
    
 }

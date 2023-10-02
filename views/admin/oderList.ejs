@@ -4,7 +4,7 @@
             <div class="content-header">
                 <div>
                     <h2 class="content-title card-title">Order List </h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
+                    
                 </div>
             </div>
             <div class="row">
@@ -90,7 +90,7 @@
                         </div> <!-- card-body end// -->
                     </div> <!-- card end// -->
                     <% if (totalpages) { %>
-                        <div class="pagination">
+                        <div class="pagination justify-content-center">
                           <% if (currentpage > 1) { %>
                             <button class="btn btn-sm" "><a href="?page=<%= currentpage - 1 %>">Previous</a></button>
                           <% } %>
@@ -106,46 +106,7 @@
                       <% } %>
                 </div>
                 <div class="col-md-3">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="mb-3">Filter by</h5>
-                            <form>
-                                <div class="mb-4">
-                                    <label for="order_id" class="form-label">Order ID</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="order_id">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="order_customer" class="form-label">Customer</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="order_customer">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">Order Status</label>
-                                    <select class="form-select">
-                                        <option>Published</option>
-                                        <option>Draft</option>
-                                    </select>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="order_total" class="form-label">Total</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="order_total">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="order_created_date" class="form-label">Date Added</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="order_created_date">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="order_modified_date" class="form-label">Date Modified</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="order_modified_date">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="order_customer_1" class="form-label">Customer</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="order_customer_1">
-                                </div>
-                            </form>
-                            
-                        </div>
-                        
-                    </div> <!-- card end// -->
+                    
                     
                 </div>
               

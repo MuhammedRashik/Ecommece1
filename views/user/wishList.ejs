@@ -4,7 +4,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="/api/user/" rel="nofollow">Home</a>
                     <span></span> Shop
                     <span></span> Wishlist
                 </div>
@@ -33,7 +33,7 @@
                                             <tr>
                                                 <td class="image product-thumbnail"><img src="/admin/assets/imgs/catogary/<%= products[i].images[0] %>" alt="#"></td>
                                                 <td class="product-des product-name">
-                                                    <h5 class="product-name"><a href="shop-product-right.html"><%=products[i].title %></a></h5>
+                                                    <h5 class="product-name"><a href="#"><%=products[i].title %></a></h5>
                                                     <p class="font-xs"><%=products[i].catogary %><br> <%=products[i].brand %>
                                                     </p>
                                                 </td>
@@ -47,8 +47,11 @@
                                                         <% } %>
                                                 </td>
                                                 <td class="text-right" data-title="Cart">
-                                                    <a><button class="btn btn-sm" onclick="addToCart('<%= products[i].id %>')" ><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</button></a>
+                                                    <a class="btn btn-sm" onclick="addToCart('<%= products[i].id %>')"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</a>
                                                 </td>
+
+    
+
                                                 <td class="action" data-title="Remove"><a href="/api/user/deleteWishlistItem?id=<%=products[i]._id %>"><i class="fi-rs-trash"></i></a></td>
                                             </tr>
 
@@ -76,33 +79,31 @@
         </section>
     </main>
     <script>
-        function addToCart(id){
-            $.ajax({
-                url:`/api/user/addToCart?id=${id}`,
-                method:"get",
-                success: (response)=>{
-                    if(response.status){
-                        Swal.fire({
-title: 'ADD TO CART',
-text: 'Product Added to cart',
-icon: 'success',
-timer: 1000,
-showConfirmButton: false, // This removes the button
-});
-                       
-                    }else{
-                        alert('errro')
-                    }
-
-                }
-            })
-
+        function addToCart(id) {
+          $.ajax({
+            url: `/api/user/addToCart?id=${id}`,
+            method: "get",
+            success: (response) => {
+              if (response.status) {
+                Swal.fire({
+                  title: "ADD TO CART",
+                  text: "Product Added to cart",
+                  icon: "success",
+                  timer: 1000,
+                  showConfirmButton: false, // This removes the button
+                });
+              } else {
+                Swal.fire({
+                  title: "OUT OFF STOK",
+                  text: "The Product out off Stoke",
+                  icon: "error",
+                  timer: 1000,
+                  showConfirmButton: false, // This removes the button
+                });
+              }
+            },
+          });
         }
-
-
-
-
-
-       </script>
+      </script>
     <%- include('footer') %>
   

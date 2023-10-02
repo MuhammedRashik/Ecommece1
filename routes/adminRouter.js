@@ -110,6 +110,16 @@ const {
 
 
 
+
+//--------offerCtrl----
+const{
+    productOfferpage,
+    updateOffer,
+    catogaryOffer,
+    updateCatogaryOffer
+}=require('../controllers/offerCtrl')
+
+
 //------coupon-------------
 const {
     loadCoupon,
@@ -186,8 +196,12 @@ router.post('/updateCatogary',upload.single('image'),updateCatogary)//after rend
  
 
 
-
-
+//---------offer-------
+    
+    router.get('/productOfferpage',productOfferpage)
+    router.post('/updateOffer',updateOffer)
+    router.get('/catogaryOffer',catogaryOffer)
+    router.post('/updateCatogaryOffer',updateCatogaryOffer)
 
 //----------------------order-----------------------------
 router.get('/orderListing',orderListing)//show all the orders to the admin page

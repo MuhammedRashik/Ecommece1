@@ -168,9 +168,24 @@ const users = asyncHandler(async (req, res) => {
     try {
        
         const users = await User.find({ isAdmin: { $ne: "1" } });
-        // console.log('user data :', users[0]);
-        req.session.allUsers = users
-        res.render('users', { users: users })
+        
+       
+
+
+
+
+
+        const itemsperpage = 8;
+        const currentpage = parseInt(req.query.page) || 1;
+        const startindex = (currentpage - 1) * itemsperpage;
+        const endindex = startindex + itemsperpage;
+        const totalpages = Math.ceil(users.length / 8);
+        const currentproduct = users.slice(startindex,endindex);
+       
+    
+       
+
+        res.render('users', { users: currentproduct, totalpages, currentpage})
 
 
     } catch (error) {

@@ -92,6 +92,10 @@ const loadSignIn = asyncHandler(async (req, res) => {
 //--load the sign up page ---------
 const loadSignUp = asyncHandler(async (req, res) => {
     try {
+        if (req.query.id) {
+            req.session.referel = req.query.id;
+            console.log(req.session.referel, "sessionnnnn");
+          }
         res.render("signUpPage", { message: "", errMessage: "" });
     } catch (error) {
         console.log("Error hapents in userControler loadSignup function :", error);
@@ -242,6 +246,25 @@ const emailVerified = async (req, res) => {
                 mobile: user.mobile,
                 password: hashedPassword,
             });
+            
+
+
+            if(req.session.referel){
+                saveUserData.wallet=200
+
+                const history= {
+                    amount:200,
+                    status:"credit",
+                    timestamp:Date.now()
+                }
+                saveUserData.history.push(history)
+
+
+                const user=await User.findById(req.session.referel)
+                user.wallet+=200;
+                user.history.push(history)
+                await user.save()
+            }
             await saveUserData.save();
 
             req.session.user=saveUserData._id
@@ -259,6 +282,12 @@ const emailVerified = async (req, res) => {
     }
 };
 //-----------------------------------------------------
+
+
+
+
+
+
 
 
 
@@ -676,7 +705,26 @@ const googleAuth=asyncHandler(async(req,res)=>{
                     password:user.sub,
                     isGoogle:true
                 });
-                const us=await saveUserData.save();
+
+                if(req.session.referel){
+                    saveUserData.wallet=200
+    
+                    const history= {
+                        amount:200,
+                        status:"credit",
+                        timestamp:Date.now()
+                    }
+                    saveUserData.history.push(history)
+    
+    
+                    const user=await User.findById(req.session.referel)
+                    user.wallet+=200;
+                    user.history.push(history)
+                    await user.save()
+                }
+
+
+                await saveUserData.save();
                 req.session.user=us._id
                
             }

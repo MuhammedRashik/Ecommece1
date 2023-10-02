@@ -43,12 +43,19 @@ const chekOut = asyncHandler(async (req, res) => {
         const productIds = user.cart.map(cartItem => cartItem.ProductId);
         const product = await Product.find({ _id: { $in: productIds } });
 
+
+        let offer = 0;
+        for(let j=0; j < product.length;j++ ){
+            offer+=product[j].offerPrice
+           
+        }
+        console.log('this is product offfer price',offer);
         let sum = 0;
         for (let i = 0; i < user.cart.length; i++) {
             sum += user.cart[i].subTotal
         }
         sum = Math.round(sum * 100) / 100;
-        res.render('chekOut', { user, product, sum ,coupon})
+        res.render('chekOut', { user, product, sum ,coupon,offer})
 
     } catch (error) {
         console.log('Error form oder Ctrl in the function chekOut', error);
@@ -206,7 +213,7 @@ const buynowPlaceOrder=asyncHandler(async(req,res)=>{
             payment:payment,
             address:address,
             status:'conformed'
-
+    
         })
          const oderDb = await oder.save()
          //-----------part that dicrese the qunatity od the cutent product --
@@ -747,13 +754,9 @@ const useWallet=asyncHandler(async(req,res)=>{
             let a=req.body
            
             let sum= a.total - a.wallet
+            console.log('thisd is sum',sum);
            res.json({status:true,sum})
-        }
-       
-        
-        
-       
-        
+        } 
     } catch (error) {
         console.log('errro happemce in cart ctrl in function useWallet',error); 
         
@@ -762,6 +765,8 @@ const useWallet=asyncHandler(async(req,res)=>{
 
 
 ///--------------------------------------------------------------------------
+
+
 
 
 

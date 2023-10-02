@@ -630,10 +630,14 @@
         $('.product-image-slider').slick('setPosition');
         $('.slider-nav-thumbnails').slick('setPosition');
         $('.product-image-slider .slick-active img').elevateZoom({
-            zoomType: "inner",
+            zoomType: "window",
             cursor: "crosshair",
             zoomWindowFadeIn: 500,
-            zoomWindowFadeOut: 750
+            zoomWindowFadeOut: 750,
+            zoomWindowWidth: 700, // Set the desired width
+            zoomWindowHeight: 800 ,
+            innerZoomContainer: "smallZoomContainer",
+            innerZoomContainerSize: "150%"
         });
     })
 
