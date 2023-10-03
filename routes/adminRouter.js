@@ -131,6 +131,21 @@ const {
 }=require('../controllers/couponCtrl')
 //-----------------------
 
+
+//---blog----
+const{
+    adminBlog,
+    loadCreateBlog,
+   createBlog,
+   deleteBlog,
+   loadEditBlog,
+    updateBlog
+
+}=require('../controllers/blogCtrl')
+
+
+
+
 //------engine set up------------
 router.set('view engine','ejs'); 
 router.set('views','./views/admin');
@@ -227,6 +242,16 @@ router.get("/deleteBanner",deleteBanner)
 //-------------------------------------------------------
 
 
+
+
+
+//-----------blog---
+router.get('/blog',adminBlog)
+router.get('/loadCreateBlog',loadCreateBlog)
+router.post('/createBlog',upload.single('image'),createBlog)
+router.get('/loadEditBlog',loadEditBlog)
+router.post('/updateBlog',upload.single('image'),updateBlog)
+router.get('/deleteBlog',deleteBlog)
 
 
 

@@ -1,0 +1,48 @@
+<%- include('header') %>
+
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header col-8">
+                <h2 class="content-title">Add New Coupon</h2>
+                <div>
+                    <form action="/api/admin/createBlog" method="post">
+
+                        <button type="submit" class="btn btn-md rounded font-sm hover-up">Add Coupon</button>
+                   
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label for="product_title" class="form-label">Blog title</label>
+                            <input type="text" placeholder="Type here" name="title" class="form-control" id="product_title">
+                        </div>
+                        <div class="row gx-3">
+                            <div class="mb-4">
+                                <label for="product_title" class="form-label">Content</label>
+                                <input type="text" placeholder="Type here" name="content" class="form-control" id="product_title">
+                            </div>
+                            <div class="col-md-4  mb-3">
+                                <label for="product_color" class="form-label">Author name</label>
+                                <input type="text" placeholder="Type here" name="author" class="form-control" id="product_color">
+                            </div>
+                           
+                        </div>
+                        <div class="mb-4">
+                            <label for="product_title" class="form-label">image</label>
+                            <input type="file" placeholder="Type here" name="image" class="form-control" id="product_title">
+                        </div>
+                       
+                    </div>
+                </div> <!-- card end// -->
+            </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('footer') %>
+
+

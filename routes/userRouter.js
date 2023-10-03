@@ -198,8 +198,18 @@ const {
 const {google} = require('googleapis');
 ///////////////////////////////////////////////////--require end--/////////////////////////////
 
+//-------about ctrl--
+const {
+    aboutpage
+}=require('../controllers/aboutCtrl')
+//------------------
 
 
+
+const{
+    blog,
+    singleBlog
+}=require('../controllers/blogCtrl')
 
 
 //----engine-----------
@@ -250,6 +260,15 @@ router.post('/addProficPic', isLogged,upload.single('image'), addProficPic)//use
 
 
 
+
+//----------about---------
+router.get('/about',aboutpage)
+
+//---------------------
+
+//-----blog----
+router.get('/blog',blog)
+router.get('/singleBlog',singleBlog)
 
 
 
@@ -364,6 +383,10 @@ router.get('/sumWalletBuynow',sumWalletBuynow)
 //--------------coupon---------------
 router.post('/validateCoupon',validateCoupon)
 //----------------------------------------
+
+
+
+
 
 
 
