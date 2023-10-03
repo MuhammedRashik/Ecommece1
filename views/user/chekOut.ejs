@@ -128,15 +128,20 @@
                                         <td colspan="2" class="product-subtotal"><span id="totalValue" value="<%= sum %>" class="font-xl text-brand fw-900">₹<%= sum %></span></td>
                                       </tr>
                             </table>
-                           <div class="col-lg-3">
-                            <button class="btn btn-sm" type="button" data-toggle="modal" data-target="#exampleModalCenter"  > Your Coupons</button>
-                            <br><br>
-                            
-                            <button class="btn btn-sm" onclick="applyCoupon()"> Apply Coupons</button>
-                              
-                             
-                              
-                           </div>
+
+                            <% if (coupon.length > 0) { %>
+                                <div class="col-lg-3">
+                                    <button class="btn btn-sm" type="button" data-toggle="modal" data-target="#exampleModalCenter"  > Your Coupons</button>
+                                    <br><br>
+                                    
+                                    <button class="btn btn-sm" onclick="applyCoupon()"> Apply Coupons</button>
+                                      
+                                     
+                                      
+                                   </div>
+                                <% } else { %>
+                                    <% } %>
+                           
                         </div>
                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                         <div class="payment_method">
@@ -262,6 +267,7 @@
 
                                 <div class="form-check  col-md-6">
                                     <input class="form-check-input address" type="radio" name="flexRadioDefault"  id="<%= user.address[i] %>" value="<%= user.address[i]._id %>">
+                                  
                                     <label class="form-check-label" for="flexRadioDefault1">
                                        
                                             <div class="card">

@@ -165,7 +165,9 @@
                                                 </div>
                                                 <div class="product-price">
                                                     <span>₹<%=product[i].price  %> </span>
-                                                    <span class="old-price">₹<%= Math.round(product[i].price+50) %></span>
+                                                    <span class="old-price"
+                            >₹<%=product[i].price+product[i].offerPrice %></span
+                          >
                                                     <a class="float-right" onclick="addToCart('<%= product[i].id %>')" ><i class="fi-rs-shopping-bag-add "></i></a>
                                                 </div>
                                                 <div class="">

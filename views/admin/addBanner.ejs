@@ -6,7 +6,7 @@
                     <div class="content-header">
                         <h2 class="content-title">Add New Banner</h2>
                         <div>
-                            <form method="post" action="/api/admin/createBanner" enctype="multipart/form-data">
+                            <form method="post" action="/api/admin/createBanner" enctype="multipart/form-data" onsubmit="return validateForm()">
                            
                                 <button type="submit" class="btn btn-md rounded font-sm hover-up">Publich</button>
                         </div>
@@ -55,6 +55,44 @@
                 </div>
             </div>
         </section> <!-- content-main end// -->
-    
+        <script>
+            function validateForm() {
+              clearErrorMessages();
+          
+              const title = document.getElementById('title').value;
+              const link = document.getElementById('link').value;
+          
+              let isValid = true;
+          
+              if (title.trim() === '') {
+                displayErrorMessage('title', 'Please enter a banner title.');
+                isValid = false;
+              }
+          
+              if (link.trim() === '') {
+                displayErrorMessage('link', 'Please enter a product title.');
+                isValid = false;
+              }
+          
+              return isValid;
+            }
+          
+            function displayErrorMessage(fieldName, message) {
+              const field = document.getElementById(fieldName);
+              const errorDiv = document.createElement('div');
+              errorDiv.className = 'error-message';
+              errorDiv.innerText = message;
+          
+              field.parentNode.appendChild(errorDiv);
+            }
+          
+            function clearErrorMessages() {
+              const errorMessages = document.querySelectorAll('.error-message');
+              errorMessages.forEach((errorMessage) => {
+                errorMessage.parentNode.removeChild(errorMessage);
+              });
+            }
+          </script>
+          
 
         <%- include('footer') %>

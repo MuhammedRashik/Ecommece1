@@ -76,35 +76,51 @@ const createProduct = asyncHandler(async (req, res) => {
         const products = req.body;
         const productExist = await Product.findOne({ title });
 
+
+
+
         if (!productExist) {
-            if (products.title) {
-                products.slug = slugify(products.title);
-            }
-
-            const images = [];
-            if (req.files && req.files.length > 0) {
-                for (let i = 0; i < req.files.length; i++) {
-                    images.push(req.files[i].filename);
-                }
-            }
-
-            const newProduct = new Product({
-                title: products.title,
-                discription: products.discription,
-                brand: products.brand,
-                slug: products.title,
-                price: products.price,
-                color: products.color,
-                quantity: products.quantity,
-                catogary: products.catogary,
-                color:products.color,
-                size:products.size,
-                images: images,
+            const caseInsensitiveCatogaryExist = await Product.findOne({
+                title: { $regex: new RegExp('^' + title + '$', 'i') }
             });
 
-            const pr = await newProduct.save();
 
-            res.redirect('/api/admin/product');
+            if(caseInsensitiveCatogaryExist){
+                res.redirect('/api/admin/addProduct');
+
+            }else{
+                if (products.title) {
+                    products.slug = slugify(products.title);
+                }
+    
+                const images = [];
+                if (req.files && req.files.length > 0) {
+                    for (let i = 0; i < req.files.length; i++) {
+                        images.push(req.files[i].filename);
+                    }
+                }
+    
+                const newProduct = new Product({
+                    title: products.title,
+                    discription: products.discription,
+                    brand: products.brand,
+                    slug: products.title,
+                    price: products.price,
+                    color: products.color,
+                    quantity: products.quantity,
+                    catogary: products.catogary,
+                    color:products.color,
+                    size:products.size,
+                    images: images,
+                });
+    
+                const pr = await newProduct.save();
+    
+                res.redirect('/api/admin/product');
+
+            }
+
+           
         } else {
             console.log('Product already exists');
             res.redirect('/api/admin/addProduct');
@@ -137,49 +153,87 @@ const editProduct = asyncHandler(async (req, res) => {
 
 const productEdited = asyncHandler(async (req, res) => {
     try {
-        const id = req.body.id;
-        console.log(id);
-        const img = req.files && req.files.length > 0 ? req.files[0].filename : null;
 
-        if (img) {
-            const images = [];
-            if (req.files && req.files.length > 0) {
-                for (let i = 0; i < req.files.length; i++) {
-                    images.push(req.files[i].filename);
+
+        const existproduct= await Product.findOne({title:req.body.title})
+
+        if(existproduct){
+
+
+
+
+            res.redirect(`/api/admin/editProduct?id=${req.body.id}`)
+
+        }else{
+
+            const caseInsensitiveCatogaryExist = await Product.findOne({
+                title: { $regex: new RegExp('^' + req.body.title + '$', 'i') }
+            });
+
+            if(caseInsensitiveCatogaryExist){
+                res.redirect(`/api/admin/editProduct?id=${req.body.id}`)
+
+            }else{
+                const id = req.body.id;
+                console.log(id);
+                const img = req.files && req.files.length > 0 ? req.files[0].filename : null;
+        
+                if (img) {
+                    const images = [];
+                    if (req.files && req.files.length > 0) {
+                        for (let i = 0; i < req.files.length; i++) {
+                            images.push(req.files[i].filename);
+                        }
+                    }
+                    const products = req.body;
+        
+        
+                   
+                   
+        
+        
+                    const updatedPoduct = await Product.findByIdAndUpdate(id, {
+                        title: products.title,
+                        discription: products.discription,
+                        brand: products.brand,
+                        slug: products.title,
+                        price: products.price,
+                        color: products.color,
+                        quantity: products.quantity,
+                        catogary: products.catogary,
+                        size:products.size,
+                        images: images,
+                    }, { new: true })
+        
+        
+        
+                } else {
+                    const products = req.body;
+                    const noImg = await Product.findByIdAndUpdate(id, {
+                        title: products.title,
+                        discription: products.discription,
+                        brand: products.brand,
+                        slug: products.title,
+                        price: products.price,
+                        quantity: products.quantity,
+                        color: products.color,
+                        catogary: products.catogary,
+                    })
+        
                 }
+                res.redirect('/api/admin/product')
+                
             }
-            const products = req.body;
 
-            const updatedPoduct = await Product.findByIdAndUpdate(id, {
-                title: products.title,
-                discription: products.discription,
-                brand: products.brand,
-                slug: products.title,
-                price: products.price,
-                color: products.color,
-                quantity: products.quantity,
-                catogary: products.catogary,
-                size:products.size,
-                images: images,
-            }, { new: true })
+            }
+
+
+           
 
 
 
-        } else {
-            const products = req.body;
-            const noImg = await Product.findByIdAndUpdate(id, {
-                title: products.title,
-                discription: products.discription,
-                brand: products.brand,
-                slug: products.title,
-                price: products.price,
-                quantity: products.quantity,
-                color: products.color,
-                catogary: products.catogary,
-            })
 
-        }
-        res.redirect('/api/admin/product')
+       
 
 
     } catch (error) {

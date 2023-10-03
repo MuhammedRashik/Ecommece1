@@ -160,6 +160,19 @@
         isValid = false;
     }
 
+    const quantity = document.getElementsByName('quantity')[0].value;
+
+// Check if quantity is a non-negative number
+if (!/^\d+$/.test(quantity) || parseInt(quantity) < 0) {
+    displayErrorMessage('quantity', 'Please enter a valid non-negative quantity.');
+    isValid = false;
+}
+
+// Check if price is a non-negative number
+if (!/^\d+(\.\d{1,2})?$/.test(price) || parseFloat(price) < 0) {
+    displayErrorMessage('price', 'Please enter a valid non-negative price.');
+    isValid = false;
+}
     
 
     // Check if color is empty
@@ -173,9 +186,19 @@
 
     // Check if at least one image is selected
     if (images.length === 0) {
-        displayErrorMessage('images', 'Please select at least one image.');
-        isValid = false;
+    displayErrorMessage('images', 'Please select at least one image.');
+    isValid = false;
+} else {
+    // Check each selected file for image type
+    for (const image of images) {
+        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+        if (!allowedTypes.includes(image.type)) {
+            displayErrorMessage('images', 'Please select only image files (png, jpg).');
+            isValid = false;
+            break; // Stop checking further if an invalid image type is found
+        }
     }
+}
     if (category.trim() === '') {
         displayErrorMessage('catogary', 'Please select a product category.');
         isValid = false;

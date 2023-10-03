@@ -4,7 +4,8 @@ const Product = require('../models/productModel.js');
 const Oder= require('../models/oderModel')
 const mongoose=require('mongoose')
 const Razorpay=require('razorpay')
-const Coupon=require('../models/coupenModel')
+const Coupon=require('../models/coupenModel');
+const { log } = require('console');
 
 
 
@@ -37,9 +38,16 @@ const oderPage = asyncHandler(async (req, res) => {
 //--------------------------payment selvtion page--------------------------
 const chekOut = asyncHandler(async (req, res) => {
     try {
-        const id = req.session.user
-        const user = await User.findById(id)
-        const coupon= await Coupon.find()
+        const userId = req.session.user
+        const user = await User.findById(userId)
+        const coupon = await Coupon.find({
+            'user.userId': { $ne: user._id }
+        });
+        
+        console.log('Valid coupons:', coupon);
+
+
+        
         const productIds = user.cart.map(cartItem => cartItem.ProductId);
         const product = await Product.find({ _id: { $in: productIds } });
 
@@ -55,7 +63,11 @@ const chekOut = asyncHandler(async (req, res) => {
             sum += user.cart[i].subTotal
         }
         sum = Math.round(sum * 100) / 100;
-        res.render('chekOut', { user, product, sum ,coupon,offer})
+
+     
+
+
+        res.render('chekOut', { user, product, sum ,coupon,offer,})
 
     } catch (error) {
         console.log('Error form oder Ctrl in the function chekOut', error);
@@ -504,7 +516,7 @@ const returnOrder = asyncHandler(async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-  
+  //---------------------------------------------
 
 
 
@@ -744,6 +756,8 @@ const verifyOrderPayment = (details) => {
     };
 
 
+
+ //---------when user click wallet use chenking the cuurent sum and reduce the wallet    
 const useWallet=asyncHandler(async(req,res)=>{
     try {
        
@@ -754,7 +768,7 @@ const useWallet=asyncHandler(async(req,res)=>{
             let a=req.body
            
             let sum= a.total - a.wallet
-            console.log('thisd is sum',sum);
+           
            res.json({status:true,sum})
         } 
     } catch (error) {
@@ -762,16 +776,13 @@ const useWallet=asyncHandler(async(req,res)=>{
         
     }
 })
-
-
 ///--------------------------------------------------------------------------
 
 
 
 
 
-
-
+//----------loading sales report page ----
 const loadsalesReport=asyncHandler(async(req,res)=>{
     try {
 
@@ -795,9 +806,9 @@ const loadsalesReport=asyncHandler(async(req,res)=>{
         
     }
 })
+//-----------------------------------
 
-
-
+//-----sortinhg the sales report ----------------
 const salesReport = asyncHandler(async (req, res) => {
     try {
         const date = req.query.date;
@@ -887,22 +898,25 @@ const salesReport = asyncHandler(async (req, res) => {
         res.status(500).json({ error: 'An error occurred' });
     }
 });
+//-------------------------------------------
 
 
-
-/////----------------------------------------a single product buyNOw --------
-
+/////------------------a single product buyNOw --------
 const buyNOw=asyncHandler(async(req,res)=>{
     try {
         const product= await Product.findById(req.query.id)
 
 
         if(product.quantity >=1 ){
-            console.log('this is buynow product ',product);
+          
 
             const id = req.session.user
             const user = await User.findById(id)
-             const coupon= await Coupon.find()
+            const coupon = await Coupon.find({
+                'user.userId': { $ne: user._id }
+            });
+            
+           
             
            let sum= product.price 
             res.render('buyNow', { user, product, sum ,coupon})
@@ -929,7 +943,7 @@ module.exports = {
      oderPage,
      chekOut ,
      oderPlaced ,
-    allOderData,
+     allOderData,
     oderDetails,
     canselOder,
     orderListing,

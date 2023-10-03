@@ -140,7 +140,6 @@ router.set('views','./views/admin');
 
 
 
-
 //----------multer setting---------------
 const {
     upload

@@ -25,6 +25,12 @@ const couponSchema = new mongoose.Schema({
         type: Date,
         required: true, 
     },
+    user:{
+        type:Array,
+        userId:{
+            type:String
+        }
+    }
 });
 
 

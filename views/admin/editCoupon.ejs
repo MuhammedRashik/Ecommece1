@@ -6,7 +6,7 @@
                     <div class="content-header col-8">
                         <h2 class="content-title">Edit Coupon</h2>
                         <div>
-                            <form action="/api/admin/updateCoupon" method="post" >
+                            <form action="/api/admin/updateCoupon" method="post" onsubmit="return validateForm()" >
 
                                 <button type="submit" class="btn btn-md rounded font-sm hover-up">Edit Coupon</button>
                             </div>
@@ -55,5 +55,62 @@
                          
           
         </section>
+        <script>
+            function validateForm() {
+                // Reset any existing error messages
+                clearErrorMessages();
+        
+                const name = document.getElementsByName('name')[0].value;
+                const discription = document.getElementsByName('discription')[0].value;
+                const offerPrice = document.getElementsByName('offerPrice')[0].value;
+                const minimumAmount = document.getElementsByName('minimumAmount')[0].value;
+                const expiryDate = document.getElementsByName('expiryDate')[0].value;
+        
+                let isValid = true; // Assume the form is valid by default
+        
+                // Check if name is empty
+                if (name.trim() === '') {
+                    displayErrorMessage('name', 'Please enter a coupon name.');
+                    isValid = false;
+                }
+        
+                // Check if description is empty
+                if (discription.trim() === '') {
+                    displayErrorMessage('description', 'Please enter a description.');
+                    isValid = false;
+                }
+        
+                // Check if offerPrice is a non-negative number
+                if (!/^\d+(\.\d{1,2})?$/.test(offerPrice) || parseFloat(offerPrice) < 0) {
+                    displayErrorMessage('offerPrice', 'Please enter a valid non-negative offer price.');
+                    isValid = false;
+                }
+        
+                // Check if minimumAmount is a non-negative number
+                if (!/^\d+(\.\d{1,2})?$/.test(minimumAmount) || parseFloat(minimumAmount) < 0) {
+                    displayErrorMessage('minimumAmount', 'Please enter a valid non-negative minimum amount.');
+                    isValid = false;
+                }
+        
+                
+                return isValid; // Form is valid
+            }
+        
+            function displayErrorMessage(fieldName, message) {
+                const field = document.getElementsByName(fieldName)[0];
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.innerText = message;
+                field.parentNode.appendChild(errorDiv);
+            }
+        
+            function clearErrorMessages() {
+                const errorMessages = document.querySelectorAll('.error-message');
+                errorMessages.forEach((errorMessage) => {
+                    errorMessage.parentNode.removeChild(errorMessage);
+                });
+            }
+        </script>
+        
         <%- include('footer') %>
        

@@ -1,6 +1,6 @@
 const asyncHandler=require('express-async-handler')
 const Coupon=require('../models/coupenModel');
-
+const User=require('../models/userModel')
 
 //---------------rendering the coupen add page---------------
 const loadCoupon=asyncHandler(async(req,res)=>{
@@ -18,28 +18,40 @@ const loadCoupon=asyncHandler(async(req,res)=>{
 //--------------------cerate a coupen whith coupen ----------------
 
 const addCoupon = asyncHandler(async (req, res) => {
-    try {
-        console.log(req.body);
-        const x = req.body;
+  try {
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",req.body);
 
-        const customExpiryDate = new Date(x.expiryDate); 
+      // Check if required fields are present in the request body
+      if (!req.body.name || !req.body.discription || !req.body.offerPrice) {
+          throw new Error('Required fields are missing');
+      }
 
-        const coupon = new Coupon({
-            name: x.name,
-            discription: x.discription,
-            offerPrice: x.offerPrice,
-            minimumAmount: x.minimumAmount,
-            createdOn: Date.now(),
-            expiryDate: customExpiryDate,
-        });
+      let customExpiryDate = new Date(req.body.expiryDate);
 
-        const create = await coupon.save();
+      // Check if customExpiryDate is a valid date
+      if (isNaN(customExpiryDate.getTime())) {
+          // If it's an invalid date, set it to be one month from the current date
+          const currentMonth = new Date().getMonth();
+          const newExpiryDate = new Date();
+          newExpiryDate.setMonth(currentMonth + 1);
+          customExpiryDate = newExpiryDate;
+      }
 
-       
-        res.redirect('/api/admin/coupon');
-    } catch (error) {
-        console.log('Error happened in the coupon controller in the function addCoupon', error);
-    }
+      const coupon = new Coupon({
+          name: req.body.name,
+          discription: req.body.discription,
+          offerPrice: req.body.offerPrice,
+          minimumAmount: req.body.minimumAmount,
+          createdOn: Date.now(),
+          expiryDate: customExpiryDate,
+      });
+
+      const create = await coupon.save();
+
+      res.redirect('/api/admin/coupon');
+  } catch (error) {
+      console.log('Error happened in the coupon controller in the function addCoupon', error);
+  }
 });
 
 
@@ -47,7 +59,7 @@ const addCoupon = asyncHandler(async (req, res) => {
 const coupon=asyncHandler(async(req,res)=>{
     try {
         const coupon= await Coupon.find()
-        console.log('thisis the coupon data ',coupon);
+        
 
 
 
@@ -167,6 +179,15 @@ const updateCoupon = asyncHandler(async (req, res) => {
       const coupon = await Coupon.findOne({ name: name });
   
       if (coupon) {
+        const user = await User.findById(req.session.user)
+        const userId={
+          userId:user._id
+        }
+
+    
+
+        coupon.user.push(userId)
+        await coupon.save()
         // If a coupon with the provided name is found, send it as a JSON response
         res.status(200).json({
           isValid: true,

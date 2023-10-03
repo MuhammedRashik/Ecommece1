@@ -1,6 +1,6 @@
 <%- include('header') %>
 <section class="content-main">
-    <form action="/api/admin/productEdited" method="POST" enctype="multipart/form-data">
+    <form action="/api/admin/productEdited" method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">
         <!-- Add your form action and method attributes above -->
         <div class="row">
             <div class="col-6">
@@ -140,4 +140,87 @@
     </form>
   
 </section> <!-- content-main end// -->
+<script>
+    function validateForm() {
+     // Reset any existing error messages
+     clearErrorMessages();
+ 
+     const title = document.getElementsByName('title')[0].value;
+     const description = document.getElementsByName('discription')[0].value;
+     const brand = document.getElementsByName('brand')[0].value;
+     const price = document.getElementsByName('price')[0].value;
+     const color = document.getElementsByName('color')[0].value;
+     const category = document.getElementsByName('catogary')[0].value; // Get the selected category
+ 
+     const images = document.getElementsByName('images')[0].files;
+ 
+     let isValid = true; // Assume the form is valid by default
+ 
+     // Check if title is empty
+     if (title.trim() === '') {
+         displayErrorMessage('title', 'Please enter a product title.');
+         isValid = false;
+     }
+ 
+     // Check if description is empty
+     if (description.trim() === '') {
+         displayErrorMessage('discription', 'Please enter a product description.');
+         isValid = false;
+     }
+ 
+     // Check if brand is empty
+     if (brand.trim() === '') {
+         displayErrorMessage('brand', 'Please enter a brand name.');
+         isValid = false;
+     }
+ 
+     const quantity = document.getElementsByName('quantity')[0].value;
+ 
+ // Check if quantity is a non-negative number
+ if (!/^\d+$/.test(quantity) || parseInt(quantity) < 0) {
+     displayErrorMessage('quantity', 'Please enter a valid non-negative quantity.');
+     isValid = false;
+ }
+ 
+ // Check if price is a non-negative number
+ if (!/^\d+(\.\d{1,2})?$/.test(price) || parseFloat(price) < 0) {
+     displayErrorMessage('price', 'Please enter a valid non-negative price.');
+     isValid = false;
+ }
+     
+ 
+     // Check if color is empty
+     if (color.trim() === '') {
+         displayErrorMessage('color', 'Please enter a product color.');
+         isValid = false;
+     }
+ 
+     // Check if a category is selected
+     
+ 
+     // Check if at least one image is selected
+     
+     if (category.trim() === '') {
+         displayErrorMessage('catogary', 'Please select a product category.');
+         isValid = false;
+     }
+ 
+     return isValid; // Form is valid
+ }
+ 
+ function displayErrorMessage(fieldName, message) {
+     const field = document.getElementsByName(fieldName)[0];
+     const errorDiv = document.createElement('div');
+     errorDiv.className = 'error-message';
+     errorDiv.innerText = message;
+     field.parentNode.appendChild(errorDiv);
+ }
+ 
+ function clearErrorMessages() {
+     const errorMessages = document.querySelectorAll('.error-message');
+     errorMessages.forEach((errorMessage) => {
+         errorMessage.parentNode.removeChild(errorMessage);
+     });
+ }
+     </script>
         <%- include('footer') %>

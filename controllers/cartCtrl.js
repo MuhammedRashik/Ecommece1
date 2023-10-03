@@ -163,35 +163,37 @@ if(user){
 
 
 //----------------delete a cartitem-------------------------------------
-const deleteItemeCart=asyncHandler(async(req,res)=>{
+const deleteItemeCart = asyncHandler(async (req, res) => {
     try {
-      
         const id = req.body.productId;
         const userId = req.session.user;
-        
-        const product = await Product.findById(id);
 
         // Find the user by their ID
         const userData = await User.findById(userId);
 
-if(userData){
-    const existingCartItem = userData.cart.find(item => item.ProductId === id);
-   
-    if(existingCartItem){
-        userData.cart.splice(existingCartItem, 1);
-        await userData.save();
-    }else{
-        //no existing cart item
-    }
-}else{
-    //no user data found
-}
-        res.json({status:true})
-        
+        if (userData) {
+            const existingCartItemIndex = userData.cart.findIndex(item => item.ProductId == id);
+
+            if (existingCartItemIndex !== -1) {
+                // If the item is found, remove it from the array
+                userData.cart.splice(existingCartItemIndex, 1);
+                await userData.save();
+                res.json({ status: true });
+            } else {
+                // No existing cart item
+                res.json({ status: false, error: 'Item not found in the cart.' });
+            }
+        } else {
+            // No user data found
+            res.json({ status: false, error: 'User not found.' });
+        }
+
     } catch (error) {
-       console.log('errro happemce in cart ctrl in function deleteItemeCart'); 
+        console.log('Error happened in cart ctrl in function deleteItemeCart', error);
+        res.status(500).json({ status: false, error: 'Internal Server Error' });
     }
-})
+});
+
 //--------------------------------------------------------------------------
 
 
