@@ -266,9 +266,6 @@ router.get('/about',aboutpage)
 
 //---------------------
 
-//-----blog----
-router.get('/blog',blog)
-router.get('/singleBlog',singleBlog)
 
 
 
@@ -349,7 +346,10 @@ router.get('/sortByPrice',sortByPrice)
 //----------------------------------
 
 
-
+//-----blog----
+router.get('/blog',blog) 
+router.get('/singleBlog',singleBlog)
+//------------------------
 
 
 

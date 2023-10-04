@@ -35,7 +35,7 @@
         <% for (let i=0; i < orders.length;i++) { %>
             <% for (let j = 0; j < orders[i].product.length; j++) { %>
             <tr>
-                <td>2323</td>
+                <td><%=i%></td>
                 <td><b><%= orders[i].product[j].title  %></b></td>
                
                 <td>$<%= orders[i].totalPrice %></td>

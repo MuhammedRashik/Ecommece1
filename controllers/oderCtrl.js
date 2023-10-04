@@ -375,7 +375,7 @@ const oderDetails=asyncHandler(async(req,res)=>{
         const orderId = req.query.orderId
         // console.log('this is oder id ',orderId);
         // const  id=req.query.id.toString()
-   console.log();
+  
 
        const userId = req.session.user;
        const user = await User.findById(userId);

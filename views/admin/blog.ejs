@@ -19,25 +19,40 @@
                 </div>
             </header> <!-- card-header end// -->
             <div class="row">
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="/admin/assets/imgs/items/1.jpg" alt="Blog"> </a>
-                        <div class="info-wrap">
-                            <div class="dropdown float-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded">
-                                    <i class="material-icons md-edit mr-5"></i>Edit
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Edit info</a>
-                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                </div>
-                            </div>
-                            <a href="#" class="title">Just another product name</a>
-                            <div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-                        </div>
-                    </div> <!-- card-product  end// -->
-                </div> <!-- col.// -->
 
+
+
+                <% if (blog.length > 0) { %>
+
+                    <% for (let i = 0; i < blog.length; i++) { %>
+                        <div class="col-xl-6 col-lg-6 col-md-6">
+                            <div class="card card-product-grid">
+                                <a href="#" class="img-wrap"> <img style="height: 300px;" src="/admin/assets/imgs/catogary/<%= blog[i].image %>" alt="Blog"> </a>
+                                <div class="info-wrap">
+                                    <div class="dropdown float-end">
+                                        <a href="/api/admin/loadEditBlog?id=<%=blog[i]._id%>" class="btn btn-sm btn-brand rounded">
+                                            <i class="material-icons md-edit mr-5"></i>Edit
+                                        </a>
+                                        <a href="/api/admin/deleteBlog?id=<%=blog[i]._id%>" class="btn btn-sm btn-brand rounded">
+                                            <i class="material-icons md-edit mr-5"></i>Delete
+                                        </a>
+                                    </div>
+                                    <a href="#" class="title"><%=blog[i].title%></a>
+                                   
+                                </div>
+                            </div> <!-- card-product  end// -->
+                        </div> <!-- col.// -->
+        
+
+
+                        <% } %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="2">Blog not found</td>
+                            </tr>
+                        <% } %>
+
+               
 
 
               

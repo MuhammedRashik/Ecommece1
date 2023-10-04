@@ -15,11 +15,11 @@ const isLogged=((req,res,next)=>{
             if(data.isBlocked==false){
               next()
             }else{
-                res.redirect('/api/user/logout')
+                res.redirect('/api/user/login')
             }
         })
     }else{
-        res.redirect('/api/user')
+        res.redirect('/api/user/login')
     }
 })
 
