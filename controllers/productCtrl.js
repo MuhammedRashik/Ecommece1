@@ -69,6 +69,10 @@ const addProduct = asyncHandler(async (req, res) => {
 //------------------------------------------------------
 
 
+
+
+
+
 //create a new product and save to bd-------------------------
 const createProduct = asyncHandler(async (req, res) => {
     try {
@@ -131,6 +135,11 @@ const createProduct = asyncHandler(async (req, res) => {
 });
 //----------------------------------------------------
 
+
+
+
+
+
 //----rendering the a specific product edit page----------
 const editProduct = asyncHandler(async (req, res) => {
     try {
@@ -151,6 +160,12 @@ const editProduct = asyncHandler(async (req, res) => {
 //=-------------------------------------------------------
 
 
+
+
+
+
+
+//-------editing a prodcut --------
 const productEdited = asyncHandler(async (req, res) => {
     try {
 
@@ -243,6 +258,13 @@ const productEdited = asyncHandler(async (req, res) => {
 //-----------------------------------------------------
 
 
+
+
+
+
+
+
+
 //rendering the product page ---------------------------
 const aProductPage = asyncHandler(async (req, res) => {
     try {
@@ -270,6 +292,9 @@ const aProductPage = asyncHandler(async (req, res) => {
     }
 });
 //-------------------------------------------
+
+
+
 
 
 
@@ -315,6 +340,9 @@ const shop = asyncHandler(async (req, res) => {
 
 
 
+
+
+
 //  list and unlist the product ----------------------
 
 const unlistProduct = asyncHandler(async (req, res) => {
@@ -331,6 +359,8 @@ const unlistProduct = asyncHandler(async (req, res) => {
     }
 })
 //--------------------------------------------------------
+
+
 
 
 
@@ -356,10 +386,10 @@ const listProduct = asyncHandler(async (req, res) => {
 
 
 
+
+
+
 //----------------------dete a single picture -------------------
-
-
-
 const deleteSingleImage = asyncHandler(async (req, res) => {
   try {
     console.log(req.query);
@@ -383,12 +413,12 @@ const deleteSingleImage = asyncHandler(async (req, res) => {
    
   }
 });
+//----------------------------------------------------
 
 
 
 
-
-///sending the i value back
+///sending the i value back----------------------
 const modal=asyncHandler(async(req,res)=>{
     try {
         const i = req.query.i
@@ -399,7 +429,7 @@ const modal=asyncHandler(async(req,res)=>{
         
     }
 })
-
+//-----------------------------------
 
 
 

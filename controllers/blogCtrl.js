@@ -1,5 +1,9 @@
 const asyncHandler=require('express-async-handler')
 const Blog=require('../models/blogModel')
+
+
+
+
 //----------rendering blog pag ein user side ------------
 const blog= asyncHandler(async(req,res)=>{
     try {
@@ -25,6 +29,10 @@ const blog= asyncHandler(async(req,res)=>{
 //========================================
 
 
+
+
+
+
 //=========rendering a sinngle page in user side--------------
 const singleBlog=asyncHandler(async(req,res)=>{
     try {
@@ -39,6 +47,8 @@ const blog= await Blog.findById(id)
     }
 })
 //--------------------------------------
+
+
 
 
 
@@ -61,6 +71,9 @@ console.log('this is blog data ',blog);
 
 
 
+
+
+
 //-----------------------------rendering create blog pafe-----------------------------------------
 const loadCreateBlog=asyncHandler(async(req,res)=>{
     try {
@@ -71,6 +84,9 @@ const loadCreateBlog=asyncHandler(async(req,res)=>{
     }
 })
 //----------------------------------------------------------------------
+
+
+
 
 
 
@@ -121,6 +137,8 @@ const createBlog=asyncHandler(async(req,res)=>{
 
 
 
+
+
 //------------------------------rednering edit bog page with data ----------------------------------------
 const loadEditBlog=asyncHandler(async(req,res)=>{
     try {
@@ -137,6 +155,9 @@ const loadEditBlog=asyncHandler(async(req,res)=>{
     }
 })
 //----------------------------------------------------------------------
+
+
+
 
 
 
@@ -196,6 +217,9 @@ const updateBlog=asyncHandler(async(req,res)=>{
     }
 })
 //----------------------------------------------------------------------
+
+
+
 
 
 

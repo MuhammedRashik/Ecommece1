@@ -8,7 +8,7 @@ const { use } = require("passport");
 const Oder=require('../models/oderModel')
 const Banner=require('../models/bannerModel')
 const Catogary=require('../models/catogaryModel')
-
+const Blog= require('../models/blogModel')
 
 
 
@@ -50,7 +50,8 @@ const loadIndex = asyncHandler(async (req, res) => {
             const banner= await Banner.find()
             const pr = product.status == true;
             req.session.Product = product;
-            res.render("index", { user:userdata, product ,banner,catogary,womens});
+            const blog= await Blog.find()
+            res.render("index", { user:userdata, product ,banner,catogary,womens,blog});
 
         }else{
             const womens=await Product.find({catogary:" Womon's Clothing"})
@@ -60,7 +61,8 @@ const loadIndex = asyncHandler(async (req, res) => {
             const banner= await Banner.find()
             const pr = product.status == true;
             req.session.Product = product;
-            res.render("index", { user, product ,banner, catogary,womens});
+            const blog= await Blog.find()
+            res.render("index", { user, product ,banner, catogary,womens,blog});
         }
        
     } catch (error) {

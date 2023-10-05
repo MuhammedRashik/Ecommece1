@@ -48,6 +48,7 @@ const loadCart = asyncHandler(async (req, res) => {
 
 
 
+
 //-------------add a product to a cart -----------------------
 const addToCart = asyncHandler(async (req, res) => {
     try {
@@ -113,6 +114,7 @@ const addToCart = asyncHandler(async (req, res) => {
 
 
 
+
 //-------------cart product quantity down-----------------------
 
 const testdic=asyncHandler(async(req,res)=>{
@@ -162,6 +164,9 @@ if(user){
 
 
 
+
+
+
 //----------------delete a cartitem-------------------------------------
 const deleteItemeCart = asyncHandler(async (req, res) => {
     try {
@@ -195,6 +200,8 @@ const deleteItemeCart = asyncHandler(async (req, res) => {
 });
 
 //--------------------------------------------------------------------------
+
+
 
 
 
@@ -375,11 +382,6 @@ module.exports = {
 
 
 
-
-
-// // If the product is already in the cart, update the existing entry
-// existingCartItem.quantity=existingCartItem.quantity+1;
-// existingCartItem.subTotal = existingCartItem.quantity * product.price;
 
 
 

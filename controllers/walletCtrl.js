@@ -7,12 +7,25 @@ const Coupon = require('../models/coupenModel')
 
 var instance = new Razorpay({ key_id:process.env.RAZORPAY_KEYID, key_secret: process.env.RAZORPAY_SECRETKEY })
 
+
+
+
+
 //---------------add money to wallet --------------------
 // Initialize Razorpay with your API keys
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEYID,
     key_secret: process.env.RAZORPAY_SECRETKEY,
 });
+//---------------------------------------------------------
+
+
+
+
+
+
+
+
 
 // Modify your addMoneyWallet function
 const addMoneyWallet = asyncHandler(async (req, res) => {
@@ -34,14 +47,25 @@ const addMoneyWallet = asyncHandler(async (req, res) => {
 });
 
 
+
+
+
+//-------------------genarating a orderid for razorpay--------------------------------------
 function generateUniqueOrderId() {
   
     const timestamp = Date.now();
     const uniqueId = Math.random().toString(36).substring(2, 15);
     return `order_${timestamp}_${uniqueId}`;
 }
-
 //---------------------------------------------------------
+
+
+
+
+
+
+
+//------------------making razorpay payment ---------------------------------------
 const generateOrderRazorpay = (orderId, total) => {
     return new Promise((resolve, reject) => {
         const options = {
@@ -61,8 +85,12 @@ const generateOrderRazorpay = (orderId, total) => {
         });
     })
 }
-
 ///--------------------------------------------------ended the add money to wallet----------------------------
+
+
+
+
+
 
 
 
@@ -109,6 +137,9 @@ const updateMongoWallet = asyncHandler(async (req, res) => {
 
 
 
+
+
+//----------------walet  transaction use the wallet =====
 const   sumWallet=asyncHandler(async(req,res)=>{
     try {
         const coupon= await Coupon.find()
@@ -152,9 +183,6 @@ const   sumWallet=asyncHandler(async(req,res)=>{
 
 
 //----------------------use full amount in wallet-and after that chose a paying methord ----------------------------------
-//---------------------------------------------------------
-
-
 const sumWalletBuynow= asyncHandler(async(req,res)=>{
     try {
         const coupon= await Coupon.find()
@@ -193,8 +221,6 @@ const sumWalletBuynow= asyncHandler(async(req,res)=>{
 
 
 
-//----------------------------pay with wallet =-----------------------------
-//---------------------------------------------------------
 
 
 module.exports={

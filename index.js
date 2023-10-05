@@ -46,21 +46,35 @@ app.use(session({
       store:store
     })
   );
+
+
+
   app.use(nocache())
   app.use(passport.initialize())
   app.use(passport.session())
 
  
+
+
+
+
 //-----------------user router --------------------
 const userRouter=require('./routes/userRouter')
 app.use('/api/user',userRouter)
 //------------------------------------------------
+
+
+
+
 
 //--------admin router------------------------------
 const adminRoter=require('./routes/adminRouter');
 app.use('/api/admin',adminRoter)
  //-------------------------------------------------
 
+
+
+ 
 
 
 

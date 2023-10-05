@@ -37,12 +37,10 @@
             var img = $(slick.$slides[nextSlide]).find("img");
             $('.zoomWindowContainer,.zoomContainer').remove();
             $(img).elevateZoom({
-                zoomType: "window",
+                zoomType: "lens",
                 cursor: "crosshair",
-                zoomWindowFadeIn: 500,
-                zoomWindowFadeOut: 750,
-                zoomWindowWidth: 700, // Set the desired width
-                zoomWindowHeight: 800 ,
+               
+                
                 innerZoomContainer: "smallZoomContainer",
                 innerZoomContainerSize: "150%"
             });
@@ -50,12 +48,9 @@
         //Elevate Zoom
         if ( $(".product-image-slider").length ) {
             $('.product-image-slider .slick-active img').elevateZoom({
-                zoomType: "window",
+                zoomType: "lens",
                 cursor: "crosshair",
-                zoomWindowFadeIn: 500,
-                zoomWindowFadeOut: 750,
-                zoomWindowWidth: 700, // Set the desired width
-                zoomWindowHeight: 800 ,
+               
                 innerZoomContainer: "smallZoomContainer",
             innerZoomContainerSize: "150%"
             });

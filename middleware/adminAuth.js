@@ -14,4 +14,6 @@ const isAdminAuth=asyncHandler(async(req,res,next)=>{
 })
 
 
-module.exports={isAdminAuth}
+module.exports={
+    isAdminAuth
+}

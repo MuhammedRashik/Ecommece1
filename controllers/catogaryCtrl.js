@@ -128,12 +128,10 @@ const deleteCatogary = asyncHandler(async (req, res) => {
     }
 });
 
-
-
-
-
-
 //--------------------------------------------------------------
+
+
+
 
 
 
@@ -162,6 +160,8 @@ const editCatogary = asyncHandler(async (req, res) => {
 })
 
 //--------------------------------------------------------------
+
+
 
 
 
@@ -197,6 +197,8 @@ const updateCatogary = asyncHandler(async (req, res) => {
 
 
 
+
+
 //-------------------ulist a catogary--------------------------
 const unlistCatogary = asyncHandler(async (req, res) => {
     try {
@@ -212,6 +214,8 @@ const unlistCatogary = asyncHandler(async (req, res) => {
     }
 })
 //-------------------------------------------------------------
+
+
 
 
 
@@ -235,6 +239,8 @@ const listCatogary = asyncHandler(async (req, res) => {
 })
 
 //--------------------------------------------------------
+
+
 
 
 

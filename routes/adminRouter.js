@@ -210,12 +210,22 @@ router.post('/updateCatogary',upload.single('image'),updateCatogary)//after rend
  
 
 
+
+
+
 //---------offer-------
-    
-    router.get('/productOfferpage',productOfferpage)
-    router.post('/updateOffer',updateOffer)
-    router.get('/catogaryOffer',catogaryOffer)
-    router.post('/updateCatogaryOffer',updateCatogaryOffer)
+router.get('/productOfferpage',productOfferpage)
+router.post('/updateOffer',updateOffer)
+router.get('/catogaryOffer',catogaryOffer)
+router.post('/updateCatogaryOffer',updateCatogaryOffer)
+
+//---------------------------------------------------------
+
+
+
+
+
+
 
 //----------------------order-----------------------------
 router.get('/orderListing',orderListing)//show all the orders to the admin page
@@ -227,6 +237,8 @@ router.get('/changeStatusDelivered',changeStatusDelivered)
 router.get('/changeStatusreturned',changeStatusreturned)
 router.get('/changeStatusCanseled',changeStatusCanseled)
 //------------------------------------------------------------
+
+
 
 
 
@@ -245,6 +257,8 @@ router.get("/deleteBanner",deleteBanner)
 
 
 
+
+
 //-----------blog---
 router.get('/blog',adminBlog)
 router.get('/loadCreateBlog',loadCreateBlog)
@@ -252,6 +266,11 @@ router.post('/createBlog',upload.single('image'),createBlog)
 router.get('/loadEditBlog',loadEditBlog)
 router.post('/updateBlog',upload.single('image'),updateBlog)
 router.get('/deleteBlog',deleteBlog)
+//---------------------------------------------------------
+
+
+
+
 
 
 
@@ -266,13 +285,22 @@ router.get('/editCoupon',editCoupon)
 
 
 
+
+
+
+
 //-----------salesReport--------------
 router.get('/loadsalesReport',loadsalesReport)
 router.get('/salesReport',salesReport)
+//---------------------------------------------------------
 
 
 
+
+
+//----------error handler-----------------------------------------------
 router.use(errorHandler)
+//---------------------------------------------------------
 
 
 

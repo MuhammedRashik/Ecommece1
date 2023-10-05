@@ -1,6 +1,11 @@
 const sharp = require('sharp')
 const fs = require('fs')
 const path= require('path')
+
+
+
+
+
 module.exports = {
     bannerCrop: (req, res, next) => { // Add 'next' parameter to indicate middleware continuation
         console.log(req.file,"><><><><><><><:");

@@ -195,8 +195,16 @@ const {
 }=require('../controllers/couponCtrl')
 //-------------------------
 
+
+
+
+
 const {google} = require('googleapis');
 ///////////////////////////////////////////////////--require end--/////////////////////////////
+
+
+
+
 
 //-------about ctrl--
 const {
@@ -206,10 +214,16 @@ const {
 
 
 
+
+//-------blog-----------------------
 const{
     blog,
     singleBlog
 }=require('../controllers/blogCtrl')
+
+
+
+
 
 
 //----engine-----------
@@ -251,6 +265,8 @@ router.get("/mobileOTP", mobileOTP) //mobile otp verification page do it later
 
 
 
+
+
 //----------prifle--------------
 router.get('/profile',isLogged ,userProfile)//renderig profile
 router.get('/editProfile', isLogged,editProfile)//rendering the user profile edit page
@@ -265,6 +281,8 @@ router.post('/addProficPic', isLogged,upload.single('image'), addProficPic)//use
 router.get('/about',aboutpage)
 
 //---------------------
+
+
 
 
 
@@ -286,6 +304,7 @@ router.get('/aProduct', isLogged,upload.single('images'), aProductPage)//renderi
 router.get('/shop', shop)//rendering the shop page
 router.get('/modal',modal)
 //------------------------ ---------                       
+
 
 
 
@@ -353,10 +372,16 @@ router.get('/singleBlog',singleBlog)
 
 
 
+
+
+
 //-----------------invoice------------
 router.get('/invoice',isLogged,invoice)//renderin the invoice page
 router.get('/invoices',isLogged,invoices)///user can douload invoice 
 //==================================
+
+
+
 
 
 
@@ -371,12 +396,19 @@ router.get('/deleteWishlistItem',isLogged,deleteWishlistItem)//delete a item in 
 
 
 
+
+
+
+
 //------wallet--------------
 router.post('/addMoneyWallet',isLogged,addMoneyWallet)
 router.post('/updateMongoWallet',isLogged,updateMongoWallet)
 router.post('/useWallet',isLogged,useWallet)
 router.get('/sumWalletBuynow',sumWalletBuynow)
 //------------------=-------------
+
+
+
 
 
 
@@ -393,17 +425,15 @@ router.post('/validateCoupon',validateCoupon)
 
 //---------------rating and review----
 router.post('/review',review)
+//---------------------------------------------------------
+
+
 
 
 
 
 router.use(errorHandler)
 
-// Microsoft Routes
-// router.get('/auth/microsoft', passport.authenticate('microsoft', { session: false }));
-// router.get('/auth/microsoft/redirect', passport.authenticate('microsoft', { session: false, failureRedirect: `https://localhost:3000/login` }), (req, res) => {
-//   res.redirect(req.user);
-// });
 
 
 

@@ -34,6 +34,11 @@ const productOfferpage=asyncHandler(async(req,res)=>{
 //---------------------------------------------------
 
 
+
+
+
+
+
 //-----------------updating the product offer---------------
 const updateOffer = asyncHandler(async (req, res) => {
     try {
@@ -63,6 +68,12 @@ const updateOffer = asyncHandler(async (req, res) => {
 //------------------------------------------------------
 
 
+
+
+
+
+
+//-------------oofer for  a catogary------------------
 const catogaryOffer= asyncHandler(async(req,res)=>{
     try {
         const catogary=await Catogary.find()
@@ -82,7 +93,12 @@ const catogaryOffer= asyncHandler(async(req,res)=>{
         
     }
 })
+//--------------------------------------------------
 
+
+
+
+//-------------------make changed in catogary offer --------------------------------------
 
 const updateCatogaryOffer = asyncHandler(async (req, res) => {
     try {
@@ -115,7 +131,7 @@ const updateCatogaryOffer = asyncHandler(async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
+//----------------------------------------------
 
 
 

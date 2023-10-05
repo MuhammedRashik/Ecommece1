@@ -2,6 +2,11 @@ const asyncHandler=require('express-async-handler')
 const Coupon=require('../models/coupenModel');
 const User=require('../models/userModel')
 
+
+
+
+
+
 //---------------rendering the coupen add page---------------
 const loadCoupon=asyncHandler(async(req,res)=>{
     try {
@@ -16,7 +21,6 @@ const loadCoupon=asyncHandler(async(req,res)=>{
 
 
 //--------------------cerate a coupen whith coupen ----------------
-
 const addCoupon = asyncHandler(async (req, res) => {
   try {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",req.body);
@@ -53,6 +57,13 @@ const addCoupon = asyncHandler(async (req, res) => {
       console.log('Error happened in the coupon controller in the function addCoupon', error);
   }
 });
+//---------------------------------------------------------
+
+
+
+
+
+
 
 
 //--------------rendering the coupen page with data-----------------
@@ -80,6 +91,11 @@ const coupon=asyncHandler(async(req,res)=>{
 //---------------------------------------------------
 
 
+
+
+
+
+
 //--------------------------dlete a sinfle product ------------------------
 const deleteCoupon=asyncHandler(async(req,res)=>{
     try {
@@ -102,6 +118,10 @@ const deleteCoupon=asyncHandler(async(req,res)=>{
 
 
 
+
+
+
+
 //-------------------rendring th edit coupon page with data in tha vlu------------
 const editCoupon=asyncHandler(async(req,res)=>{
     try {
@@ -116,6 +136,9 @@ const editCoupon=asyncHandler(async(req,res)=>{
     }
 })
 //------------------------------------------------------
+
+
+
 
 
 
@@ -171,6 +194,9 @@ const updateCoupon = asyncHandler(async (req, res) => {
 
 
 
+
+
+//-------------chekthe coupon is valid or not -----------------
   const validateCoupon = asyncHandler(async (req, res) => {
     try {
       const name = req.body.couponCode;
@@ -208,6 +234,17 @@ const updateCoupon = asyncHandler(async (req, res) => {
       });
     }
   });
+//---------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 
 module.exports={
     loadCoupon,

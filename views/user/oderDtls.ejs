@@ -164,7 +164,25 @@ color: #fff;
                         <div class="col-lg-6 col-md-6 ms-auto text-md-end">
                           
                             <a class="btn btn-primary" href="/api/user/invoice?id=<%= order._id%>">invoice</a>
-                            <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
+                            <% if (order.status=='pending') { %>
+                                <a onclick="conformCansel('<%= order.product[0]._id %>','<%= order._id %>')" class="btn btn-md rounded font-sm">Cancel</a>
+                            <% } else if(order.status == 'conformed'){ %>
+                                <a onclick="conformCansel('<%= order.product[0]._id %>','<%= order._id %>')" class="btn btn-md rounded font-sm">Cancel</a>
+                               
+
+                                <% } else if(order.status == 'canceled'){ %>
+                                    <% } else if(order.status == 'shipped'){ %>
+                                        <a onclick="conformCansel('<%= order.product[0]._id %>','<%= order._id %>')" class="btn btn-md rounded font-sm">Cancel</a>
+                                        
+
+
+<% } else if(order.status == 'delivered'){ %>
+<a onclick="conformReturn('<%= order.product[0]._id %>','<%= order._id %>')" class="btn btn-md rounded font-sm">Return</a>
+<% } else if(order.status=='returned'){ %>
+
+<% } %> 
+
+                           
                         </div>
                     </div>
                 </header> <!-- card-header end// -->
@@ -501,6 +519,67 @@ color: #fff;
      }
 
     </script>
+    <script>
+        function conformReturn(id,orderId){
+        swal({
+        title: "Are you sure?",
+        text: "Once Return, you will not be able to recover this Product!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+        swal("Poof! Your imaginary file has been deleted!", {
+        icon: "success",
+        });
+            location.href=`/api/user/return?id=${id}&orderId=${orderId}`
+        } else {
+            Swal.fire({
+                              title: "Return Cansell Success",
+                             
+                              icon: "error",
+                              timer: 1000,
+                              showConfirmButton: false, // This removes the button
+                            });
+        }
+        });
+        
+        }
+        </script>
+        
+        
+        <script>
+        function conformCansel(id,orderId){
+            swal({
+        title: "Are you sure?",
+        text: "Once Cansel, you will not be able to recover this Product!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+        swal("Poof! Your imaginary file has been deleted!", {
+        icon: "success",
+        });
+            location.href=`/api/user/canselOrder?id=${id}&orderId=${orderId}`
+        } else {
+            Swal.fire({
+                              title: "Cansel Success",
+                             
+                              icon: "error",
+                              timer: 1000,
+                              showConfirmButton: false, // This removes the button
+                            });
+        }
+        });
+        
+        }
+        
+        
+        
+        </script>
   
     <%- include('footer') %>
     

@@ -5,6 +5,11 @@ const Product= require('../models/productModel')
 const Catogary=require('../models/catogaryModel')
 const moment = require('moment');
 
+
+
+
+
+
 ///admin login page rendering 
 const adminDashbordPage = asyncHandler(async (req, res) => {
     try {
@@ -92,9 +97,10 @@ const adminDashbordPage = asyncHandler(async (req, res) => {
         console.log('Error happened in admin controller at adminLoginPage function ', error);
     }
 });
-
-
 //-----------------------------------------------------
+
+
+
 
 
 
@@ -118,6 +124,8 @@ const loadLogin = asyncHandler(async (req, res) => {
 
 
 
+
+
 //admin login vrification with data---------------------------------------------------
 const adminVerifyLogin = asyncHandler(async (req, res) => {
     try {
@@ -131,15 +139,17 @@ const adminVerifyLogin = asyncHandler(async (req, res) => {
 
             req.session.Admin = true;
 
-            res.render('dashbord')
-        } else {
             res.redirect('/api/admin/')
+        } else {
+            res.redirect('/api/admin/login')
         }
     } catch (error) {
         console.log('Error hapence in admin conroller at adminVerifyLogin function ', error);
     }
 })
 //-----------------------------------------------------------------
+
+
 
 
 
@@ -157,6 +167,9 @@ const logout = asyncHandler(async (req, res) => {
     }
 })
 //---------------------------------------------------------------
+
+
+
 
 
 
@@ -200,6 +213,9 @@ const users = asyncHandler(async (req, res) => {
 
 
 
+
+
+
 //blok the user --------------------------
 const blokeUser = asyncHandler(async (req, res) => {
     try {
@@ -227,6 +243,8 @@ const blokeUser = asyncHandler(async (req, res) => {
 
 
 
+
+
 //unbloking a user ---------------------------------------
 const unBlokeUser = asyncHandler(async (req, res) => {
     try {
@@ -248,6 +266,8 @@ const unBlokeUser = asyncHandler(async (req, res) => {
     }
 });
 //------------------------------------------------------------------------
+
+
 
 
 

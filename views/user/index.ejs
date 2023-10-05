@@ -4,6 +4,43 @@
   <br />
   <br />
 <!------------------- this is baner session----------------------- -->
+
+<style>
+  /* Default styles for larger screens */
+.section {
+   font-size: 18px;
+   padding: 20px;
+   /* Add more styles as needed */
+}
+
+/* Styles for screens between 769px and 889px */
+@media (min-width: 769px) and (max-width: 889px) {
+   .section {
+      font-size: 16px;
+      padding: 15px;
+      /* Add more styles as needed */
+   }
+}
+
+/* Styles for screens between 890px and 1199px */
+@media (min-width: 890px) and (max-width: 1199px) {
+   .section {
+      font-size: 14px;
+      padding: 10px;
+      /* Add more styles as needed */
+   }
+}
+
+/* Styles for screens 1200px and larger */
+@media (min-width: 1200px) {
+   .section {
+      font-size: 20px;
+      padding: 25px;
+      /* Add more styles as needed */
+   }
+}
+
+</style>
   <section class="home-slider position-relative mb-30">
     <div class="container">
       <div class="home-slide-cover mt-30">
@@ -15,26 +52,21 @@
               <div class="row justify-content-center slider-animated-1">
                 <div
                   class="col-lg-12 col-md-12 slider-image"
-                  style="
-                    background-image: url('/admin/assets/imgs/catogary/<%= banner[i].image %>');
-                  "
+                  style="background-image: url('/admin/assets/imgs/catogary/<%= banner[i].image %>'); max-width: 100%;"
                 >
                   <div
                     class="hero-slider-content-2 text-center align-items-center"
                   >
                     <br /><br /><br />
 
-                    <h2 class="animated fw-900" style="color: darkgray">
+                    <h2 class="animated fw-900" style="color: darkgray; font-size: 2rem;">
                       <%= banner[i].title %>
-                    </h2>
+                   </h2>
                     <br /><br /><br /><br /><br /><br />
 
-                    <p
-                      class="animated"
-                      style="margin-left: 10rem; color: white"
-                    >
+                    <p class="animated" style="margin-left: 1.5rem; color: white; font-size: 1rem;">
                       <%= banner[i].discription %>
-                    </p>
+                   </p>
                     <br /><br /><br /><br /><br /><br />
 
                     <a
@@ -116,50 +148,16 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-3">
-          <div class="widget-category mb-30">
-            <h5 class="section-title style-1 mb-30 wow fadeIn animated">
-              Category
-            </h5>
-            <ul class="categories">
-              <li><a href="#">Shoes & Bags</a></li>
-              <li><a href="#">Blouses & Shirts</a></li>
-              <li><a href="#">Dresses</a></li>
-              <li><a href="#">Swimwear</a></li>
-              <li><a href="#">Beauty</a></li>
-              <li><a href="#">Jewelry & Watch</a></li>
-              <li><a href="#">Accessories</a></li>
-            </ul>
-          </div>
-          <div class="widget-category mb-30">
-            <h5 class="section-title style-1 mb-30 wow fadeIn animated">
-              Sort by
-            </h5>
-            <ul class="categories">
-              <li><a href="#">Popularity</a></li>
-              <li><a href="#">Average rating</a></li>
-              <li><a href="#">Price: Low to High</a></li>
-              <li><a href="#">Price: High to Low</a></li>
-            </ul>
-          </div>
-          <div class="widget-category mb-30">
-            <h5 class="section-title style-1 mb-30 wow fadeIn animated">
-              Price Range
-            </h5>
-            <ul class="categories">
-              <li><a href="#">$0-$200</a></li>
-              <li><a href="#">$200-$400</a></li>
-              <li><a href="#">$400-$600</a></li>
-              <li><a href="#">$600-$800</a></li>
-              <li><a href="#">800$+</a></li>
-            </ul>
-          </div>
+          
+         
+          
           <div
             class="banner-img wow fadeIn mb-45mb-lg-0 animated d-lg-block d-none"
           >
-            <img
-              src="https://i.pinimg.com/564x/4d/0f/ed/4d0fedd71aed60d4aca2297ab5caa3ff.jpg"
-              alt=""
-            />
+          <a href="/api/user/CatogaryFilter?catogary= Womon's Clothing">  <img
+            src="https://i.pinimg.com/564x/4d/0f/ed/4d0fedd71aed60d4aca2297ab5caa3ff.jpg"
+            alt=""
+          /></a>
             <div class="banner-text">
               <h4 style="color: black">Women Zone</h4>
               <h4>Save 17% on <br />Office Dress</h4>
@@ -168,6 +166,41 @@
               ></a>
             </div>
           </div>
+          <div
+            class="banner-img wow fadeIn mb-45mb-lg-0 animated d-lg-block d-none"
+          >
+            <a href="/api/user/CatogaryFilter?catogary=Men's Clothing"><img
+              src="https://i.pinimg.com/564x/42/e2/95/42e2957c2fb81a29f5ddedce85d2d822.jpg"
+              alt=""
+            /></a>
+            <div class="banner-text">
+              <h4 style="color: white">Men Zone</h4>
+              <h4 style="color: white;">Save 10% on <br /> catual </h4>
+              <a href="/api/user/CatogaryFilter?catogary=Men's Clothing"
+                >Shop Now <i class="fi-rs-arrow-right"></i
+              ></a>
+            </div>
+            
+          </div>
+          
+
+   <div
+            class="banner-img wow fadeIn mb-45mb-lg-0 animated d-lg-block d-none"
+          >
+            <a href="/api/user/CatogaryFilter?catogary= Children's Clothing"><img
+              src="https://i.pinimg.com/564x/6a/d3/12/6ad3126cff27db3f54055337218a580d.jpg"
+              alt=""
+            /></a>
+            <div class="banner-text">
+              <h4 style="color: black">Child Zone</h4>
+              <h4 style="color:black ;">Save 10% on <br /> Street ware </h4>
+              <a href="/api/user/CatogaryFilter?catogary= Children's Clothing"
+                >Shop Now <i class="fi-rs-arrow-right"></i
+              ></a>
+            </div>
+            
+          </div>
+
         </div>
         <div class="col-lg-9">
           <div class="tab-header">
@@ -187,7 +220,7 @@
                 </button>
               </li>
             </ul>
-            <a href="#" class="view-more d-none d-md-flex"
+            <a href="/api/user/shop" class="view-more d-none d-md-flex"
               >View More<i class="fi-rs-angle-double-small-right"></i
             ></a>
           </div>
@@ -641,117 +674,69 @@
       </div>
     </div>
   </section>
-  <section class="section-padding">
-    <div class="container pt-25 pb-20">
-      <div class="row">
-        <div class="col-lg-6">
-          <h3 class="section-title mb-20"><span>From</span> blog</h3>
-          <div class="post-list mb-4 mb-lg-0">
-            <article class="wow fadeIn animated">
-              <div class="d-md-flex d-block">
-                <div class="post-thumb d-flex mr-15">
-                  <a class="color-white" href="blog-post-fullwidth.html">
-                    <img src="/user/assets/imgs/blog/blog-2.jpg" alt="" />
-                  </a>
-                </div>
-                <div class="post-content">
-                  <div class="entry-meta mb-10 mt-10">
-                    <a
-                      class="entry-meta meta-2"
-                      href="blog-category-fullwidth.html"
-                      ><span class="post-in font-x-small">Fashion</span></a
-                    >
-                  </div>
-                  <h4 class="post-title mb-25 text-limit-2-row">
-                    <a href="blog-post-fullwidth.html"
-                      >Qualcomm is developing a Nintendo Switch-like console,
-                      report says</a
-                    >
-                  </h4>
-                  <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
-                    <div>
-                      <span class="post-on">14 April 2022</span>
-                      <span class="hit-count has-dot">12M Views</span>
+  
+
+  <!-- blog -->
+  <%if(blog.length >0){%>
+
+
+    <section class="section-padding">
+      <div class="container pt-25 pb-20">
+        <div class="row">
+          <div class="col-lg-6">
+            <h3 class="section-title mb-20"><span>From</span> blog</h3>
+            <div class="post-list mb-4 mb-lg-0">
+              <%for(let i=0 ;i< blog.length ; i++){ %>
+                <article class="wow fadeIn animated">
+                  <div class="d-md-flex d-block">
+                    <div class="post-thumb d-flex mr-15">
+                      <a class="color-white" href="/api/user/singleBlog?id=<%=blog[i]._id%>">
+                        <img src="/admin/assets/imgs/catogary/<%= blog[i].image %>" alt="Blog" />
+                      </a>
                     </div>
-                    <a href="blog-post-right.html">Read More</a>
-                  </div>
-                </div>
-              </div>
-            </article>
-            <article class="wow fadeIn animated">
-              <div class="d-md-flex d-block">
-                <div class="post-thumb d-flex mr-15">
-                  <a class="color-white" href="blog-post-fullwidth.html">
-                    <img src="/user/assets/imgs/blog/blog-1.jpg" alt="" />
-                  </a>
-                </div>
-                <div class="post-content">
-                  <div class="entry-meta mb-10 mt-10">
-                    <a
-                      class="entry-meta meta-2"
-                      href="blog-category-fullwidth.html"
-                      ><span class="post-in font-x-small">Healthy</span></a
-                    >
-                  </div>
-                  <h4 class="post-title mb-25 text-limit-2-row">
-                    <a href="blog-post-fullwidth.html"
-                      >Not even the coronavirus can derail 5G's global
-                      momentum</a
-                    >
-                  </h4>
-                  <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
-                    <div>
-                      <span class="post-on">14 April 2022</span>
-                      <span class="hit-count has-dot">12M Views</span>
+                    <div class="post-content">
+                      <div class="entry-meta mb-10 mt-10">
+                        <a
+                          class="entry-meta meta-2"
+                          href="#"
+                          ><span class="post-in font-x-small">Fashion</span></a
+                        >
+                      </div>
+                      <h4 class="post-title mb-25 text-limit-2-row">
+                        <a href="/api/user/singleBlog?id=<%=blog[i]._id%>"
+                          ><%=blog[i].title%></a
+                        >
+                      </h4>
+                      <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
+                        <div>
+                          <span class="post-on"><%=blog[i].createdAt.toLocaleDateString()%></span>
+                          <span class="hit-count has-dot">12M Views</span>
+                        </div>
+                        <a href="/api/user/singleBlog?id=<%=blog[i]._id%>">Read More</a>
+                      </div>
                     </div>
-                    <a href="blog-post-right.html">Read More</a>
                   </div>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="banner-img banner-1 wow fadeIn animated">
-                <img src="/user/assets/imgs/banner/banner-5.jpg" alt="" />
-                <div class="banner-text">
-                  <span>Accessories</span>
-                  <h4>Save 17% on <br />Autumn Hat</h4>
-                  <a href="shop-grid-right.html"
-                    >Shop Now <i class="fi-rs-arrow-right"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="banner-img mb-15 wow fadeIn animated">
-                <img src="/user/assets/imgs/banner/banner-6.jpg" alt="" />
-                <div class="banner-text">
-                  <span>Big Offer</span>
-                  <h4>Save 20% on <br />Women's socks</h4>
-                  <a href="shop-grid-right.html"
-                    >Shop Now <i class="fi-rs-arrow-right"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="banner-img banner-2 wow fadeIn animated">
-                <img src="/user/assets/imgs/banner/banner-7.jpg" alt="" />
-                <div class="banner-text">
-                  <span>Smart Offer</span>
-                  <h4>Save 20% on <br />Eardrop</h4>
-                  <a href="shop-grid-right.html"
-                    >Shop Now <i class="fi-rs-arrow-right"></i
-                  ></a>
-                </div>
-              </div>
+                </article>
+      
+                <%}%>
+
+              
+              
+
+
             </div>
           </div>
+          
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+    
+    <%}else{%>
+      <%}%>
+  
+<!-- ths is session for blog -->
+
+
   <br /><br />
 
   <section class="featured section-padding">

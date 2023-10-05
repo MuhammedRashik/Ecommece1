@@ -40,6 +40,14 @@ const addNewBanner=asyncHandler(async(req,res)=>{
 
 //-----------------------------------------
 
+
+
+
+
+
+
+
+
 //-----------------create a banner------------------------------------
 const createBanner=asyncHandler(async(req,res)=>{
     try {
@@ -78,6 +86,11 @@ const createBanner=asyncHandler(async(req,res)=>{
 //--------------------------------------------------------------------
 
 
+
+
+
+
+
 //-------------------------------editt banner------------------------------------
 const editBanner=asyncHandler(async(req,res)=>{
     try {
@@ -95,6 +108,11 @@ const editBanner=asyncHandler(async(req,res)=>{
     }
 })
 //-------------------------------------------------------------------
+
+
+
+
+
 
 
 
@@ -139,10 +157,11 @@ const updateBanner=asyncHandler(async(req,res)=>{
         
     }
 })
-
-
-
 //--------------------------------------------------------------
+
+
+
+
 
 
 

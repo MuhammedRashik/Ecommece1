@@ -83,6 +83,9 @@ const sizeFilter=asyncHandler(async(req,res)=>{
 
 
 
+
+
+
 //-------------------------filter by coler-------------------------------
 const colorFilter=asyncHandler(async(req,res)=>{
     try {
@@ -103,6 +106,8 @@ const colorFilter=asyncHandler(async(req,res)=>{
     }
 })
 //--------------------------------------------
+
+
 
 
 
@@ -140,6 +145,8 @@ const priceFilter=asyncHandler(async(req,res)=>{
 
 
 
+
+
 //------------------filter by brand ----------------------------------
 const brandFilter=asyncHandler(async(req,res)=>{
     try {
@@ -162,6 +169,9 @@ const brandFilter=asyncHandler(async(req,res)=>{
     }
 })
 //--------------------------------------------------------------------
+
+
+
 
 
 
@@ -193,6 +203,9 @@ const CatogaryFilter=asyncHandler(async(req,res)=>{
 
 
 
+
+
+
 //--------------clear the fi;lter and show all the data-------------------
 const clearFilter = asyncHandler(async(req,res)=>{
  try {
@@ -216,6 +229,9 @@ const clearFilter = asyncHandler(async(req,res)=>{
 })
 
 //---------------------------------------------
+
+
+
 
 
 
@@ -258,6 +274,7 @@ const sortByPrice=asyncHandler(async(req,res)=>{
 
 
 //----------------------------
+
 
 
 

@@ -10,6 +10,9 @@ const mongodb = require("mongodb");
 
 
 
+
+
+
 //-------------rendering the invoive page----------
 const invoice=asyncHandler(async(req,res)=>{
     try {
@@ -37,7 +40,7 @@ if (order){
 
 
 
-//------------------------------------------
+//-------------making an invoice -----------------------------
 
 const invoices=async(req,res)=>{
   try {
@@ -74,8 +77,8 @@ const invoices=async(req,res)=>{
                 }));
           
           
-          console.log(order,'ooo');
-          console.log(Pname,'ooo');
+         
+                
           const isoDateString = order.date;
           const isoDate = new Date(isoDateString);
       
@@ -91,7 +94,7 @@ const invoices=async(req,res)=>{
             },
             // Your own data
             sender: {
-              company: "Evara",
+              company: "PRADA",
               address: "Feel your Style",
               city: "Ernakulam",
               country: "India",
