@@ -318,7 +318,7 @@ router.post('/test',isLogged,testAjax)//using ajax incrimet the quntity
 router.post('/testdic',isLogged,testdic)//using ajx dicriment the quantity
 router.post('/deleteItemeCart',isLogged,deleteItemeCart)//delete a product in the cart
 router.get('/deleteCart',isLogged,deleteCart)//delete a item in cart
-router.post('/updateCart',updateCart)
+router.post('/updateCart',isLogged,updateCart)
 //-------------------------------------
 
 
@@ -336,17 +336,17 @@ router.get('/oderDetails',isLogged,oderDetails)//user vist hisorders details
 router.get('/canselOrder',isLogged,canselOder)//canselng a orde
 router.post('/verifyPayment',isLogged,verifyPayment)//
 router.get('/return',isLogged,returnOrder)//delivered order return
-router.get('/buyNOw',buyNOw)//a single produt buynow
-router.post('/buynowPlaceOrder',buynowPlaceOrder)
+router.get('/buyNOw',isLogged,buyNOw)//a single produt buynow
+router.post('/buynowPlaceOrder',isLogged,buynowPlaceOrder)
 //---------------------------------------
 
 
 
 ///---------wallet---------------
 
-router.get('/sumWallet',sumWallet)//
-router.post('/useWallet',useWallet)
-router.get('/sumWalletBuynow',sumWalletBuynow)
+router.get('/sumWallet',isLogged,sumWallet)//
+router.post('/useWallet',isLogged,useWallet)
+router.get('/sumWalletBuynow',isLogged,sumWalletBuynow)
 //----------------------------------
 
 
@@ -404,7 +404,7 @@ router.get('/deleteWishlistItem',isLogged,deleteWishlistItem)//delete a item in 
 router.post('/addMoneyWallet',isLogged,addMoneyWallet)
 router.post('/updateMongoWallet',isLogged,updateMongoWallet)
 router.post('/useWallet',isLogged,useWallet)
-router.get('/sumWalletBuynow',sumWalletBuynow)
+router.get('/sumWalletBuynow',isLogged,sumWalletBuynow)
 //------------------=-------------
 
 
@@ -413,7 +413,7 @@ router.get('/sumWalletBuynow',sumWalletBuynow)
 
 
 //--------------coupon---------------
-router.post('/validateCoupon',validateCoupon)
+router.post('/validateCoupon',isLogged,validateCoupon)
 //----------------------------------------
 
 
@@ -424,7 +424,7 @@ router.post('/validateCoupon',validateCoupon)
 
 
 //---------------rating and review----
-router.post('/review',review)
+router.post('/review',isLogged,review)
 //---------------------------------------------------------
 
 

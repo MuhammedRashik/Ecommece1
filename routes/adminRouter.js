@@ -182,14 +182,14 @@ router.get('/unblock',unBlokeUser)//admin unbloking a user
 
 
 //------------------product-------------------------------
-router.get('/product',getAllProducts)//load all data and rendering the product page
-router.get('/product/:page', getAllProducts);
-router.get('/addProduct',addProduct)//rendering the addproduct page
-router.post('/createProduct',upload.array('images', 12),createProduct)//creating a new product 
-router.get('/editProduct',editProduct)//rendering a spesific proct edit page
-router.post('/productEdited',upload.array('images', 12),productEdited)//after editing update thta data to db
-router.get('/unlistProduct',unlistProduct)// unlisting tht prduct
-router.get('/listProduct',listProduct)// listing tht product
+router.get('/product',isAdminAuth,getAllProducts)//load all data and rendering the product page
+router.get('/product/:page',isAdminAuth, getAllProducts);
+router.get('/addProduct',isAdminAuth,addProduct)//rendering the addproduct page
+router.post('/createProduct',isAdminAuth,upload.array('images', 12),createProduct)//creating a new product 
+router.get('/editProduct',isAdminAuth,editProduct)//rendering a spesific proct edit page
+router.post('/productEdited',isAdminAuth,upload.array('images', 12),productEdited)//after editing update thta data to db
+router.get('/unlistProduct',isAdminAuth,unlistProduct)// unlisting tht prduct
+router.get('/listProduct',isAdminAuth,listProduct)// listing tht product
 router.get('/deleteSingleImage',deleteSingleImage)
 //--------------------------------------------------------
  
@@ -199,13 +199,13 @@ router.get('/deleteSingleImage',deleteSingleImage)
 
 
 //-------------catogary-----------------------------------
-router.get('/catogary',getAllCatogary)//rendering catogary page
-router.post('/addCatogary',upload.single('image'),addCatogary)//ading a new catogory to the data bsae and show it
-router.get('/deleteCatogary',deleteCatogary)
-router.get('/editCatogary',editCatogary)//rendering the edit catogary page with that specific user data
-router.get('/unlistCatogary',unlistCatogary)//when catogary listed ulist that
-router.get('/listCatogary',listCatogary)//when catogary is unlistedlist that
-router.post('/updateCatogary',upload.single('image'),updateCatogary)//after rendering the edit catogary page update the catogory data to db
+router.get('/catogary',isAdminAuth,getAllCatogary)//rendering catogary page
+router.post('/addCatogary',isAdminAuth,upload.single('image'),addCatogary)//ading a new catogory to the data bsae and show it
+router.get('/deleteCatogary',isAdminAuth,deleteCatogary)
+router.get('/editCatogary',isAdminAuth,editCatogary)//rendering the edit catogary page with that specific user data
+router.get('/unlistCatogary',isAdminAuth,unlistCatogary)//when catogary listed ulist that
+router.get('/listCatogary',isAdminAuth,listCatogary)//when catogary is unlistedlist that
+router.post('/updateCatogary',isAdminAuth,upload.single('image'),updateCatogary)//after rendering the edit catogary page update the catogory data to db
 //-------------------------------------------------------              
  
 
@@ -214,10 +214,10 @@ router.post('/updateCatogary',upload.single('image'),updateCatogary)//after rend
 
 
 //---------offer-------
-router.get('/productOfferpage',productOfferpage)
-router.post('/updateOffer',updateOffer)
-router.get('/catogaryOffer',catogaryOffer)
-router.post('/updateCatogaryOffer',updateCatogaryOffer)
+router.get('/productOfferpage',isAdminAuth,productOfferpage)
+router.post('/updateOffer',isAdminAuth,updateOffer)
+router.get('/catogaryOffer',isAdminAuth,catogaryOffer)
+router.post('/updateCatogaryOffer',isAdminAuth,updateCatogaryOffer)
 
 //---------------------------------------------------------
 
@@ -228,14 +228,14 @@ router.post('/updateCatogaryOffer',updateCatogaryOffer)
 
 
 //----------------------order-----------------------------
-router.get('/orderListing',orderListing)//show all the orders to the admin page
-router.get('/oderDetailsadmin',oderDetailsAdmin)//serching the and filtering dt
-router.get('/changeStatusPending',changeStatusPending)
-router.get('/changeStatusConfirmed',changeStatusConfirmed)
-router.get('/changeStatusShipped',changeStatusShipped)
-router.get('/changeStatusDelivered',changeStatusDelivered)
-router.get('/changeStatusreturned',changeStatusreturned)
-router.get('/changeStatusCanseled',changeStatusCanseled)
+router.get('/orderListing',isAdminAuth,orderListing)//show all the orders to the admin page
+router.get('/oderDetailsadmin',isAdminAuth,oderDetailsAdmin)//serching the and filtering dt
+router.get('/changeStatusPending',isAdminAuth,changeStatusPending)
+router.get('/changeStatusConfirmed',isAdminAuth,changeStatusConfirmed)
+router.get('/changeStatusShipped',isAdminAuth,changeStatusShipped)
+router.get('/changeStatusDelivered',isAdminAuth,changeStatusDelivered)
+router.get('/changeStatusreturned',isAdminAuth,changeStatusreturned)
+router.get('/changeStatusCanseled',isAdminAuth,changeStatusCanseled)
 //------------------------------------------------------------
 
 
@@ -245,12 +245,12 @@ router.get('/changeStatusCanseled',changeStatusCanseled)
 
 
 //--------------------------banner-----------------------------------
-router.get('/banner',banner)
-router.get('/addNewBanner',addNewBanner)
-router.post('/createBanner',upload.single('image'),bannerCrop,createBanner)
-router.get('/editBanner',editBanner)
-router.post('/updateBanner',upload.single('image'),bannerCrop,updateBanner)
-router.get("/deleteBanner",deleteBanner)
+router.get('/banner',isAdminAuth,banner)
+router.get('/addNewBanner',isAdminAuth,addNewBanner)
+router.post('/createBanner',isAdminAuth,upload.single('image'),bannerCrop,createBanner)
+router.get('/editBanner',isAdminAuth,editBanner)
+router.post('/updateBanner',isAdminAuth,upload.single('image'),bannerCrop,updateBanner)
+router.get("/deleteBanner",isAdminAuth,deleteBanner)
 //-------------------------------------------------------
 
 
@@ -260,12 +260,12 @@ router.get("/deleteBanner",deleteBanner)
 
 
 //-----------blog---
-router.get('/blog',adminBlog)
-router.get('/loadCreateBlog',loadCreateBlog)
-router.post('/createBlog',upload.single('image'),createBlog)
-router.get('/loadEditBlog',loadEditBlog)
-router.post('/updateBlog',upload.single('image'),updateBlog)
-router.get('/deleteBlog',deleteBlog)
+router.get('/blog',isAdminAuth,adminBlog)
+router.get('/loadCreateBlog',isAdminAuth,loadCreateBlog)
+router.post('/createBlog',isAdminAuth,upload.single('image'),createBlog)
+router.get('/loadEditBlog',isAdminAuth,loadEditBlog)
+router.post('/updateBlog',isAdminAuth,upload.single('image'),updateBlog)
+router.get('/deleteBlog',isAdminAuth,deleteBlog)
 //---------------------------------------------------------
 
 
@@ -275,12 +275,12 @@ router.get('/deleteBlog',deleteBlog)
 
 
 //-----------coupen-------------------------
-router.get('/addCoupon',loadCoupon)
-router.post('/addCoupon',addCoupon)
-router.get('/coupon',coupon)
-router.get('/deleteCoupon',deleteCoupon)
-router.post('/updateCoupon',updateCoupon)
-router.get('/editCoupon',editCoupon)
+router.get('/addCoupon',isAdminAuth,loadCoupon)
+router.post('/addCoupon',isAdminAuth,addCoupon)
+router.get('/coupon',isAdminAuth,coupon)
+router.get('/deleteCoupon',isAdminAuth,deleteCoupon)
+router.post('/updateCoupon',isAdminAuth,updateCoupon)
+router.get('/editCoupon',isAdminAuth,editCoupon)
 //------------------------------------------
 
 
@@ -290,8 +290,8 @@ router.get('/editCoupon',editCoupon)
 
 
 //-----------salesReport--------------
-router.get('/loadsalesReport',loadsalesReport)
-router.get('/salesReport',salesReport)
+router.get('/loadsalesReport',isAdminAuth,loadsalesReport)
+router.get('/salesReport',isAdminAuth,salesReport)
 //---------------------------------------------------------
 
 

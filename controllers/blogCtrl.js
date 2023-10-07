@@ -1,6 +1,6 @@
 const asyncHandler=require('express-async-handler')
 const Blog=require('../models/blogModel')
-
+const User=require('../models/userModel')
 
 
 
@@ -8,6 +8,8 @@ const Blog=require('../models/blogModel')
 const blog= asyncHandler(async(req,res)=>{
     try {
         const blog= await Blog.find()
+        const userId=req.session.user
+        const user=await User.findById(userId)
 
         const itemsperpage = 8;
         const currentpage = parseInt(req.query.page) || 1;
@@ -18,7 +20,7 @@ const blog= asyncHandler(async(req,res)=>{
 
         
 
-        res.render('blog',{blog:currentproduct, totalpages,currentpage})
+        res.render('blog',{blog:currentproduct, totalpages,currentpage,user})
 
 
       

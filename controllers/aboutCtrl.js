@@ -1,8 +1,11 @@
 const asyncHandler=require('express-async-handler')
+const User=require('../models/userModel')
 
 const aboutpage= asyncHandler(async(req,res)=>{
     try {
-        res.render('about')
+        const userId=req.session.user
+        const user=await User.findById(userId)
+        res.render('about',{user})
         
     } catch (error) {
         console.log('Error Happence in th about Ctrl in;; the funtion aboutpage',error);
