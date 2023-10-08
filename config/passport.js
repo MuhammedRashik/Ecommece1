@@ -8,7 +8,8 @@ passport.use(new GoogleStrategy({
     callbackURL:process.env.GOOGLE_CLIENT_callbackURL,
     passReqToCallback:true
 }, async function (request ,accesTocken,refresToken,profile,done){
-   
+    console.log('Google authentication callback reached.');
+    console.log('Profile:', profile);
     return done(null,profile )
 }
 ))
