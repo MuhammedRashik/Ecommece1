@@ -693,7 +693,8 @@ const googleAuth=asyncHandler(async(req,res)=>{
 
 
         try {
-           
+            console.log('Google authentication successful.');
+             console.log('User:', req.user);
             const findUser = await User.findOne({ email: req.user.email });
             if (findUser) {
                 req.session.user=findUser._id
