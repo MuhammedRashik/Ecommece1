@@ -22,7 +22,6 @@ const loadCatogary = asyncHandler(async (req, res) => {
 
 
 
-
 //adttCatogary to data base-----------------------------
 const addCatogary = asyncHandler(async (req, res) => {
     try {
